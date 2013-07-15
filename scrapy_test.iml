@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="django" name="Django">
+      <configuration>
+        <option name="rootFolder" value="$MODULE_DIR$" />
+        <option name="settingsModule" value="settings.py" />
+        <option name="manageScript" value="manage.py" />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="TemplatesService">
+    <option name="TEMPLATE_CONFIGURATION" value="Django" />
+    <option name="TEMPLATE_FOLDERS">
+      <list>
+        <option value="$MODULE_DIR$/../woot/woot/templates" />
+        <option value="$MODULE_DIR$/../hello_play/app/views" />
+        <option value="$MODULE_DIR$/../cloud_close/app/assets" />
+        <option value="$MODULE_DIR$/../cloud_close/app/assets/partials" />
+        <option value="$MODULE_DIR$/../cloud_close/_public" />
+        <option value="$MODULE_DIR$/../cloud_close/_public/partials" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/jade/testing" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/jade/testing/nested" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/brunch/skeletons/brunch-with-chaplin/app/assets" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/brunch/skeletons/brunch-with-chaplin/test/assets/test" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/brunch/skeletons/brunch-with-chaplin/node_modules/sinon/test" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/brunch/skeletons/brunch-with-chaplin/node_modules/sinon/node_modules/buster-format/node_modules/buster-core/vendor/sinon/test" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/brunch/skeletons/brunch-with-chaplin/node_modules/stylus-brunch/node_modules/nib/iconic" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/brunch/skeletons/brunch-with-chaplin/node_modules/stylus-brunch/node_modules/stylus/node_modules/debug/example" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/brunch/skeletons/brunch-with-chaplin/node_modules/stylus-brunch/node_modules/node-sprite/node_modules/underscore" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/brunch/skeletons/brunch-with-chaplin/node_modules/uglify-js-brunch/node_modules/uglify-js" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/brunch/skeletons/brunch-with-chaplin/node_modules/handlebars-brunch/node_modules/handlebars/node_modules/uglify-js" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/brunch/node_modules/mocha/lib" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/brunch/node_modules/mocha/lib/reporters/templates" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/brunch/node_modules/mocha/node_modules/ms/test" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/brunch/node_modules/mocha/node_modules/diff" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/brunch/node_modules/mocha/node_modules/debug/example" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/brunch/node_modules/express/node_modules/debug/example" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/brunch/node_modules/express/node_modules/connect/lib/public" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/brunch/node_modules/express/node_modules/connect/lib-cov/public" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/brunch/node_modules/express/node_modules/connect/node_modules/qs/test/browser" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/brunch/node_modules/handlebars/node_modules/uglify-js" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/testacular/static" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/testacular/node_modules/socket.io/node_modules/policyfile/doc" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/testacular/node_modules/socket.io/node_modules/socket.io-client/lib/vendor/web-socket-js" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/testacular/node_modules/socket.io/node_modules/socket.io-client/node_modules/ws/examples/fileapi/public" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/testacular/node_modules/socket.io/node_modules/socket.io-client/node_modules/ws/examples/serverstats/public" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/testacular/node_modules/socket.io/node_modules/socket.io-client/node_modules/ws/examples/serverstats-express_3/public" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/testacular/node_modules/socket.io/node_modules/socket.io-client/node_modules/uglify-js" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/testacular/node_modules/socket.io/node_modules/socket.io-client/node_modules/active-x-obfuscator/node_modules/zeparser" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/testacular/node_modules/http-proxy/examples/node_modules/connect/lib/public" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/testacular/node_modules/http-proxy/examples/node_modules/connect/node_modules/qs/test/browser" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/testacular/node_modules/http-proxy/examples/node_modules/connect-gzip/test/fixtures" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/testacular/node_modules/http-proxy/examples/node_modules/connect-gzip/test/fixtures/sub" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/testacular/node_modules/http-proxy/examples/node_modules/connect-jsonp/support/expresso/docs" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/testacular/node_modules/http-proxy/examples/node_modules/connect-jsonp/support/expresso/docs/layout" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/testacular/node_modules/http-proxy/node_modules/colors" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/testacular/node_modules/http-proxy/node_modules/pkginfo/docs" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/stylus-brunch/node_modules/nib/iconic" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/stylus-brunch/node_modules/stylus/node_modules/debug/example" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/stylus-brunch/node_modules/node-sprite/node_modules/underscore" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/uglify-js-brunch/node_modules/uglify-js" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/coffeelint-brunch/node_modules/coffeelint/node_modules/vows/lib/vows/coverage/fragments" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/coffeelint-brunch/node_modules/coffeelint/node_modules/vows/node_modules/diff" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/auto-reload-brunch/node_modules/ws/examples/fileapi/public" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/auto-reload-brunch/node_modules/ws/examples/serverstats/public" />
+        <option value="$MODULE_DIR$/../cloud_close/node_modules/auto-reload-brunch/node_modules/ws/examples/serverstats-express_3/public" />
+        <option value="$MODULE_DIR$/../nextlanding/out/production/nextlanding/ajaxpic/templates/ajaxuploader" />
+        <option value="$MODULE_DIR$/../nextlanding/out/production/nextlanding/experts/templates" />
+        <option value="$MODULE_DIR$/../nextlanding/out/production/nextlanding/experts/templates/bid" />
+        <option value="$MODULE_DIR$/../nextlanding/out/production/nextlanding/accounts/templates" />
+        <option value="$MODULE_DIR$/../nextlanding/out/production/nextlanding/aggregates/crawl/templates" />
+        <option value="$MODULE_DIR$/../nextlanding/out/production/nextlanding/aggregates/search/templates" />
+        <option value="$MODULE_DIR$/../nextlanding/out/production/nextlanding/aggregates/apartment/templates/apartment" />
+        <option value="$MODULE_DIR$/../nextlanding/out/production/nextlanding/management/templates/management" />
+        <option value="$MODULE_DIR$/../nextlanding/out/production/nextlanding/blackhatter/templates" />
+        <option value="$MODULE_DIR$/../nextlanding/out/production/nextlanding/nextlanding/templates" />
+        <option value="$MODULE_DIR$/../nextlanding/out/production/nextlanding/recommendation/templates/recommendation" />
+        <option value="$MODULE_DIR$/../nextlanding/out/production/nextlanding/dwelleereloaded/static" />
+        <option value="$MODULE_DIR$/../nextlanding/out/production/nextlanding/dwelleereloaded/static/bootstrap_tests" />
+        <option value="$MODULE_DIR$/../nextlanding/out/production/nextlanding/dwelleereloaded/templates" />
+        <option value="$MODULE_DIR$/../nextlanding/out/production/nextlanding/dwelleereloaded/templates/emails" />
+        <option value="$MODULE_DIR$/../nextlanding/media/crawl/org.craigslist.newyork/aap" />
+        <option value="$MODULE_DIR$/../nextlanding/media/crawl/org.craigslist.newyork/brk/fee/3802603420.html" />
+        <option value="$MODULE_DIR$/../nextlanding/ajaxpic/templates/ajaxuploader" />
+        <option value="$MODULE_DIR$/../nextlanding/experts/templates" />
+        <option value="$MODULE_DIR$/../nextlanding/experts/templates/bid" />
+        <option value="$MODULE_DIR$/../nextlanding/accounts/templates" />
+        <option value="$MODULE_DIR$/../nextlanding/aggregates/crawl/templates" />
+        <option value="$MODULE_DIR$/../nextlanding/aggregates/search/templates" />
+        <option value="$MODULE_DIR$/../nextlanding/aggregates/apartment/templates/apartment" />
+        <option value="$MODULE_DIR$/../nextlanding/management/templates/management" />
+        <option value="$MODULE_DIR$/../nextlanding/blackhatter/templates" />
+        <option value="$MODULE_DIR$/../nextlanding/nextlanding/templates" />
+        <option value="$MODULE_DIR$/../nextlanding/recommendation/templates/recommendation" />
+        <option value="$MODULE_DIR$/../nextlanding/dwelleereloaded/static" />
+        <option value="$MODULE_DIR$/../nextlanding/dwelleereloaded/static/bootstrap_tests" />
+        <option value="$MODULE_DIR$/../nextlanding/dwelleereloaded/templates" />
+        <option value="$MODULE_DIR$/../nextlanding/dwelleereloaded/templates/emails" />
+        <option value="$MODULE_DIR$/scrapy_test/templates" />
+        <option value="$MODULE_DIR$/../cloudclose-api/out/production/cloud_close/cloud_close/apps/close_app/templates" />
+        <option value="$MODULE_DIR$/../cloudclose-api/out/production/cloud_close/cloud_close/assets/partials" />
+        <option value="$MODULE_DIR$/../cloudclose-api/out/production/cloud_close/cloud_close/templates" />
+        <option value="$MODULE_DIR$/../cloudclose-api/cloud_close/apps/close_app/templates" />
+        <option value="$MODULE_DIR$/../cloudclose-api/cloud_close/templates" />
+        <option value="$MODULE_DIR$/../scala_play_fun/app/views" />
+        <option value="$MODULE_DIR$/../play_scala_samples/forms/app/views" />
+        <option value="$MODULE_DIR$/../play_scala_samples/forms/app/views/signup" />
+        <option value="$MODULE_DIR$/../play_scala_samples/forms/app/views/contact" />
+        <option value="$MODULE_DIR$/../play_scala_samples/zentasks/app/views" />
+        <option value="$MODULE_DIR$/../play_scala_samples/zentasks/app/views/tasks" />
+        <option value="$MODULE_DIR$/../play_scala_samples/zentasks/app/views/projects" />
+        <option value="$MODULE_DIR$/../play_scala_samples/helloworld/app/views" />
+        <option value="$MODULE_DIR$/../play_scala_samples/comet-clock/app/views" />
+        <option value="$MODULE_DIR$/../play_scala_samples/websocket-chat/app/views" />
+        <option value="$MODULE_DIR$/../play_scala_samples/computer-database/app/views" />
+        <option value="$MODULE_DIR$/../play_scala_samples/comet-live-monitoring/app/views" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/app/assets" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/app/assets/test" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/app/assets/partials" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/_public" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/_public/test" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/_public/partials" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/jade/testing" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/jade/testing/nested" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/brunch/skeletons/brunch-with-chaplin/app/assets" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/brunch/skeletons/brunch-with-chaplin/test/assets/test" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/brunch/skeletons/brunch-with-chaplin/node_modules/sinon/test" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/brunch/skeletons/brunch-with-chaplin/node_modules/sinon/node_modules/buster-format/node_modules/buster-core/vendor/sinon/test" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/brunch/skeletons/brunch-with-chaplin/node_modules/stylus-brunch/node_modules/nib/iconic" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/brunch/skeletons/brunch-with-chaplin/node_modules/stylus-brunch/node_modules/stylus/node_modules/debug/example" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/brunch/skeletons/brunch-with-chaplin/node_modules/stylus-brunch/node_modules/node-sprite/node_modules/underscore" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/brunch/skeletons/brunch-with-chaplin/node_modules/uglify-js-brunch/node_modules/uglify-js" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/brunch/skeletons/brunch-with-chaplin/node_modules/handlebars-brunch/node_modules/handlebars/node_modules/uglify-js" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/brunch/node_modules/mocha/lib" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/brunch/node_modules/mocha/lib/reporters/templates" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/brunch/node_modules/mocha/node_modules/ms/test" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/brunch/node_modules/mocha/node_modules/diff" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/brunch/node_modules/mocha/node_modules/debug/example" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/brunch/node_modules/express/node_modules/debug/example" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/brunch/node_modules/express/node_modules/connect/lib/public" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/brunch/node_modules/express/node_modules/connect/lib-cov/public" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/brunch/node_modules/express/node_modules/connect/node_modules/qs/test/browser" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/brunch/node_modules/handlebars/node_modules/uglify-js" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/testacular/static" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/testacular/node_modules/socket.io/node_modules/policyfile/doc" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/testacular/node_modules/socket.io/node_modules/socket.io-client/lib/vendor/web-socket-js" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/testacular/node_modules/socket.io/node_modules/socket.io-client/node_modules/ws/examples/fileapi/public" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/testacular/node_modules/socket.io/node_modules/socket.io-client/node_modules/ws/examples/serverstats/public" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/testacular/node_modules/socket.io/node_modules/socket.io-client/node_modules/ws/examples/serverstats-express_3/public" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/testacular/node_modules/socket.io/node_modules/socket.io-client/node_modules/uglify-js" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/testacular/node_modules/socket.io/node_modules/socket.io-client/node_modules/active-x-obfuscator/node_modules/zeparser" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/testacular/node_modules/http-proxy/examples/node_modules/connect/lib/public" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/testacular/node_modules/http-proxy/examples/node_modules/connect/node_modules/qs/test/browser" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/testacular/node_modules/http-proxy/examples/node_modules/connect-gzip/test/fixtures" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/testacular/node_modules/http-proxy/examples/node_modules/connect-gzip/test/fixtures/sub" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/testacular/node_modules/http-proxy/examples/node_modules/connect-jsonp/support/expresso/docs" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/testacular/node_modules/http-proxy/examples/node_modules/connect-jsonp/support/expresso/docs/layout" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/testacular/node_modules/http-proxy/node_modules/colors" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/testacular/node_modules/http-proxy/node_modules/pkginfo/docs" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/stylus-brunch/node_modules/nib/iconic" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/stylus-brunch/node_modules/stylus/node_modules/debug/example" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/stylus-brunch/node_modules/node-sprite/node_modules/underscore" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/uglify-js-brunch/node_modules/uglify-js" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/coffeelint-brunch/node_modules/coffeelint/node_modules/vows/lib/vows/coverage/fragments" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/coffeelint-brunch/node_modules/coffeelint/node_modules/vows/node_modules/diff" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/auto-reload-brunch/node_modules/ws/examples/fileapi/public" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/auto-reload-brunch/node_modules/ws/examples/serverstats/public" />
+        <option value="$MODULE_DIR$/../angular-brunch-sass/node_modules/auto-reload-brunch/node_modules/ws/examples/serverstats-express_3/public" />
+      </list>
+    </option>
+  </component>
+</module>
+
