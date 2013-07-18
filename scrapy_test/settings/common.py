@@ -196,6 +196,7 @@ THIRD_PARTY_APPS = (
 
     # Asynchronous task queue:
     'djcelery',
+    'dynamic_scraper',
 )
 
 LOCAL_APPS = (
