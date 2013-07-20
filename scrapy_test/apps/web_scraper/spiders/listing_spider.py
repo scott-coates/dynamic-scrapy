@@ -6,8 +6,6 @@ from scrapy_test.apps.web_scraper.model_proxies import ListingItem
 
 
 def pre_url_from_ref_object(text, loader_context):
-  ret_val = None
-
   from urlparse import urljoin
 
   base_url = loader_context['spider'].ref_object.url
