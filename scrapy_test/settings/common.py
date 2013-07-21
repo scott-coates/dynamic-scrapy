@@ -24,11 +24,6 @@ path.append(DJANGO_ROOT)
 ########## END PATH CONFIGURATION
 
 
-########## CELERY CONFIGURATION
-CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
-########## END CELERY CONFIGURATION
-
-
 ########## DEBUG CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = False
@@ -256,6 +251,12 @@ LOGGING = {
 ########## CELERY CONFIGURATION
 # See: http://celery.readthedocs.org/en/latest/configuration.html#celery-task-result-expires
 CELERY_TASK_RESULT_EXPIRES = timedelta(minutes=30)
+
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+
+CELERY_IMPORTS = (
+  'apps.web_scraper.services.web_scraper_tasks'
+)
 
 # See: http://celery.github.com/celery/django/
 setup_loader()
