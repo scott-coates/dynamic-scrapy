@@ -24,6 +24,11 @@ path.append(DJANGO_ROOT)
 ########## END PATH CONFIGURATION
 
 
+########## CELERY CONFIGURATION
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+########## END CELERY CONFIGURATION
+
+
 ########## DEBUG CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = False
