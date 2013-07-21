@@ -203,8 +203,12 @@ THIRD_PARTY_APPS = (
 )
 
 LOCAL_APPS = (
+  # AGGREGATES
   'scrapy_test.aggregates.listing',
   'scrapy_test.aggregates.listing_source',
+  # APPS
+  'scrapy_test.apps.web_scraper',
+  # LIBS
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
