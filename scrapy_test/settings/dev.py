@@ -49,6 +49,9 @@ CACHES = {
 ########## CELERY CONFIGURATION
 # See: http://docs.celeryq.org/en/latest/configuration.html#celery-always-eager
 CELERY_ALWAYS_EAGER = True
+
+BROKER_TRANSPORT = 'django'
+CELERY_RESULT_BACKEND = 'database'
 ########## END CELERY CONFIGURATION
 
 
