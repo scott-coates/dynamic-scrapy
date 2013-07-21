@@ -10,10 +10,10 @@ class DjangoWriterPipeline(object):
       item['listing_source'] = spider.ref_object
 
       checker_rt = SchedulerRuntime(runtime_type='C')
-      # checker_rt.save()
+      checker_rt.save()
       item['checker_runtime'] = checker_rt
 
-      # item.save()
+      item.save()
       spider.action_successful = True
       spider.log("Item saved.", log.INFO)
 
