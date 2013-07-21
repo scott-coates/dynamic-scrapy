@@ -13,5 +13,5 @@ USER_AGENT = '%s/%s' % (BOT_NAME, '1.0')
 
 ITEM_PIPELINES = [
     'dynamic_scraper.pipelines.ValidationPipeline',
-    'apps.web_scraper.pipelines.DjangoWriterPipeline.DjangoWriterPipeline',
+    'apps.web_scraper.pipelines.django_writer_pipeline.DjangoWriterPipeline',
 ]
