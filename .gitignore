@@ -36,3 +36,4 @@ nosetests.xml
 .pydevproject
 
 default.db
+.idea/workspace.xml
