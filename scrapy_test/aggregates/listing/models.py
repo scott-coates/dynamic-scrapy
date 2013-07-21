@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 class Listing(models.Model):
   title = models.CharField(max_length=200)
-  listing_website = models.ForeignKey(ListingSource)
+  listing_source = models.ForeignKey(ListingSource)
   description = models.TextField(blank=True)
   url = models.URLField()
   checker_runtime = models.ForeignKey(SchedulerRuntime, blank=True, null=True, on_delete=models.SET_NULL)

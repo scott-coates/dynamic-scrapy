@@ -12,7 +12,7 @@ class Migration(SchemaMigration):
         db.create_table(u'listing_listing', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('title', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('listing_website', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['listing_source.ListingSource'])),
+            ('listing_source', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['listing_source.ListingSource'])),
             ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('url', self.gf('django.db.models.fields.URLField')(max_length=200)),
             ('checker_runtime', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['dynamic_scraper.SchedulerRuntime'], null=True, on_delete=models.SET_NULL, blank=True)),
@@ -66,7 +66,7 @@ class Migration(SchemaMigration):
             'checker_runtime': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['dynamic_scraper.SchedulerRuntime']", 'null': 'True', 'on_delete': 'models.SET_NULL', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'listing_website': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['listing_source.ListingSource']"}),
+            'listing_source': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['listing_source.ListingSource']"}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'url': ('django.db.models.fields.URLField', [], {'max_length': '200'})
         },
