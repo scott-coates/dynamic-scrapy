@@ -200,9 +200,16 @@ THIRD_PARTY_APPS = (
     # Asynchronous task queue:
     'djcelery',
     'dynamic_scraper',
+    'kombu.transport.django'
 )
 
 LOCAL_APPS = (
+  # AGGREGATES
+  'scrapy_test.aggregates.listing',
+  'scrapy_test.aggregates.listing_source',
+  # APPS
+  'scrapy_test.apps.web_scraper',
+  # LIBS
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -245,6 +252,15 @@ LOGGING = {
 ########## CELERY CONFIGURATION
 # See: http://celery.readthedocs.org/en/latest/configuration.html#celery-task-result-expires
 CELERY_TASK_RESULT_EXPIRES = timedelta(minutes=30)
+
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+
+# See: http://docs.celeryproject.org/en/master/configuration.html#std:setting-CELERY_CHORD_PROPAGATES
+CELERY_CHORD_PROPAGATES = True
+
+CELERY_IMPORTS = (
+  'apps.web_scraper.services.web_scraper_tasks'
+)
 
 # See: http://celery.github.com/celery/django/
 setup_loader()
