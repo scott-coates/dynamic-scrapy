@@ -1,6 +1,6 @@
 from dynamic_scraper.utils import processors
 
-
+#todo put this in a fork and pull request
 def pre_url_from_ref_object(text, loader_context):
   from urlparse import urljoin
 
