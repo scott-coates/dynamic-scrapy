@@ -255,6 +255,9 @@ CELERY_TASK_RESULT_EXPIRES = timedelta(minutes=30)
 
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 
+# See: http://docs.celeryproject.org/en/master/configuration.html#std:setting-CELERY_CHORD_PROPAGATES
+CELERY_CHORD_PROPAGATES = True
+
 CELERY_IMPORTS = (
   'apps.web_scraper.services.web_scraper_tasks'
 )
