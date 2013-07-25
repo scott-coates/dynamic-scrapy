@@ -11,7 +11,7 @@ settings = get_project_settings()
 
 #todo put this in a fork and pull request
 class ProcessBasedUtils(TaskUtils):
-  def testabc(self, **kwargs):
+  def _run_crawl_process(self, **kwargs):
     # region How to run a crawler in-process
     # examples on how to get this stuff:
     # http://stackoverflow.com/questions/14777910/scrapy-crawl-from-script-always-blocks-script-execution-after-scraping?lq=1
@@ -42,7 +42,7 @@ class ProcessBasedUtils(TaskUtils):
       'do_action': kwargs['do_action']
     }
 
-    p = Process(target=self.testabc, kwargs=param_dict)
+    p = Process(target=self._run_crawl_process, kwargs=param_dict)
     p.start()
     p.join()
 
