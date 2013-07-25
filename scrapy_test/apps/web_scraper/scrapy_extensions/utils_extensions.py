@@ -6,12 +6,17 @@ from scrapy.utils.project import get_project_settings
 
 
 # settings are defined in the manage.py file
+# set the SCRAPY_SETTINGS_MODULE path in manage.py
+# Ex:
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "scrapy_test.settings.dev")
+# os.environ.setdefault("SCRAPY_SETTINGS_MODULE", "scrapy_test.apps.web_scraper.settings") <-- IMPORTANT
+
 settings = get_project_settings()
 # how to get settings: http://stackoverflow.com/questions/15564844/locally-run-all-of-the-spiders-in-scrapy
 
 #todo put this in a fork and pull request
 class ProcessBasedUtils(TaskUtils):
-  def testabc(self, **kwargs):
+  def _run_crawl_process(self, **kwargs):
     # region How to run a crawler in-process
     # examples on how to get this stuff:
     # http://stackoverflow.com/questions/14777910/scrapy-crawl-from-script-always-blocks-script-execution-after-scraping?lq=1
@@ -42,7 +47,7 @@ class ProcessBasedUtils(TaskUtils):
       'do_action': kwargs['do_action']
     }
 
-    p = Process(target=self.testabc, kwargs=param_dict)
+    p = Process(target=self._run_crawl_process, kwargs=param_dict)
     p.start()
     p.join()
 

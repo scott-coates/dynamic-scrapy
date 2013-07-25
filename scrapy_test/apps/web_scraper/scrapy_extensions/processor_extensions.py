@@ -4,7 +4,7 @@ from dynamic_scraper.utils import processors
 def pre_url_from_ref_object(text, loader_context):
   from urlparse import urljoin
 
-  base_url = loader_context['spider'].ref_object.url
+  base_url = loader_context['spider'].ref_object.listing_source.url
 
   ret_val = urljoin(base_url, text)
 

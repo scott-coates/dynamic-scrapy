@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
-import datetime
-from south.db import db
 from south.v2 import DataMigration
-from django.db import models
+from scrapy_test.libs.database.extensions.migrations import load_data
 
 
 class Migration(DataMigration):
   depends_on = (("web_scraper", "0001_initial"),)
 
   def forwards(self, orm):
-    from django.core.management import call_command
-
-    call_command("loaddata", "0002_load_ny_craigslist_listing_source.json")
+    load_data(orm,"0002_load_ny_craigslist_listing_source.json")
 
   def backwards(self, orm):
     "Write your backwards methods here."

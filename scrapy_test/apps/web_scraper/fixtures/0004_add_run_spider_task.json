@@ -1,0 +1,31 @@
+[
+{
+  "pk": 1, 
+  "model": "djcelery.intervalschedule", 
+  "fields": {
+    "every": 15, 
+    "period": "seconds"
+  }
+},
+{
+  "pk": 2, 
+  "model": "djcelery.periodictask", 
+  "fields": {
+    "task": "apps.web_scraper.services.web_scraper_tasks.run_spiders_task", 
+    "name": "Run Spiders", 
+    "exchange": null, 
+    "last_run_at": null, 
+    "args": "[]", 
+    "enabled": true, 
+    "routing_key": null, 
+    "crontab": null, 
+    "interval": 1, 
+    "queue": null, 
+    "total_run_count": 0, 
+    "expires": null, 
+    "kwargs": "{}", 
+    "date_changed": "2013-07-25T03:34:49.402Z", 
+    "description": ""
+  }
+}
+]
