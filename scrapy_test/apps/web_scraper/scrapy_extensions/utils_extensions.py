@@ -6,6 +6,11 @@ from scrapy.utils.project import get_project_settings
 
 
 # settings are defined in the manage.py file
+# set the SCRAPY_SETTINGS_MODULE path in manage.py
+# Ex:
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "scrapy_test.settings.dev")
+# os.environ.setdefault("SCRAPY_SETTINGS_MODULE", "scrapy_test.apps.web_scraper.settings") <-- IMPORTANT
+
 settings = get_project_settings()
 # how to get settings: http://stackoverflow.com/questions/15564844/locally-run-all-of-the-spiders-in-scrapy
 
