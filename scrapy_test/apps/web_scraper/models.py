@@ -15,3 +15,10 @@ class ListingSourceScraperConfig(models.Model):
 
   def __unicode__(self):
     return self.listing_source.name
+
+class ListingCheckerConfig(models.Model):
+  listing = models.ForeignKey(Listing)
+  checker_runtime = models.ForeignKey(SchedulerRuntime, blank=True, null=True, on_delete=models.SET_NULL)
+
+  def __unicode__(self):
+    return self.listing.title
