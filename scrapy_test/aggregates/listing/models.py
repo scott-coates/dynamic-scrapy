@@ -10,7 +10,6 @@ class Listing(models.Model):
   listing_source = models.ForeignKey(ListingSource)
   description = models.TextField(blank=True)
   url = models.URLField()
-  checker_runtime = models.ForeignKey(SchedulerRuntime, blank=True, null=True, on_delete=models.SET_NULL)
 
   def __unicode__(self):
     return self.title

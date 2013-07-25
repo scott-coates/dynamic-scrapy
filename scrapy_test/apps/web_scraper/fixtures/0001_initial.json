@@ -49,7 +49,7 @@
   "pk": 1, 
   "model": "dynamic_scraper.scraper", 
   "fields": {
-    "status": "M", 
+    "status": "A",
     "pagination_page_replace": "", 
     "checker_ref_url": "", 
     "checker_x_path_result": "", 
