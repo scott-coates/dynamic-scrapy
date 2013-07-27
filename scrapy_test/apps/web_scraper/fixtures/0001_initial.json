@@ -112,9 +112,9 @@
   "pk": 4, 
   "model": "dynamic_scraper.scraperelem", 
   "fields": {
-    "proc_ctxt": "", 
+    "proc_ctxt": "'func':'scrapy_test.apps.web_scraper.scrapy_extensions.processor_extensions.pre_url_from_ref_object'",
     "x_path": "a/@href", 
-    "processors": "pre_url_from_ref_object", 
+    "processors": "dynamic",
     "scraped_obj_attr": 4, 
     "scraper": 1, 
     "from_detail_page": false, 
