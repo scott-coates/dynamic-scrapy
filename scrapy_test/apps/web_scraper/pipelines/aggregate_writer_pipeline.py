@@ -5,7 +5,7 @@ from dynamic_scraper.models import SchedulerRuntime
 from scrapy_test.apps.web_scraper.models import ListingCheckerConfig
 
 
-class DjangoWriterPipeline(object):
+class AggregateCommandPipeline(object):
   def process_item(self, item, spider):
     try:
       item['listing_source'] = spider.ref_object.listing_source
