@@ -51,3 +51,7 @@ class ProcessBasedUtils(TaskUtils):
     p.start()
     p.join()
 
+  def _pending_jobs(self, spider):
+    # don't worry about scheduling new jobs if there are still pending jobs for same spider
+    return False
+
