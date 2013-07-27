@@ -1,29 +1,28 @@
-from django.db.utils import IntegrityError
 from scrapy import log
 from scrapy.exceptions import DropItem
-from dynamic_scraper.models import SchedulerRuntime
-from scrapy_test.apps.web_scraper.models import ListingCheckerConfig
+from scrapy_test.aggregates.listing.services import listing_tasks
+from scrapy_test.apps.web_scraper.services import web_scraper_tasks
 
 
 class AggregateCommandPipeline(object):
   def process_item(self, item, spider):
     try:
-      item['listing_source'] = spider.ref_object.listing_source
+      listing_source_id = spider.ref_object.listing_source.id
 
-      checker_rt = SchedulerRuntime(runtime_type='C')
-      checker_rt.save()
+      listing_task = listing_tasks.create_listing_task.s(
+        item['url'],
+        item['title'],
+        item['description'],
+        listing_source_id
+      ) | web_scraper_tasks.add_listing_checker_task.s()
 
-
-      listing_model = item.save()
-
-      checker_config = ListingCheckerConfig(listing=listing_model,checker_runtime=checker_rt)
-      checker_config.save()
+      listing_task.delay()
 
       spider.action_successful = True
-      spider.log("Item saved.", log.INFO)
+      spider.log("Listing item sent to application to be processed.", log.INFO)
 
-    except IntegrityError, e:
+    except Exception as e:
       spider.log(str(e), log.ERROR)
-      raise DropItem("Missing attribute.")
+      raise DropItem("Error sending listing item.")
 
     return item
