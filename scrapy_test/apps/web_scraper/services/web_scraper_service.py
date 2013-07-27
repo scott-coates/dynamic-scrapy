@@ -1,5 +1,5 @@
+from dynamic_scraper.utils.task_utils import ProcessBasedUtils
 from scrapy_test.apps.web_scraper.models import ListingSourceScraperConfig
-from scrapy_test.apps.web_scraper.scrapy_extensions.utils_extensions import ProcessBasedUtils
 
 
 def run_spiders():
