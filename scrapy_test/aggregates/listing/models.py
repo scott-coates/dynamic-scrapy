@@ -6,7 +6,7 @@ from scrapy_test.aggregates.listing_source.models import ListingSource
 logger = logging.getLogger(__name__)
 
 class Listing(models.Model):
-  title = models.CharField(max_length=200)
+  title = models.CharField(max_length=8000)
   listing_source = models.ForeignKey(ListingSource)
   description = models.TextField(blank=True)
   url = models.URLField()
