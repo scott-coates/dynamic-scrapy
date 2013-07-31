@@ -1,2 +1,2 @@
-from scrapy_test.apps.web_scraper.scrapy_extensions import processor_extensions
+from scrapy_test.apps.web_scraper.scrapy import processors
 
