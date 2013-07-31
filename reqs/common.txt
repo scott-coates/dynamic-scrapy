@@ -8,3 +8,4 @@ git+ssh://git@github.com/nextlanding/django-dynamic-scraper.git#egg=django-dynam
 Scrapy==0.16.5
 Pillow==2.1.0
 dingus==0.3.4
+django-localflavor
