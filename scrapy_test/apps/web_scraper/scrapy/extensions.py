@@ -13,6 +13,7 @@ class StopOnDuplicateItem(object):
     return cls(crawler)
 
   def item_scraped(self, item, spider):
-    duplicate = Listing.objects.filter(url=item['url']).count() > 0
+    url = item['url']
+    duplicate = Listing.objects.filter(url=url).count() > 0
     if duplicate:
-      self.crawler.engine.close_spider(spider, 'duplicate listing')
+      self.crawler.engine.close_spider(spider, 'duplicate listing found: {0}'.format(url))
