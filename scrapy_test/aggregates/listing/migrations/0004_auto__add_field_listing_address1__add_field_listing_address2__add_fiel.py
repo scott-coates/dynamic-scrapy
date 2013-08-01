@@ -43,13 +43,13 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.FloatField')(default=0),
                       keep_default=False)
 
-        # Adding field 'Listing.bedroom'
-        db.add_column(u'listing_listing', 'bedroom',
+        # Adding field 'Listing.bedroom_count'
+        db.add_column(u'listing_listing', 'bedroom_count',
                       self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=3, decimal_places=1, blank=True),
                       keep_default=False)
 
-        # Adding field 'Listing.bathroom'
-        db.add_column(u'listing_listing', 'bathroom',
+        # Adding field 'Listing.bathroom_count'
+        db.add_column(u'listing_listing', 'bathroom_count',
                       self.gf('django.db.models.fields.DecimalField')(null=True, max_digits=3, decimal_places=1, blank=True),
                       keep_default=False)
 
@@ -73,18 +73,18 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True),
                       keep_default=False)
 
-        # Adding field 'Listing.phone_number'
-        db.add_column(u'listing_listing', 'phone_number',
+        # Adding field 'Listing.contact_phone_number'
+        db.add_column(u'listing_listing', 'contact_phone_number',
                       self.gf('localflavor.us.models.PhoneNumberField')(max_length=20, null=True, blank=True),
                       keep_default=False)
 
-        # Adding field 'Listing.email'
-        db.add_column(u'listing_listing', 'email',
+        # Adding field 'Listing.contact_email'
+        db.add_column(u'listing_listing', 'contact_email',
                       self.gf('django.db.models.fields.EmailField')(max_length=75, null=True, blank=True),
                       keep_default=False)
 
-        # Adding field 'Listing.last_updated'
-        db.add_column(u'listing_listing', 'last_updated',
+        # Adding field 'Listing.last_updated_date'
+        db.add_column(u'listing_listing', 'last_updated_date',
                       self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(1970, 1, 1, 0, 0)),
                       keep_default=False)
 
@@ -93,13 +93,13 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.BooleanField')(default=False),
                       keep_default=False)
 
-        # Adding field 'Listing.created'
-        db.add_column(u'listing_listing', 'created',
+        # Adding field 'Listing.created_date'
+        db.add_column(u'listing_listing', 'created_date',
                       self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, default=datetime.datetime(1970, 1, 1, 0, 0), blank=True),
                       keep_default=False)
 
-        # Adding field 'Listing.changed'
-        db.add_column(u'listing_listing', 'changed',
+        # Adding field 'Listing.changed_date'
+        db.add_column(u'listing_listing', 'changed_date',
                       self.gf('django.db.models.fields.DateTimeField')(auto_now=True, default=datetime.datetime(1970, 1, 1, 0, 0), blank=True),
                       keep_default=False)
 
@@ -126,11 +126,11 @@ class Migration(SchemaMigration):
         # Deleting field 'Listing.lng'
         db.delete_column(u'listing_listing', 'lng')
 
-        # Deleting field 'Listing.bedroom'
-        db.delete_column(u'listing_listing', 'bedroom')
+        # Deleting field 'Listing.bedroom_count'
+        db.delete_column(u'listing_listing', 'bedroom_count')
 
-        # Deleting field 'Listing.bathroom'
-        db.delete_column(u'listing_listing', 'bathroom')
+        # Deleting field 'Listing.bathroom_count'
+        db.delete_column(u'listing_listing', 'bathroom_count')
 
         # Deleting field 'Listing.sqfeet'
         db.delete_column(u'listing_listing', 'sqfeet')
@@ -144,23 +144,23 @@ class Migration(SchemaMigration):
         # Deleting field 'Listing.contact_name'
         db.delete_column(u'listing_listing', 'contact_name')
 
-        # Deleting field 'Listing.phone_number'
-        db.delete_column(u'listing_listing', 'phone_number')
+        # Deleting field 'Listing.contact_phone_number'
+        db.delete_column(u'listing_listing', 'contact_phone_number')
 
-        # Deleting field 'Listing.email'
-        db.delete_column(u'listing_listing', 'email')
+        # Deleting field 'Listing.contact_email'
+        db.delete_column(u'listing_listing', 'contact_email')
 
-        # Deleting field 'Listing.last_updated'
-        db.delete_column(u'listing_listing', 'last_updated')
+        # Deleting field 'Listing.last_updated_date'
+        db.delete_column(u'listing_listing', 'last_updated_date')
 
         # Deleting field 'Listing.is_alive'
         db.delete_column(u'listing_listing', 'is_alive')
 
-        # Deleting field 'Listing.created'
-        db.delete_column(u'listing_listing', 'created')
+        # Deleting field 'Listing.created_date'
+        db.delete_column(u'listing_listing', 'created_date')
 
-        # Deleting field 'Listing.changed'
-        db.delete_column(u'listing_listing', 'changed')
+        # Deleting field 'Listing.changed_date'
+        db.delete_column(u'listing_listing', 'changed_date')
 
 
     models = {
@@ -168,22 +168,22 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Listing'},
             'address1': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'address2': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'bathroom': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '3', 'decimal_places': '1', 'blank': 'True'}),
-            'bedroom': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '3', 'decimal_places': '1', 'blank': 'True'}),
+            'bathroom_count': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '3', 'decimal_places': '1', 'blank': 'True'}),
+            'bedroom_count': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '3', 'decimal_places': '1', 'blank': 'True'}),
             'broker_fee': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'changed': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'changed_date': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'city': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'contact_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'created_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {}),
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'null': 'True', 'blank': 'True'}),
+            'contact_email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_alive': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'last_updated': ('django.db.models.fields.DateTimeField', [], {}),
+            'last_updated_date': ('django.db.models.fields.DateTimeField', [], {}),
             'lat': ('django.db.models.fields.FloatField', [], {}),
             'listing_source': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['listing_source.ListingSource']"}),
             'lng': ('django.db.models.fields.FloatField', [], {}),
-            'phone_number': ('localflavor.us.models.PhoneNumberField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
+            'contact_phone_number': ('localflavor.us.models.PhoneNumberField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
             'price': ('django.db.models.fields.DecimalField', [], {'max_digits': '7', 'decimal_places': '2'}),
             'sqfeet': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '8', 'decimal_places': '3', 'blank': 'True'}),
             'state': ('localflavor.us.models.USStateField', [], {'max_length': '2'}),

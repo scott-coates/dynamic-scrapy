@@ -32,17 +32,17 @@ class Listing(models.Model):
   lat = models.FloatField()
   lng = models.FloatField()
 
-  bedroom = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
-  bathroom = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
+  bedroom_count = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
+  bathroom_count = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
   sqfeet = models.DecimalField(max_digits=8, decimal_places=3, blank=True, null=True)
   price = models.DecimalField(max_digits=7, decimal_places=2)
   broker_fee = models.BooleanField()
 
   contact_name = models.CharField(max_length=255, blank=True, null=True)
-  phone_number = PhoneNumberField(blank=True, null=True)
-  email = models.EmailField(blank=True, null=True)
+  contact_phone_number = PhoneNumberField(blank=True, null=True)
+  contact_email = models.EmailField(blank=True, null=True)
 
-  last_updated = models.DateTimeField()
+  last_updated_date = models.DateTimeField()
 
   # requires_sanity_checking = models.BooleanField()
   # validation_parsing_errors = jsonfield.JSONField(blank=True, null=True)
@@ -60,8 +60,8 @@ class Listing(models.Model):
 
   is_alive = models.BooleanField()
 
-  created = models.DateTimeField(auto_now_add=True)
-  changed = models.DateTimeField(auto_now=True)
+  created_date = models.DateTimeField(auto_now_add=True)
+  changed_date = models.DateTimeField(auto_now=True)
 
 
   def __unicode__(self):

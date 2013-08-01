@@ -6,8 +6,8 @@ def get_listing(pk):
   return Listing.objects.get(pk=pk)
 
 
-def create_listing(url, title, description, listing_source):
-  listing = construct_listing(url, title, description, listing_source)
+def create_listing(listing_source, **kwargs):
+  listing = None
   save_or_update(listing)
   return listing
 

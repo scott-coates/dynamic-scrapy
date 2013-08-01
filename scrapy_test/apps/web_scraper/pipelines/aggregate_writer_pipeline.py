@@ -10,10 +10,8 @@ class AggregateCommandPipeline(object):
       listing_source_id = spider.ref_object.listing_source.id
 
       listing_task = listing_tasks.create_listing_task.s(
-        item['url'],
-        item['title'],
-        item['description'],
-        listing_source_id
+        listing_source_id,
+        dict(item)
       ) | web_scraper_tasks.add_listing_checker_task.s()
 
       listing_task.delay()
