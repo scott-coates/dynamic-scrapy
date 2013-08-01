@@ -2,19 +2,13 @@ from django.db import models
 import logging
 import jsonfield
 from localflavor.us.models import USStateField, PhoneNumberField
+from scrapy_test.aggregates.listing.signals import listing_deleted
 from scrapy_test.aggregates.listing_source.models import ListingSource
 
 logger = logging.getLogger(__name__)
 
 
 class Listing(models.Model):
-  """
-  todo:
-  - local flav fields
-  - I removed a bunch of nullable stuff (review)
-  - amenities
-  """
-
   listing_source = models.ForeignKey(ListingSource)
 
   title = models.CharField(max_length=8000)
@@ -62,6 +56,36 @@ class Listing(models.Model):
   created_date = models.DateTimeField(auto_now_add=True)
   changed_date = models.DateTimeField(auto_now=True)
 
+  def set_requires_sanity_checking(self):
+    errors = {}
+    if not self.address1:
+      errors["address1"] = ["Missing address"]
+
+    if not self.price:
+      errors["price"] = ["Missing price"]
+
+    if not self.phone_number and not self.email:
+      errors["communication"] = ["Missing phone and email"]
+
+    if not self.description:
+      errors["description"] = ["Missing description"]
+    elif len(self.description) < 20:
+      errors["description"] = ["Description too short"]
+
+    if not self.last_updated:
+      errors["last updated"] = ["Missing last updated date"]
+
+    if errors:
+      self.validation_parsing_errors = errors
+      self.requires_sanity_checking = True
+
+      if len(errors) >= 5:
+        self.make_deleted()
+
+  def make_deleted(self):
+    logger.info("{0} has been marked as deleted".format(self))
+    self.is_deleted = True
+    listing_deleted.send(sender=self)
 
   def __unicode__(self):
     return self.title
@@ -71,4 +95,5 @@ class Listing(models.Model):
       super(Listing, self).save(*args, **kwargs)
     else:
       from scrapy_test.aggregates.listing.services import listing_service
+
       listing_service.save_or_update(self)
