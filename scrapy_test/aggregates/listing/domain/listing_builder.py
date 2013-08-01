@@ -1,3 +1,4 @@
+from scrapy_test.aggregates.listing import factories
 from scrapy_test.aggregates.listing_source.services import listing_source_service
 
 bedroom_count = 'bedroom_count'
@@ -61,4 +62,4 @@ class ListingBuilder(object):
     self._build_contact_details()
     self._build_amenities()
 
-    return 'foo'
+    return factories.construct_listing(**self.listing_attrs_output)
