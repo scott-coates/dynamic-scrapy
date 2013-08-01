@@ -1,5 +1,6 @@
 from django.db import models
 import logging
+import jsonfield
 from localflavor.us.models import USStateField, PhoneNumberField
 from scrapy_test.aggregates.listing_source.models import ListingSource
 
@@ -41,8 +42,8 @@ class Listing(models.Model):
 
   last_updated_date = models.DateTimeField()
 
-  # requires_sanity_checking = models.BooleanField()
-  # validation_parsing_errors = jsonfield.JSONField(blank=True, null=True)
+  requires_sanity_checking = models.BooleanField()
+  validation_parsing_errors = jsonfield.JSONField(blank=True, null=True)
 
   # apartment    = models.ForeignKey('apartment.Apartment', related_name='listings', blank=True, null=True)
   #
