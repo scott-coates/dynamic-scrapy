@@ -14,4 +14,4 @@ def create_listing(**listing_attrs):
 
 
 def save_or_update(listing):
-  listing.save()
+  listing.save(internal=True)
