@@ -2,7 +2,7 @@ from django.db import models
 import logging
 import jsonfield
 from localflavor.us.models import USStateField, PhoneNumberField
-from scrapy_test.aggregates.listing.signals import listing_deleted
+from scrapy_test.aggregates.listing.signals import listing_deleted, listing_sanitized
 from scrapy_test.aggregates.listing_source.models import ListingSource
 
 logger = logging.getLogger(__name__)
@@ -56,7 +56,7 @@ class Listing(models.Model):
   created_date = models.DateTimeField(auto_now_add=True)
   changed_date = models.DateTimeField(auto_now=True)
 
-  def set_requires_sanity_checking(self):
+  def reset_sanitization_status(self):
     errors = {}
     if not self.address1:
       errors["address1"] = ["Missing address"]
@@ -81,6 +81,8 @@ class Listing(models.Model):
 
       if len(errors) >= 5:
         self.make_deleted()
+    else:
+      listing_sanitized.send(sender=self)
 
   def make_deleted(self):
     logger.info("{0} has been marked as deleted".format(self))

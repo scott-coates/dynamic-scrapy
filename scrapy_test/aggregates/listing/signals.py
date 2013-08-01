@@ -1,5 +1,6 @@
 from django.dispatch import Signal
 
+listing_sanitized = Signal(providing_args=[])
 listing_deleted = Signal(providing_args=[])
 
 
