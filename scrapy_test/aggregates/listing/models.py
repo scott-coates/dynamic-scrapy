@@ -19,7 +19,7 @@ class Listing(models.Model):
 
   title = models.CharField(max_length=8000)
   description = models.TextField()
-
+  last_updated_date = models.DateTimeField()
   url = models.URLField()
 
   address1 = models.CharField(max_length=255, blank=True, null=True)
@@ -39,8 +39,6 @@ class Listing(models.Model):
   contact_name = models.CharField(max_length=255, blank=True, null=True)
   contact_phone_number = PhoneNumberField(blank=True, null=True)
   contact_email = models.EmailField(blank=True, null=True)
-
-  last_updated_date = models.DateTimeField()
 
   requires_sanity_checking = models.BooleanField()
   validation_parsing_errors = jsonfield.JSONField(blank=True, null=True)
