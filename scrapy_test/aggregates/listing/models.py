@@ -54,7 +54,10 @@ class Listing(models.Model):
   # unit_amenities     = models.ManyToManyField('unit_amenity.UnitAmenity',         blank=True, null=True)
   # unit_types         = models.ManyToManyField('unit_type.UnitType',               blank=True, null=True)
 
+  #is the listing actually viewable on an external website?
   is_alive = models.BooleanField()
+  #did we manually delete this?
+  is_deleted = models.BooleanField()
 
   created_date = models.DateTimeField(auto_now_add=True)
   changed_date = models.DateTimeField(auto_now=True)
