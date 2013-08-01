@@ -66,3 +66,10 @@ class Listing(models.Model):
 
   def __unicode__(self):
     return self.title
+
+  def save(self, internal=False, *args, **kwargs):
+    if internal:
+      super(Listing, self).save(*args, **kwargs)
+    else:
+      from scrapy_test.aggregates.listing.services import listing_service
+      listing_service.save_or_update(self)
