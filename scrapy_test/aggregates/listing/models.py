@@ -23,9 +23,6 @@ class Listing(models.Model):
 
   address1 = models.CharField(max_length=255, blank=True, null=True)
   address2 = models.CharField(max_length=255, blank=True, null=True)
-  # city__strip = cltags.get('city', '').strip()
-  # #sometimes people put in tons of cities like "Astoria,Brooklyn,....
-  # if city__strip and len(city__strip) <= max_city_length: listing.city = city__strip
   city = models.CharField(max_length=255)
   state = USStateField()
   zip_code = models.CharField(max_length=10, blank=True, null=True)
