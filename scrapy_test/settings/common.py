@@ -210,6 +210,7 @@ LOCAL_APPS = (
   # APPS
   'scrapy_test.apps.web_scraper',
   # LIBS
+  'scrapy_test.libs.database',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
