@@ -4,11 +4,12 @@ import jsonfield
 from localflavor.us.models import USStateField, PhoneNumberField
 from scrapy_test.aggregates.listing.signals import listing_deleted, listing_sanitized
 from scrapy_test.aggregates.listing_source.models import ListingSource
+from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 
 logger = logging.getLogger(__name__)
 
 
-class Listing(models.Model):
+class Listing(models.Model, AggregateBase):
   listing_source = models.ForeignKey(ListingSource)
 
   title = models.CharField(max_length=8000)
@@ -82,12 +83,12 @@ class Listing(models.Model):
       if len(errors) >= 5:
         self.make_deleted()
     else:
-      listing_sanitized.send(sender=self)
+      self.raise_event(listing_sanitized, sender=self)
 
   def make_deleted(self):
     logger.info("{0} has been marked as deleted".format(self))
     self.is_deleted = True
-    listing_deleted.send(sender=self)
+    self.raise_event(listing_deleted, sender=self)
 
   def __unicode__(self):
     return self.title
@@ -95,6 +96,7 @@ class Listing(models.Model):
   def save(self, internal=False, *args, **kwargs):
     if internal:
       super(Listing, self).save(*args, **kwargs)
+      self.send_events()
     else:
       from scrapy_test.aggregates.listing.services import listing_service
 
