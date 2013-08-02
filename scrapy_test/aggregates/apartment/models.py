@@ -1,12 +1,15 @@
 from django.db import models
 import logging
 from localflavor.us.models import USStateField
+from scrapy_test.aggregates.apartment.managers import ApartmentManager
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 
 logger = logging.getLogger(__name__)
 
 
 class Apartment(models.Model, AggregateBase):
+  objects = ApartmentManager()
+
   address1 = models.CharField(max_length=255, blank=True, null=True)
   address2 = models.CharField(max_length=255, blank=True, null=True)
   city = models.CharField(max_length=255)
@@ -37,6 +40,9 @@ class Apartment(models.Model, AggregateBase):
 
   created_date = models.DateTimeField(auto_now_add=True)
   changed_date = models.DateTimeField(auto_now=True)
+
+  def adopt_listing(self, listing):
+    self.listings.add(listing)
 
   def __unicode__(self):
     return ('Apartment #' + str(self.pk) + ': ' + str(self.address1 or '') + " (" + str(self.city or '') + ", " +
