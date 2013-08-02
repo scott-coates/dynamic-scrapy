@@ -2,7 +2,6 @@ from django.db import models
 import logging
 import jsonfield
 from localflavor.us.models import USStateField, PhoneNumberField
-from scrapy_test.aggregates.apartment.models import Apartment
 from scrapy_test.aggregates.listing.signals import listing_deleted, listing_sanitized
 from scrapy_test.aggregates.listing_source.models import ListingSource
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
@@ -39,7 +38,7 @@ class Listing(models.Model, AggregateBase):
   requires_sanity_checking = models.BooleanField()
   validation_parsing_errors = jsonfield.JSONField(blank=True, null=True)
 
-  apartment    = models.ForeignKey(Apartment, related_name='listings', blank=True, null=True)
+  apartment = models.ForeignKey('apartment.Apartment', related_name='listings', blank=True, null=True)
 
   # amenities = dbarray.TextArrayField(blank=True, null=True)
   # pets               = models.ManyToManyField('pet.Pet',                          blank=True, null=True)
