@@ -261,6 +261,7 @@ CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 CELERY_CHORD_PROPAGATES = True
 
 CELERY_IMPORTS = (
+  'aggregates.apartment.services.apartment_tasks',
   'aggregates.listing.services.listing_tasks',
   'apps.web_scraper.services.web_scraper_tasks'
 )
