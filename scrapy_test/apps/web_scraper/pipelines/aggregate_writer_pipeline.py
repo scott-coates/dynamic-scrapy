@@ -8,7 +8,7 @@ class AggregateCommandPipeline(object):
   def process_item(self, item, spider):
     try:
 
-      listing_tasks.create_listing_task.delay(dict(item, listing_source_id=spider.ref_object.listing_source.id))
+      listing_tasks.create_listing_task.delay(**dict(item, listing_source_id=spider.ref_object.listing_source.id))
 
       spider.action_successful = True
       spider.log("Listing item sent to application to be processed.", log.INFO)
