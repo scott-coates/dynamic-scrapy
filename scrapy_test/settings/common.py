@@ -205,11 +205,13 @@ THIRD_PARTY_APPS = (
 
 LOCAL_APPS = (
   # AGGREGATES
+  'scrapy_test.aggregates.apartment',
   'scrapy_test.aggregates.listing',
   'scrapy_test.aggregates.listing_source',
   # APPS
   'scrapy_test.apps.web_scraper',
   # LIBS
+  'scrapy_test.libs.database',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -259,6 +261,7 @@ CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 CELERY_CHORD_PROPAGATES = True
 
 CELERY_IMPORTS = (
+  'aggregates.apartment.services.apartment_tasks',
   'aggregates.listing.services.listing_tasks',
   'apps.web_scraper.services.web_scraper_tasks'
 )
