@@ -2,7 +2,7 @@ from django.db import models
 import logging
 import jsonfield
 from localflavor.us.models import USStateField, PhoneNumberField
-from scrapy_test.aggregates.listing.signals import listing_deleted, listing_sanitized
+from scrapy_test.aggregates.listing.signals import deleted, sanitized
 from scrapy_test.aggregates.listing_source.models import ListingSource
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 
@@ -81,12 +81,12 @@ class Listing(models.Model, AggregateBase):
       if len(errors) >= 5:
         self.make_deleted()
     else:
-      self.raise_event(listing_sanitized, sender=self)
+      self.raise_event(sanitized, sender=Listing, instance=self)
 
   def make_deleted(self):
     logger.info("{0} has been marked as deleted".format(self))
     self.is_deleted = True
-    self.raise_event(listing_deleted, sender=self)
+    self.raise_event(deleted, sender=Listing, instance=self)
 
   def __unicode__(self):
     return self.title
