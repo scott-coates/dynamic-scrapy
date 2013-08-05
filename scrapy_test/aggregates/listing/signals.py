@@ -1,8 +1,6 @@
-from django.dispatch import Signal
+from scrapy_test.libs.common_domain.event_signal import EventSignal
 
-# the last element in the providing_args is used to re-created the name of the event later
-# the second-to-last element in the providing_args is used to provide the version
-created = Signal(providing_args=['instance', 'attrs', 1, 'created'])
-sanitized = Signal(providing_args=['instance', 1, 'sanitized'])
-unsanitized = Signal(providing_args=['instance', 'errors', 1, 'unsanitized'])
-deleted = Signal(providing_args=['instance', 1, 'deleted'])
+created = EventSignal('created', 1, providing_args=['instance', 'attrs'])
+sanitized = EventSignal('sanitized', 1, providing_args=['instance'])
+unsanitized = EventSignal('unsanitzed', 1, providing_args=['instance', 'errors'])
+deleted = EventSignal('deleted', 1, providing_args=['instance'])

@@ -1,13 +1,16 @@
-from django.db import models, transaction
 import logging
+
+from django.db import models, transaction
 import jsonfield
 from localflavor.us.models import USStateField, PhoneNumberField
 import reversion
+
 from scrapy_test.aggregates.listing.signals import created, sanitized, deleted, unsanitized
 from scrapy_test.aggregates.listing_source.models import ListingSource
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.django.models.utils import copy_django_model_attrs
-from scrapy_test.libs.event_sourcing.models import RevisionEvent
+from scrapy_test.libs.common_domain.models import RevisionEvent
+
 
 logger = logging.getLogger(__name__)
 

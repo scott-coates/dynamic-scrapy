@@ -215,7 +215,7 @@ LOCAL_APPS = (
   'scrapy_test.apps.web_scraper',
   # LIBS
   'scrapy_test.libs.database',
-  'scrapy_test.libs.event_sourcing',
+  'scrapy_test.libs.common_domain',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

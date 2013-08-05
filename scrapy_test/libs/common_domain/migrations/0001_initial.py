@@ -9,18 +9,18 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         # Adding model 'RevisionEvent'
-        db.create_table(u'event_sourcing_revisionevent', (
+        db.create_table(u'common_domain_revisionevent', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('revision', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['reversion.Revision'])),
             ('version', self.gf('django.db.models.fields.PositiveIntegerField')()),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=1024)),
         ))
-        db.send_create_signal(u'event_sourcing', ['RevisionEvent'])
+        db.send_create_signal(u'common_domain', ['RevisionEvent'])
 
 
     def backwards(self, orm):
         # Deleting model 'RevisionEvent'
-        db.delete_table(u'event_sourcing_revisionevent')
+        db.delete_table(u'common_domain_revisionevent')
 
 
     models = {
@@ -53,19 +53,19 @@ class Migration(SchemaMigration):
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'}),
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
         },
+        u'common_domain.revisionevent': {
+            'Meta': {'object_name': 'RevisionEvent'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '1024'}),
+            'revision': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['reversion.Revision']"}),
+            'version': ('django.db.models.fields.PositiveIntegerField', [], {})
+        },
         u'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
             'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
-        u'event_sourcing.revisionevent': {
-            'Meta': {'object_name': 'RevisionEvent'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '1024'}),
-            'revision': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['reversion.Revision']"}),
-            'version': ('django.db.models.fields.PositiveIntegerField', [], {})
         },
         u'reversion.revision': {
             'Meta': {'object_name': 'Revision'},
@@ -77,4 +77,4 @@ class Migration(SchemaMigration):
         }
     }
 
-    complete_apps = ['event_sourcing']
+    complete_apps = ['common_domain']
