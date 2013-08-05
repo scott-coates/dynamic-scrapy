@@ -84,9 +84,14 @@ class Listing(models.Model, AggregateBase):
       self.raise_event(sanitized, sender=Listing, instance=self)
 
   def make_deleted(self):
+    self.raise_event(deleted, sender=Listing, instance=self)
+
+  def _handle_deleted_event(self,**kwargs):
     logger.info("{0} has been marked as deleted".format(self))
     self.is_deleted = True
-    self.raise_event(deleted, sender=Listing, instance=self)
+
+  def _handle_sanitized_event(self, **kwargs):
+    logger.info("{0} has been marked as sanitized".format(self))
 
   def __unicode__(self):
     return self.title
