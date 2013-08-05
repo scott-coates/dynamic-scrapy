@@ -7,7 +7,7 @@ class AggregateBase(object):
     self._uncommitted_events = deque()
 
   def _raise_event(self, event, sender, **kwargs):
-    self._apply_event(event, sender, kwargs)
+    self._apply_event(event, sender, **kwargs)
 
     # the last element in the providing_args is used to re-created the name of the event later
     event_name = event.providing_args[-1]

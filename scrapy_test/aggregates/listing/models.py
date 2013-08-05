@@ -3,7 +3,7 @@ import logging
 import jsonfield
 from localflavor.us.models import USStateField, PhoneNumberField
 import reversion
-from scrapy_test.aggregates.listing.signals import created, sanitized, deleted
+from scrapy_test.aggregates.listing.signals import created, sanitized, deleted, unsanitized
 from scrapy_test.aggregates.listing_source.models import ListingSource
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.django.models.utils import copy_django_model_attrs
@@ -91,13 +91,17 @@ class Listing(models.Model, AggregateBase):
       errors["last updated"] = ["Missing last updated date"]
 
     if errors:
-      self.validation_parsing_errors = errors
-      self.requires_sanity_checking = True
-
+      self.make_unsanitized(errors)
       if len(errors) >= 5:
         self.make_deleted()
     else:
-      self._raise_event(sanitized, sender=Listing, instance=self)
+      self.make_sanitized()
+
+  def make_sanitized(self):
+    self._raise_event(sanitized, sender=Listing, instance=self)
+
+  def make_unsanitized(self,errors):
+    self._raise_event(unsanitized, sender=Listing, errors=errors, instance=self)
 
   def make_deleted(self):
     self._raise_event(deleted, sender=Listing, instance=self)
@@ -116,6 +120,13 @@ class Listing(models.Model, AggregateBase):
 
   def _handle_sanitized_event(self, **kwargs):
     logger.info("{0} has been marked as sanitized".format(self))
+
+  def _handle_unsanitized_event(self, **kwargs):
+    errors = kwargs.get('errors')
+    self.validation_parsing_errors = errors
+    self.requires_sanity_checking = True
+
+    logger.info("{0} has been marked as unsanitized".format(self))
 
   #endregion
 
