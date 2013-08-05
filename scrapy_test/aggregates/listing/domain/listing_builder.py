@@ -13,11 +13,6 @@ class ListingBuilder(object):
     self.listing_attrs_input = listing_attrs
     self.listing_attrs_output = listing_attrs
 
-  def _build_listing_source(self):
-    listing_source_id = self.listing_attrs_input.get('listing_source_id')
-    if not listing_source_id: raise TypeError('listing_source_id required')
-    self.listing_attrs_output['listing_source'] = listing_source_service.get_listing_source(listing_source_id)
-
   def _build_summary(self):
     """
     description
@@ -54,7 +49,6 @@ class ListingBuilder(object):
       self.listing_attrs_output[bedroom_count] = 1
 
   def build_listing(self):
-    self._build_listing_source()
     self._build_summary()
     self._build_general_details()
     self._build_fees()

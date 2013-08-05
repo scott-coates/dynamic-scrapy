@@ -2,9 +2,10 @@ from django.db import models
 import logging
 import jsonfield
 from localflavor.us.models import USStateField, PhoneNumberField
-from scrapy_test.aggregates.listing.signals import deleted, sanitized
+from scrapy_test.aggregates.listing.signals import deleted, sanitized, created
 from scrapy_test.aggregates.listing_source.models import ListingSource
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
+from scrapy_test.libs.django.models.utils import copy_django_model_attrs
 
 logger = logging.getLogger(__name__)
 
@@ -55,6 +56,19 @@ class Listing(models.Model, AggregateBase):
   created_date = models.DateTimeField(auto_now_add=True)
   changed_date = models.DateTimeField(auto_now=True)
 
+
+  @classmethod
+  def _from_attrs(cls, **kwargs):
+    ret_val = cls()
+
+    if 'listing_source_id' not in kwargs: raise TypeError('listing source id is required')
+
+    ret_val._raise_event(created, sender=Listing, instance=ret_val, attrs=kwargs)
+
+    ret_val.reset_sanitization_status()
+
+    return ret_val
+
   def reset_sanitization_status(self):
     errors = {}
     if not self.address1:
@@ -81,17 +95,27 @@ class Listing(models.Model, AggregateBase):
       if len(errors) >= 5:
         self.make_deleted()
     else:
-      self.raise_event(sanitized, sender=Listing, instance=self)
+      self._raise_event(sanitized, sender=Listing, instance=self)
 
   def make_deleted(self):
-    self.raise_event(deleted, sender=Listing, instance=self)
+    self._raise_event(deleted, sender=Listing, instance=self)
+
+  #region event handlers
+
+  def _handle_created_event(self, **kwargs):
+    # django model constructor has pretty smart logic for mass assignment
+    copy_django_model_attrs(self, Listing, **kwargs)
+
+    logger.info("{0} has been created".format(self))
 
   def _handle_deleted_event(self,**kwargs):
-    logger.info("{0} has been marked as deleted".format(self))
     self.is_deleted = True
+    logger.info("{0} has been marked as deleted".format(self))
 
   def _handle_sanitized_event(self, **kwargs):
     logger.info("{0} has been marked as sanitized".format(self))
+
+  #endregion
 
   def __unicode__(self):
     return self.title
