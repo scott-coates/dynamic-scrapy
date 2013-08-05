@@ -1,6 +1,6 @@
 from django.dispatch import receiver
+from scrapy_test.aggregates.listing.event_sourcing import sanitized
 from scrapy_test.aggregates.listing.models import Listing
-from scrapy_test.aggregates.listing.signals import sanitized
 from scrapy_test.apps.web_scraper.services import web_scraper_tasks
 
 
