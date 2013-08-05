@@ -1,8 +1,4 @@
-import reversion
 from django.dispatch import Signal
-from scrapy_test.aggregates.listing.models import Listing
-
-reversion.register(Listing)
 
 # the last element in the providing_args is used to re-created the name of the event later
 # the second-to-last element in the providing_args is used to provide the version

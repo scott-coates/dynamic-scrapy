@@ -1,1 +1,1 @@
-from database.fields import introspection
+from scrapy_test.libs.database.fields import introspection

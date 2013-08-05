@@ -3,6 +3,9 @@
   <component name="CopyrightManager" default="">
     <module2copyright />
   </component>
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="Python 2.7.3 virtualenv at ~/Envs/scrapy_test" project-jdk-type="Python SDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>

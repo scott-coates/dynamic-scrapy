@@ -3,7 +3,7 @@ import logging
 import jsonfield
 from localflavor.us.models import USStateField, PhoneNumberField
 import reversion
-from scrapy_test.aggregates.listing.event_sourcing import created, sanitized, deleted
+from scrapy_test.aggregates.listing.signals import created, sanitized, deleted
 from scrapy_test.aggregates.listing_source.models import ListingSource
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.django.models.utils import copy_django_model_attrs
