@@ -7,6 +7,7 @@ from scrapy_test.aggregates.listing.event_sourcing import created, sanitized, de
 from scrapy_test.aggregates.listing_source.models import ListingSource
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.django.models.utils import copy_django_model_attrs
+from scrapy_test.libs.event_sourcing.djang_reversion.reversion_event import Event
 
 logger = logging.getLogger(__name__)
 
@@ -126,7 +127,8 @@ class Listing(models.Model, AggregateBase):
       with transaction.commit_on_success():
         with reversion.create_revision():
           super(Listing, self).save(*args, **kwargs)
-          reversion.set_comment("Comment text...")
+          for event in self._uncommitted_events:
+            reversion.add_meta(Event, name=event.event_fq_name, version=event.version)
 
       self.send_events()
     else:

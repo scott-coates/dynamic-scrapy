@@ -1,4 +1,5 @@
 from collections import deque
+from scrapy_test.libs.common_domain.event import Event
 
 
 class AggregateBase(object):
@@ -7,7 +8,15 @@ class AggregateBase(object):
 
   def _raise_event(self, event, sender, **kwargs):
     self._apply_event(event, sender, kwargs)
-    self._uncommitted_events.append((event, sender, kwargs))
+
+    # the last element in the providing_args is used to re-created the name of the event later
+    event_name = event.providing_args[-1]
+    # the second-to-last element in the providing_args is used to provide the version
+    version = event.providing_args[-2]
+    # get the fq name - this is used for replaying events
+    event_fq_name = event.__module__ + "." + event.__class__.__name__
+
+    self._uncommitted_events.append(Event(event, event_name, version, event_fq_name, sender, kwargs))
 
   def send_events(self):
     while self._uncommitted_events:
