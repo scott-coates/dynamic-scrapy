@@ -1,8 +1,9 @@
-from django.db import models
+from django.db import models, transaction
 import logging
 import jsonfield
 from localflavor.us.models import USStateField, PhoneNumberField
-from scrapy_test.aggregates.listing.signals import deleted, sanitized, created
+import reversion
+from scrapy_test.aggregates.listing.event_sourcing import created, sanitized, deleted
 from scrapy_test.aggregates.listing_source.models import ListingSource
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.django.models.utils import copy_django_model_attrs
@@ -108,7 +109,7 @@ class Listing(models.Model, AggregateBase):
 
     logger.info("{0} has been created".format(self))
 
-  def _handle_deleted_event(self,**kwargs):
+  def _handle_deleted_event(self, **kwargs):
     self.is_deleted = True
     logger.info("{0} has been marked as deleted".format(self))
 
@@ -122,7 +123,11 @@ class Listing(models.Model, AggregateBase):
 
   def save(self, internal=False, *args, **kwargs):
     if internal:
-      super(Listing, self).save(*args, **kwargs)
+      with transaction.commit_on_success():
+        with reversion.create_revision():
+          super(Listing, self).save(*args, **kwargs)
+          reversion.set_comment("Comment text...")
+
       self.send_events()
     else:
       from scrapy_test.aggregates.listing.services import listing_service

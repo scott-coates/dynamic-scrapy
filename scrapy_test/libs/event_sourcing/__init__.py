@@ -1,0 +1,1 @@
+from djang_reversion import reversion_event
