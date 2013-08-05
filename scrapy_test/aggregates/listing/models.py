@@ -7,7 +7,7 @@ from scrapy_test.aggregates.listing.signals import created, sanitized, deleted
 from scrapy_test.aggregates.listing_source.models import ListingSource
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.django.models.utils import copy_django_model_attrs
-from scrapy_test.libs.event_sourcing.djang_reversion.reversion_event import Event
+from scrapy_test.libs.event_sourcing.models import RevisionEvent
 
 logger = logging.getLogger(__name__)
 
@@ -128,7 +128,7 @@ class Listing(models.Model, AggregateBase):
         with reversion.create_revision():
           super(Listing, self).save(*args, **kwargs)
           for event in self._uncommitted_events:
-            reversion.add_meta(Event, name=event.event_fq_name, version=event.version)
+            reversion.add_meta(RevisionEvent, name=event.event_fq_name, version=event.version)
 
       self.send_events()
     else:
