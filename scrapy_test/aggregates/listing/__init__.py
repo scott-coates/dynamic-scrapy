@@ -1,2 +1,2 @@
-import signals
-import reversions
+from scrapy_test.aggregates.listing import signals
+from scrapy_test.aggregates.listing import reversions

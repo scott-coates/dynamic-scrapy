@@ -20,6 +20,7 @@ class Listing(models.Model, AggregateBase):
 
   title = models.CharField(max_length=8000)
   description = models.TextField()
+  posted_date = models.DateTimeField()
   last_updated_date = models.DateTimeField()
   url = models.URLField()
 
@@ -77,12 +78,12 @@ class Listing(models.Model, AggregateBase):
   def reset_sanitization_status(self):
     errors = {}
     if not self.address1:
-      errors["address1"] = ["Missing address"]
+      errors["address"] = ["Missing address1"]
 
     if not self.price:
       errors["price"] = ["Missing price"]
 
-    if not self.phone_number and not self.email:
+    if not self.contact_phone_number and not self.contact_email:
       errors["communication"] = ["Missing phone and email"]
 
     if not self.description:
@@ -90,8 +91,11 @@ class Listing(models.Model, AggregateBase):
     elif len(self.description) < 20:
       errors["description"] = ["Description too short"]
 
-    if not self.last_updated:
-      errors["last updated"] = ["Missing last updated date"]
+    if not self.last_updated_date:
+      errors["last updated date"] = ["Missing last updated date"]
+
+    if not self.posted_date:
+      errors["posted date"] = ["Missing posted date"]
 
     if errors:
       self.make_unsanitized(errors)
@@ -113,7 +117,7 @@ class Listing(models.Model, AggregateBase):
 
   def _handle_created_event(self, **kwargs):
     # django model constructor has pretty smart logic for mass assignment
-    copy_django_model_attrs(self, Listing, **kwargs)
+    copy_django_model_attrs(self, Listing, **kwargs.get('attrs'))
 
     logger.info("{0} has been created".format(self))
 

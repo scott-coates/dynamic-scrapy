@@ -12,7 +12,7 @@ class AggregateBase(object):
     event_name = event.name
     version = event.version
     # get the fq name - this is used for replaying events
-    event_fq_name = event.__module__ + "." + event.__class__.__name__
+    event_fq_name = event.module_name + "." + event.name
 
     self._uncommitted_events.append(EventRecord(event, event_name, version, event_fq_name, sender, kwargs))
 

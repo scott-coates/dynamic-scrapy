@@ -1,6 +1,6 @@
 from scrapy_test.libs.common_domain.event_signal import EventSignal
 
-created = EventSignal('created', 1, providing_args=['instance', 'attrs'])
-sanitized = EventSignal('sanitized', 1, providing_args=['instance'])
-unsanitized = EventSignal('unsanitzed', 1, providing_args=['instance', 'errors'])
-deleted = EventSignal('deleted', 1, providing_args=['instance'])
+created = EventSignal('created', __name__, 1, providing_args=['instance', 'attrs'])
+sanitized = EventSignal('sanitized', __name__, 1, providing_args=['instance'])
+unsanitized = EventSignal('unsanitzed', __name__, 1, providing_args=['instance', 'errors'])
+deleted = EventSignal('deleted', __name__, 1, providing_args=['instance'])
