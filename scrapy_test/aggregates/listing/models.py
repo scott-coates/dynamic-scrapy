@@ -117,7 +117,7 @@ class Listing(models.Model, AggregateBase):
 
   def _handle_created_event(self, **kwargs):
     # django model constructor has pretty smart logic for mass assignment
-    copy_django_model_attrs(self, Listing, **kwargs.get('attrs'))
+    copy_django_model_attrs(self, **kwargs.get('attrs'))
 
     logger.info("{0} has been created".format(self))
 
