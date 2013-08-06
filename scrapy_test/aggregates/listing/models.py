@@ -1,10 +1,16 @@
-from django.db import models
 import logging
+
+from django.db import models, transaction
 import jsonfield
 from localflavor.us.models import USStateField, PhoneNumberField
-from scrapy_test.aggregates.listing.signals import listing_deleted, listing_sanitized
+import reversion
+
+from scrapy_test.aggregates.listing.signals import created, sanitized, deleted, unsanitized
 from scrapy_test.aggregates.listing_source.models import ListingSource
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
+from scrapy_test.libs.django.models.utils import copy_django_model_attrs
+from scrapy_test.libs.common_domain.models import RevisionEvent
+
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +20,7 @@ class Listing(models.Model, AggregateBase):
 
   title = models.CharField(max_length=8000)
   description = models.TextField()
+  posted_date = models.DateTimeField()
   last_updated_date = models.DateTimeField()
   url = models.URLField()
 
@@ -55,15 +62,28 @@ class Listing(models.Model, AggregateBase):
   created_date = models.DateTimeField(auto_now_add=True)
   changed_date = models.DateTimeField(auto_now=True)
 
+
+  @classmethod
+  def _from_attrs(cls, **kwargs):
+    ret_val = cls()
+
+    if 'listing_source_id' not in kwargs: raise TypeError('listing source id is required')
+
+    ret_val._raise_event(created, sender=Listing, instance=ret_val, attrs=kwargs)
+
+    ret_val.reset_sanitization_status()
+
+    return ret_val
+
   def reset_sanitization_status(self):
     errors = {}
     if not self.address1:
-      errors["address1"] = ["Missing address"]
+      errors["address"] = ["Missing address1"]
 
     if not self.price:
       errors["price"] = ["Missing price"]
 
-    if not self.phone_number and not self.email:
+    if not self.contact_phone_number and not self.contact_email:
       errors["communication"] = ["Missing phone and email"]
 
     if not self.description:
@@ -71,29 +91,63 @@ class Listing(models.Model, AggregateBase):
     elif len(self.description) < 20:
       errors["description"] = ["Description too short"]
 
-    if not self.last_updated:
-      errors["last updated"] = ["Missing last updated date"]
+    if not self.last_updated_date:
+      errors["last updated date"] = ["Missing last updated date"]
+
+    if not self.posted_date:
+      errors["posted date"] = ["Missing posted date"]
 
     if errors:
-      self.validation_parsing_errors = errors
-      self.requires_sanity_checking = True
-
+      self.make_unsanitized(errors)
       if len(errors) >= 5:
         self.make_deleted()
     else:
-      self.raise_event(listing_sanitized, sender=self)
+      self.make_sanitized()
+
+  def make_sanitized(self):
+    self._raise_event(sanitized, sender=Listing, instance=self)
+
+  def make_unsanitized(self,errors):
+    self._raise_event(unsanitized, sender=Listing, errors=errors, instance=self)
 
   def make_deleted(self):
-    logger.info("{0} has been marked as deleted".format(self))
+    self._raise_event(deleted, sender=Listing, instance=self)
+
+  #region event handlers
+
+  def _handle_created_event(self, **kwargs):
+    # django model constructor has pretty smart logic for mass assignment
+    copy_django_model_attrs(self, **kwargs.get('attrs'))
+
+    logger.info("{0} has been created".format(self))
+
+  def _handle_deleted_event(self, **kwargs):
     self.is_deleted = True
-    self.raise_event(listing_deleted, sender=self)
+    logger.info("{0} has been marked as deleted".format(self))
+
+  def _handle_sanitized_event(self, **kwargs):
+    logger.info("{0} has been marked as sanitized".format(self))
+
+  def _handle_unsanitized_event(self, **kwargs):
+    errors = kwargs.get('errors')
+    self.validation_parsing_errors = errors
+    self.requires_sanity_checking = True
+
+    logger.info("{0} has been marked as unsanitized".format(self))
+
+  #endregion
 
   def __unicode__(self):
     return self.title
 
   def save(self, internal=False, *args, **kwargs):
     if internal:
-      super(Listing, self).save(*args, **kwargs)
+      with transaction.commit_on_success():
+        with reversion.create_revision():
+          super(Listing, self).save(*args, **kwargs)
+          for event in self._uncommitted_events:
+            reversion.add_meta(RevisionEvent, name=event.event_fq_name, version=event.version)
+
       self.send_events()
     else:
       from scrapy_test.aggregates.listing.services import listing_service
