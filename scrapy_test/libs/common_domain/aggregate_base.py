@@ -27,7 +27,7 @@ class AggregateBase(object):
 
     handle_func = getattr(self, event_func_name, None)
 
-    if not event_func_name: raise NotImplementedError("{0} must implement {1}".format(self.__class__.__name__,
+    if not handle_func: raise NotImplementedError("{0} must implement {1}".format(self.__class__.__name__,
                                                                                       event_func_name))
 
     handle_func(**kwargs)
