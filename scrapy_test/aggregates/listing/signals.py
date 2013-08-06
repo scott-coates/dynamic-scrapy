@@ -1,9 +1,6 @@
-from django.dispatch import Signal
+from scrapy_test.libs.common_domain.event_signal import EventSignal
 
-listing_sanitized = Signal(providing_args=[])
-listing_deleted = Signal(providing_args=[])
-
-
-# @receiver(listing_deleted)
-# def event_occurred_callback(sender, **kwargs):
-#   pass
+created = EventSignal('created', __name__, 1, providing_args=['instance', 'attrs'])
+sanitized = EventSignal('sanitized', __name__, 1, providing_args=['instance'])
+unsanitized = EventSignal('unsanitized', __name__, 1, providing_args=['instance', 'errors'])
+deleted = EventSignal('deleted', __name__, 1, providing_args=['instance'])

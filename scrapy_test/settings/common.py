@@ -200,7 +200,10 @@ THIRD_PARTY_APPS = (
     # Asynchronous task queue:
     'djcelery',
     'dynamic_scraper',
-    'kombu.transport.django'
+    'kombu.transport.django',
+
+    # Database
+    'reversion'
 )
 
 LOCAL_APPS = (
@@ -212,6 +215,7 @@ LOCAL_APPS = (
   'scrapy_test.apps.web_scraper',
   # LIBS
   'scrapy_test.libs.database',
+  'scrapy_test.libs.common_domain',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
