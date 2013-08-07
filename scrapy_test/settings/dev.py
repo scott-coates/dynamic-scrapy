@@ -72,3 +72,14 @@ MIDDLEWARE_CLASSES += (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 ########## END TOOLBAR CONFIGURATION
+
+
+########## TESTING CONFIGURATION
+# See: https://github.com/jbalogh/django-nose
+INSTALLED_APPS += (
+  'django_nose',
+)
+
+# See: https://github.com/jbalogh/django-nose#installation
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+########## END TOOLBAR CONFIGURATION

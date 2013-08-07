@@ -8,7 +8,7 @@ import reversion
 from scrapy_test.aggregates.listing.signals import created, sanitized, deleted, unsanitized
 from scrapy_test.aggregates.listing_source.models import ListingSource
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
-from scrapy_test.libs.django.models.utils import copy_django_model_attrs
+from scrapy_test.libs.django_utils.models.utils import copy_django_model_attrs
 from scrapy_test.libs.common_domain.models import RevisionEvent
 
 
