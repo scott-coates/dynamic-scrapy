@@ -1,11 +1,12 @@
 from scrapy_test.aggregates.listing import factories
 from scrapy_test.aggregates.listing_source.services import listing_source_service
 
-bedroom_count = 'bedroom_count'
-bathroom_count = 'bathroom_count'
-sqfeet = 'sqfeet'
-price = 'price'
-broker_fee = 'broker_fee'
+BEDROOM_COUNT = 'bedroom_count'
+BATHROOM_COUNT = 'bathroom_count'
+SQFEET = 'sqfeet'
+PRICE = 'price'
+BROKER_FEE = 'broker_fee'
+TITLE = 'title'
 
 
 class ListingBuilder(object):
@@ -14,39 +15,45 @@ class ListingBuilder(object):
     self.listing_attrs_output = listing_attrs
 
   def _build_summary(self):
-    """
-    description
-    title
-    """
+    #build title
+    title = self.listing_attrs_input.get(TITLE, None)
+    if title:
+      if not isinstance(title, basestring):
+        try:
+          title = title[0]
+        except:
+          raise TypeError("title must be string or collection")
+      title = title.strip('\r\n -')
+      self._assign_output_attr(TITLE, title)
 
   def _build_general_details(self):
-    bed_count = self.listing_attrs_input.get(bedroom_count)
+    bed_count = self.listing_attrs_input.get(BEDROOM_COUNT)
     if not bed_count:
-      self.listing_attrs_output[bedroom_count] = 1
+      self.listing_attrs_output[BEDROOM_COUNT] = 1
 
       #bath
       #sqfeet
       #price
 
   def _build_fees(self):
-    bed_count = self.listing_attrs_input.get(bedroom_count)
+    bed_count = self.listing_attrs_input.get(BEDROOM_COUNT)
     if not bed_count:
-      self.listing_attrs_output[bedroom_count] = 1
+      self.listing_attrs_output[BEDROOM_COUNT] = 1
 
   def _build_location(self):
-    bed_count = self.listing_attrs_input.get(bedroom_count)
+    bed_count = self.listing_attrs_input.get(BEDROOM_COUNT)
     if not bed_count:
-      self.listing_attrs_output[bedroom_count] = 1
+      self.listing_attrs_output[BEDROOM_COUNT] = 1
 
   def _build_contact_details(self):
-    bed_count = self.listing_attrs_input.get(bedroom_count)
+    bed_count = self.listing_attrs_input.get(BEDROOM_COUNT)
     if not bed_count:
-      self.listing_attrs_output[bedroom_count] = 1
+      self.listing_attrs_output[BEDROOM_COUNT] = 1
 
   def _build_amenities(self):
-    bed_count = self.listing_attrs_input.get(bedroom_count)
+    bed_count = self.listing_attrs_input.get(BEDROOM_COUNT)
     if not bed_count:
-      self.listing_attrs_output[bedroom_count] = 1
+      self.listing_attrs_output[BEDROOM_COUNT] = 1
 
   def build_listing(self):
     self._build_summary()
@@ -57,3 +64,6 @@ class ListingBuilder(object):
     self._build_amenities()
 
     return factories.construct_listing(**self.listing_attrs_output)
+
+  def _assign_output_attr(self, key, value):
+    self.listing_attrs_output[key] = value
