@@ -1,5 +1,6 @@
+import collections
+import string
 from scrapy_test.aggregates.listing import factories
-from scrapy_test.aggregates.listing_source.services import listing_source_service
 
 BEDROOM_COUNT = 'bedroom_count'
 BATHROOM_COUNT = 'bathroom_count'
@@ -7,6 +8,8 @@ SQFEET = 'sqfeet'
 PRICE = 'price'
 BROKER_FEE = 'broker_fee'
 TITLE = 'title'
+DESCRIPTION = 'description'
+newline_strip = '\r\n -'
 
 
 class ListingBuilder(object):
@@ -14,8 +17,7 @@ class ListingBuilder(object):
     self.listing_attrs_input = listing_attrs
     self.listing_attrs_output = listing_attrs
 
-  def _build_summary(self):
-    #build title
+  def _build_title(self):
     title = self.listing_attrs_input.get(TITLE, None)
     if title:
       if not isinstance(title, basestring):
@@ -23,8 +25,16 @@ class ListingBuilder(object):
           title = title[0]
         except:
           raise TypeError("title must be string or collection")
-      title = title.strip('\r\n -')
+      title = title.strip(newline_strip)
       self._assign_output_attr(TITLE, title)
+
+  def _build_description(self):
+    description = self.listing_attrs_input.get(DESCRIPTION, None)
+    if description:
+      if isinstance(description, collections.Iterable):
+        description = string.join(description)
+      description = description.strip('%s' % newline_strip)
+      self._assign_output_attr(DESCRIPTION, description)
 
   def _build_general_details(self):
     bed_count = self.listing_attrs_input.get(BEDROOM_COUNT)
@@ -56,7 +66,8 @@ class ListingBuilder(object):
       self.listing_attrs_output[BEDROOM_COUNT] = 1
 
   def build_listing(self):
-    self._build_summary()
+    self._build_title()
+    self._build_description()
     self._build_general_details()
     self._build_fees()
     self._build_location()
