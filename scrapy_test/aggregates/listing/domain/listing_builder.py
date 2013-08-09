@@ -32,7 +32,7 @@ class ListingBuilder(object):
     if description:
       if isinstance(description, collections.Iterable):
         description = ''.join(description)
-      description = description.strip('%s' % newline_strip)
+      description = description.strip(newline_strip)
       self._assign_output_attr(DESCRIPTION, description)
 
   def _build_general_details(self):
