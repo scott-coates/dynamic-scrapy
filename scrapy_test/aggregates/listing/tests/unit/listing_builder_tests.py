@@ -35,4 +35,12 @@ def test_builder_description_combines_elements_into_scalar_description():
   builder._build_description()
   description = builder.listing_attrs_output[listing_builder.DESCRIPTION]
   assert isinstance(description, basestring)
+
+
+def test_builder_description_combines_elements_into_scalar_description():
+  builder = ListingBuilder(description=listing_test_data.cl_listing_3952467416[listing_builder.DESCRIPTION])
+  builder._build_description()
+  description = builder.listing_attrs_output[listing_builder.DESCRIPTION]
+  assert description == listing_test_data.cl_listing_3952467416_expected_description
+
 # endregion

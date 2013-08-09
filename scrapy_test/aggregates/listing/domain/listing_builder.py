@@ -1,5 +1,4 @@
 import collections
-import string
 from scrapy_test.aggregates.listing import factories
 
 BEDROOM_COUNT = 'bedroom_count'
@@ -9,7 +8,7 @@ PRICE = 'price'
 BROKER_FEE = 'broker_fee'
 TITLE = 'title'
 DESCRIPTION = 'description'
-newline_strip = '\r\n -'
+newline_strip = '\r\n\t -'
 
 
 class ListingBuilder(object):
@@ -32,7 +31,7 @@ class ListingBuilder(object):
     description = self.listing_attrs_input.get(DESCRIPTION, None)
     if description:
       if isinstance(description, collections.Iterable):
-        description = string.join(description)
+        description = ''.join(description)
       description = description.strip('%s' % newline_strip)
       self._assign_output_attr(DESCRIPTION, description)
 
