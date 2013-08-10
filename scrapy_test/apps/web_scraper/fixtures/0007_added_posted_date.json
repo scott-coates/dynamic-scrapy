@@ -466,8 +466,8 @@
       "processors": "",
       "scraped_obj_attr": 21,
       "scraper": 1,
-      "from_detail_page": false,
-      "mandatory": true,
+      "from_detail_page": true,
+      "mandatory": false,
       "reg_exp": ""
     }
   },
