@@ -73,3 +73,7 @@ def test_builder_sets_posted_date_to_correct_date(posted_date_3952467416):
 def test_builder_sets_last_updated_date_to_correct_date(last_updated_date_3952467416):
   assert last_updated_date_3952467416 == listing_test_data.cl_listing_3952467416_expected_last_updated_date
 # endregion
+
+# region address1 tests
+
+# endregion
