@@ -1,3 +1,4 @@
+import datetime
 import pytest
 from scrapy_test.aggregates.listing.domain import listing_builder
 from scrapy_test.aggregates.listing.domain.listing_builder import ListingBuilder
@@ -28,7 +29,6 @@ def test_builder_throws_appropriate_error_for_invalid_type():
 
 # endregion
 
-
 # region description tests
 def test_builder_description_combines_elements_into_scalar_description():
   builder = ListingBuilder(description=listing_test_data.cl_listing_3952467416[listing_builder.DESCRIPTION])
@@ -43,4 +43,19 @@ def test_builder_description_combines_elements_into_scalar_description():
   description = builder.listing_attrs_output[listing_builder.DESCRIPTION]
   assert description == listing_test_data.cl_listing_3952467416_expected_description
 
+# endregion
+
+# region date tests
+@pytest.fixture
+def posted_date_3952467416():
+  builder = ListingBuilder(posted_date=listing_test_data.cl_listing_3952467416[listing_builder.POSTED_DATE])
+  builder._build_posted_date()
+  date = builder.listing_attrs_output[listing_builder.POSTED_DATE]
+  return date
+
+def test_builder_sets_posted_date_to_date_type(posted_date_3952467416):
+  assert isinstance(posted_date_3952467416, datetime.datetime)
+
+def test_builder_sets_posted_date_to_correct_date(posted_date_3952467416):
+  assert posted_date_3952467416 == listing_test_data.cl_listing_3952467416_expected_posted_date
 # endregion

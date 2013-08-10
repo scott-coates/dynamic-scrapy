@@ -1,3 +1,9 @@
+import datetime
+import pytz
+from dateutil.tz import tzlocal
+
+eastern_time_zone = pytz.timezone('US/Eastern')
+
 # region cl_listing_3952467416
 cl_listing_3952467416 = {u'city': [], u'contact_phone_number': [u'\n\t\tHOUSE FOR RENT IN GOOD LOCATION',
                                                                 u'\n3 BED ROOM LIVING ROOM DINING ROOM',
@@ -27,6 +33,7 @@ cl_listing_3952467416 = {u'city': [], u'contact_phone_number': [u'\n\t\tHOUSE FO
 
 cl_listing_3952467416_expected_title = '$1750 / 3br - BEST AREA IN FAR ROCKAWAY (FAR ROCKAWAY)'
 cl_listing_3952467416_expected_description = u'HOUSE FOR RENT IN GOOD LOCATION\n3 BED ROOM LIVING ROOM DINING ROOM\nNEW KITCHEN \nCALL DIANA 718-343-2739\nNO BROKERS FEE'
+cl_listing_3952467416_expected_posted_date = eastern_time_zone.localize(datetime.datetime(2013, 8, 7, 16, 52))
 #endregion
 
 #region cl_listing_3952467416

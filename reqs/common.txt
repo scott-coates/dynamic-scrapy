@@ -11,3 +11,5 @@ dingus==0.3.4
 django-localflavor
 jsonfield
 django-reversion==1.7.1
+python-dateutil==2.1
+pytz==2013b
