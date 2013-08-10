@@ -37,5 +37,6 @@ nosetests.xml
 
 default.db
 .idea/workspace.xml
-
+.idea/misc.xml
+*.iml
 .scrapy
