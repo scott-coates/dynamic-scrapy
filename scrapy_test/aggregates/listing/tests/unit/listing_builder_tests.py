@@ -53,9 +53,23 @@ def posted_date_3952467416():
   date = builder.listing_attrs_output[listing_builder.POSTED_DATE]
   return date
 
+
+@pytest.fixture
+def last_updated_date_3952467416():
+  builder = ListingBuilder(
+    last_updated_date=listing_test_data.cl_listing_3952467416[listing_builder.LAST_UPDATED_DATE]
+  )
+
+  builder._build_last_updated_date()
+  date = builder.listing_attrs_output[listing_builder.LAST_UPDATED_DATE]
+  return date
+
 def test_builder_sets_posted_date_to_date_type(posted_date_3952467416):
   assert isinstance(posted_date_3952467416, datetime.datetime)
 
 def test_builder_sets_posted_date_to_correct_date(posted_date_3952467416):
   assert posted_date_3952467416 == listing_test_data.cl_listing_3952467416_expected_posted_date
+
+def test_builder_sets_last_updated_date_to_correct_date(last_updated_date_3952467416):
+  assert last_updated_date_3952467416 == listing_test_data.cl_listing_3952467416_expected_last_updated_date
 # endregion

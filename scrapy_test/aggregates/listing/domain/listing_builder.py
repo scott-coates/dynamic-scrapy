@@ -11,6 +11,7 @@ BROKER_FEE = 'broker_fee'
 TITLE = 'title'
 DESCRIPTION = 'description'
 POSTED_DATE = 'posted_date'
+LAST_UPDATED_DATE = 'last_updated_date'
 newline_strip = '\r\n\t -'
 
 
@@ -55,6 +56,19 @@ class ListingBuilder(object):
         raise Exception("invalid date: %s" % posted_date)
 
       self._assign_output_attr(POSTED_DATE, posted_date)
+
+  def _build_last_updated_date(self):
+    last_updated_date = self.listing_attrs_input.get(LAST_UPDATED_DATE, None)
+
+    if last_updated_date:
+      last_updated_date = self._get_single_stripped_value(last_updated_date)
+
+      try:
+        last_updated_date = parse(last_updated_date, tzinfos=time_zone_abbreviations)
+      except:
+        raise Exception("invalid date: %s" % last_updated_date)
+
+      self._assign_output_attr(LAST_UPDATED_DATE, last_updated_date)
 
   def _build_general_details(self):
     bed_count = self.listing_attrs_input.get(BEDROOM_COUNT)
