@@ -162,7 +162,7 @@ def test_builder_uses_apt2_if_available():
 def test_builder_gets_correct_city_from_list():
   city = 'Brooklyn'
 
-  builder = ListingBuilder(city=city)
+  builder = ListingBuilder(city=[city])
 
   builder._build_city()
 
@@ -176,12 +176,46 @@ def test_builder_gets_correct_city_from_list():
 def test_builder_gets_correct_city_from_list():
   state = 'NY'
 
-  builder = ListingBuilder(state=state)
+  builder = ListingBuilder(state=[state])
 
   builder._build_state()
 
   address_attr = builder.listing_attrs_output[listing_builder.STATE]
 
   assert address_attr == state
+
+# endregion
+
+# region zip code tests
+def test_builder_gets_correct_zip_code_from_list():
+  zip_code = '12345'
+
+  builder = ListingBuilder(state=[zip_code])
+
+  builder._build_state()
+
+  address_attr = builder.listing_attrs_output[listing_builder.STATE]
+
+  assert address_attr == zip_code
+
+# endregion
+
+# region lat/lng tests
+def test_builder_gets_correct_lat_lng_from_list():
+  lat = '40.681449'
+  lng = '-73.946437'
+
+  builder = ListingBuilder(lat=[lat],lng=[lng])
+
+  builder._build_lat_lng()
+
+  lat_attr = builder.listing_attrs_output[listing_builder.LAT]
+  lng_attr = builder.listing_attrs_output[listing_builder.LNG]
+
+  lat_out = 40.681449
+  lng_out = -73.946437
+
+  assert lat_out == lat_attr
+  assert lng_out == lng_attr
 
 # endregion

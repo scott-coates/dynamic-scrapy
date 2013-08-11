@@ -12,6 +12,9 @@ ADDRESS1 = 'address1'
 ADDRESS2 = 'address2'
 CITY = 'city'
 STATE = 'state'
+ZIP_CODE = 'zip_code'
+LAT = 'lat'
+LNG = 'lng'
 
 BEDROOM_COUNT = 'bedroom_count'
 BATHROOM_COUNT = 'bathroom_count'
@@ -28,13 +31,13 @@ class ListingBuilder(object):
     self._address_parser = _address_parser
     self.listing_attrs_output = listing_attrs
 
-  def _get_single_stripped_value(self, attr):
+  def _get_single_stripped_value(self, attr, strip_chars=newline_strip):
     if not isinstance(attr, basestring):
       try:
         attr = attr[0]
       except:
         raise TypeError("attr must be string or collection")
-    attr = attr.strip(newline_strip)
+    attr = attr.strip(strip_chars)
     return attr
 
   #region summary
@@ -124,6 +127,23 @@ class ListingBuilder(object):
     if state:
       state = self._get_single_stripped_value(state)
       self._assign_output_attr(STATE, state)
+
+  def _build_zip_code(self):
+    zip_code = self.listing_attrs_input.get(ZIP_CODE)
+
+    if zip_code:
+      zip_code = self._get_single_stripped_value(zip_code)
+      self._assign_output_attr(ZIP_CODE, zip_code)
+
+  def _build_lat_lng(self):
+    lat = self.listing_attrs_input.get(LAT)
+    lng = self.listing_attrs_input.get(LNG)
+
+    if lat and lng:
+      lat = self._get_single_stripped_value(lat, None)
+      lng = self._get_single_stripped_value(lng, None)
+      self._assign_output_attr(LAT, float(lat))
+      self._assign_output_attr(LNG, float(lng))
 
       #endregion
 
