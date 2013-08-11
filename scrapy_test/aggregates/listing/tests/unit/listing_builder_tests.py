@@ -1,12 +1,13 @@
 import datetime
-from mock import MagicMock, create_autospec
+from mock import MagicMock, call
 import pytest
 from scrapy_test.aggregates.listing.domain import listing_builder
 from scrapy_test.aggregates.listing.domain.listing_builder import ListingBuilder
 from scrapy_test.aggregates.listing.tests.unit import listing_test_data
+from scrapy_test.libs.geo_utils.parsing import address_parser
+from scrapy_test.libs.housing_utils.parsing import home_parser
 
 # region title tests
-from scrapy_test.libs.geo_utils.parsing import address_parser
 
 title_stripped = listing_test_data.cl_listing_3952467416['title']
 expected_title_stripped = listing_test_data.cl_listing_3952467416_expected_title
@@ -205,7 +206,7 @@ def test_builder_gets_correct_lat_lng_from_list():
   lat = '40.681449'
   lng = '-73.946437'
 
-  builder = ListingBuilder(lat=[lat],lng=[lng])
+  builder = ListingBuilder(lat=[lat], lng=[lng])
 
   builder._build_lat_lng()
 
@@ -234,17 +235,20 @@ def test_builder_gets_correct_bedroom_from_list():
 
   assert bedroom_count_attr == expected_bedroom_count
 
-def test_builder_gets_correct_bedroom_from_title_if_not_in_list():
-  bedroom_count = '2'
 
-  builder = ListingBuilder(bedroom_count=[bedroom_count])
+def test_builder_gets_correct_bedroom_from_title_if_not_in_list():
+  home_parser_mock = MagicMock(spec=home_parser)
+
+  expected_bedroom_count = 2
+  home_parser_mock.get_bedroom_count = MagicMock(return_value=expected_bedroom_count)
+
+  builder = ListingBuilder(home_parser=home_parser_mock)
+
+  builder.listing_attrs_output = MagicMock()
+  builder.listing_attrs_output.get.return_value = True
 
   builder._build_bedroom_count()
 
-  bedroom_count_attr = builder.listing_attrs_output[listing_builder.BEDROOM_COUNT]
-
-  expected_bedroom_count = 2
-
-  assert bedroom_count_attr == expected_bedroom_count
+  assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.BEDROOM_COUNT, )
 
 # endregion

@@ -3,6 +3,7 @@ from scrapy_test.aggregates.listing import factories
 from dateutil.parser import parse
 from scrapy_test.libs.datetime_utils.timezone import time_zone_abbreviations
 from scrapy_test.libs.geo_utils.parsing import address_parser
+from scrapy_test.libs.housing_utils.parsing import home_parser
 
 TITLE = 'title'
 DESCRIPTION = 'description'
@@ -27,9 +28,10 @@ _newline_strip = '\r\n\t -'
 
 
 class ListingBuilder(object):
-  def __init__(self, _address_parser=address_parser, **listing_attrs):
+  def __init__(self, address_parser=address_parser, home_parser=home_parser, **listing_attrs):
     self.listing_attrs_input = listing_attrs
-    self._address_parser = _address_parser
+    self._address_parser = address_parser
+    self._home_parser = home_parser
     self.listing_attrs_output = listing_attrs
 
   def _get_single_stripped_value(self, attr, strip_chars=_newline_strip):
@@ -155,6 +157,12 @@ class ListingBuilder(object):
     if bedroom_count:
       bedroom_count = self._get_single_stripped_value(bedroom_count)
       self._assign_output_attr(BEDROOM_COUNT, int(bedroom_count))
+    else:
+      desc = self.listing_attrs_output.get(DESCRIPTION)
+      if desc:
+        bedroom_count =self._home_parser.get_bedroom_count(desc)
+        if bedroom_count:
+          self._assign_output_attr(BEDROOM_COUNT, bedroom_count)
 
   #endregion
 
