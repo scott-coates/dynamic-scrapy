@@ -219,3 +219,20 @@ def test_builder_gets_correct_lat_lng_from_list():
   assert lng_out == lng_attr
 
 # endregion
+
+#regin  bedroom tests
+def test_builder_gets_correct_bedroom_from_list():
+  bedroom_count = '2'
+
+  builder = ListingBuilder(bedroom_count=[bedroom_count])
+
+  builder._build_bedroom_count()
+
+  bedroom_count_attr = builder.listing_attrs_output[listing_builder.BEDROOM_COUNT]
+
+  expected_bedroom_count = 2
+
+  assert bedroom_count_attr == expected_bedroom_count
+
+
+# endregion

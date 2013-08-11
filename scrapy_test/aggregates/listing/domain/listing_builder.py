@@ -8,6 +8,7 @@ TITLE = 'title'
 DESCRIPTION = 'description'
 POSTED_DATE = 'posted_date'
 LAST_UPDATED_DATE = 'last_updated_date'
+
 ADDRESS1 = 'address1'
 ADDRESS2 = 'address2'
 CITY = 'city'
@@ -22,7 +23,7 @@ SQFEET = 'sqfeet'
 PRICE = 'price'
 BROKER_FEE = 'broker_fee'
 
-newline_strip = '\r\n\t -'
+_newline_strip = '\r\n\t -'
 
 
 class ListingBuilder(object):
@@ -31,7 +32,7 @@ class ListingBuilder(object):
     self._address_parser = _address_parser
     self.listing_attrs_output = listing_attrs
 
-  def _get_single_stripped_value(self, attr, strip_chars=newline_strip):
+  def _get_single_stripped_value(self, attr, strip_chars=_newline_strip):
     if not isinstance(attr, basestring):
       try:
         attr = attr[0]
@@ -52,7 +53,7 @@ class ListingBuilder(object):
     if description:
       if isinstance(description, collections.Iterable):
         description = ''.join(description)
-      description = description.strip(newline_strip)
+      description = description.strip(_newline_strip)
       self._assign_output_attr(DESCRIPTION, description)
 
 
@@ -145,16 +146,18 @@ class ListingBuilder(object):
       self._assign_output_attr(LAT, float(lat))
       self._assign_output_attr(LNG, float(lng))
 
-      #endregion
+  #endregion
 
-  def _build_general_details(self):
-    bed_count = self.listing_attrs_input.get(BEDROOM_COUNT)
-    if not bed_count:
-      self.listing_attrs_output[BEDROOM_COUNT] = 1
+  #region general
+  def _build_bedroom_count(self):
+    bedroom_count = self.listing_attrs_input.get(BEDROOM_COUNT)
 
-      #bath
-      #sqfeet
-      #price
+    if bedroom_count:
+      bedroom_count = self._get_single_stripped_value(bedroom_count)
+      self._assign_output_attr(BEDROOM_COUNT, int(bedroom_count))
+
+  #endregion
+
 
   def _build_fees(self):
     bed_count = self.listing_attrs_input.get(BEDROOM_COUNT)
@@ -179,7 +182,7 @@ class ListingBuilder(object):
   def build_listing(self):
     self._build_title()
     self._build_description()
-    self._build_general_details()
+    self._build_bedroom_count()
     self._build_fees()
     self._build_location()
     self._build_contact_details()
