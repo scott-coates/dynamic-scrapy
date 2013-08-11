@@ -143,4 +143,15 @@ def test_builder_uses_apt1_if_no_apt2():
   address_attr = builder.listing_attrs_output[listing_builder.ADDRESS2]
 
   assert address_attr == expected_address2
+
+def test_builder_uses_apt2_if_available():
+  address2 = 'apt. 5'
+
+  builder = ListingBuilder(address2=[address2])
+
+  builder._build_address2()
+
+  address_attr = builder.listing_attrs_output[listing_builder.ADDRESS2]
+
+  assert address_attr == address2
 # endregion

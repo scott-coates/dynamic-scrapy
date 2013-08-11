@@ -100,7 +100,7 @@ class ListingBuilder(object):
     address2 = self.listing_attrs_input.get(ADDRESS2)
 
     if address2:
-      address2 = set(address2)[0]
+      address2 = list(set(address2))[0]
     else:
       address2 = self.listing_attrs_output.get(ADDRESS1)
       if address2:
