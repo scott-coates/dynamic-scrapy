@@ -9,6 +9,7 @@ DESCRIPTION = 'description'
 POSTED_DATE = 'posted_date'
 LAST_UPDATED_DATE = 'last_updated_date'
 ADDRESS1 = 'address1'
+ADDRESS2 = 'address2'
 
 BEDROOM_COUNT = 'bedroom_count'
 BATHROOM_COUNT = 'bathroom_count'
@@ -94,6 +95,19 @@ class ListingBuilder(object):
           break
       else:
         self._assign_output_attr(ADDRESS1, ' and '.join(address1))
+
+  def _build_address2(self):
+    address2 = self.listing_attrs_input.get(ADDRESS2)
+
+    if address2:
+      address2 = set(address2)[0]
+    else:
+      address2 = self.listing_attrs_output.get(ADDRESS1)
+      if address2:
+        address2 = self._address_parser.get_address2(address2)
+
+    if address2:
+      self._assign_output_attr(ADDRESS2, address2)
 
     #endregion
 
