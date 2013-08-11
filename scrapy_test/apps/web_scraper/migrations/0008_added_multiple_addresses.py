@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-import datetime
-from south.db import db
 from south.v2 import DataMigration
-from django.db import models
-from scrapy_test.libs.database.extensions.migrations import load_data
+from scrapy_test.libs.django_utils.extensions.migrations import load_data
 
 
 class Migration(DataMigration):

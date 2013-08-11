@@ -214,7 +214,6 @@ LOCAL_APPS = (
   # APPS
   'scrapy_test.apps.web_scraper',
   # LIBS
-  'scrapy_test.libs.database',
   'scrapy_test.libs.common_domain',
   'scrapy_test.libs.django_utils',
 )
