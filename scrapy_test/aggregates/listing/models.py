@@ -65,6 +65,7 @@ class Listing(models.Model, AggregateBase):
 
   @classmethod
   def _from_attrs(cls, **kwargs):
+    #todo some validation should go here and in the command handler (zip code validation, etc)
     ret_val = cls()
 
     if 'listing_source_id' not in kwargs: raise TypeError('listing source id is required')
