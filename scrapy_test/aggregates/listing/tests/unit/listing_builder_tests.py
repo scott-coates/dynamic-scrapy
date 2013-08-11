@@ -144,6 +144,7 @@ def test_builder_uses_apt1_if_no_apt2():
 
   assert address_attr == expected_address2
 
+
 def test_builder_uses_apt2_if_available():
   address2 = 'apt. 5'
 
@@ -154,4 +155,19 @@ def test_builder_uses_apt2_if_available():
   address_attr = builder.listing_attrs_output[listing_builder.ADDRESS2]
 
   assert address_attr == address2
+
+# endregion
+
+# region city tests
+def test_builder_gets_correct_city_from_list():
+  city = 'Brooklyn'
+
+  builder = ListingBuilder(city=city)
+
+  builder._build_city()
+
+  address_attr = builder.listing_attrs_output[listing_builder.CITY]
+
+  assert address_attr == city
+
 # endregion

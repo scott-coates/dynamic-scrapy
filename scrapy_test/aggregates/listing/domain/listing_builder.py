@@ -10,6 +10,7 @@ POSTED_DATE = 'posted_date'
 LAST_UPDATED_DATE = 'last_updated_date'
 ADDRESS1 = 'address1'
 ADDRESS2 = 'address2'
+CITY = 'city'
 
 BEDROOM_COUNT = 'bedroom_count'
 BATHROOM_COUNT = 'bathroom_count'
@@ -109,7 +110,14 @@ class ListingBuilder(object):
     if address2:
       self._assign_output_attr(ADDRESS2, address2)
 
-    #endregion
+  def _build_city(self):
+    city = self.listing_attrs_input.get(CITY)
+
+    if city:
+      city = self._get_single_stripped_value(city)
+      self._assign_output_attr(CITY, city)
+
+      #endregion
 
   def _build_general_details(self):
     bed_count = self.listing_attrs_input.get(BEDROOM_COUNT)
