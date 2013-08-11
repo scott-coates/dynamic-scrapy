@@ -19,3 +19,12 @@ def test_address_parser_detects_correct_street_addresses(input_values, expected)
 ])
 def test_address_parser_detects_correct_cross_street_addresses(input_values, expected):
   assert expected == address_parser.is_cross_street_address(input_values)
+
+@pytest.mark.parametrize(("input_values", "expected"), [
+  ('123 fake st #99', '#99'),
+  ('123 fake st', None),
+  ('Some place ste 67', 'ste 67'),
+  ('Some place apt. 55', 'apt. 55'),
+])
+def test_address_parser_detects_address2(input_values, expected):
+  assert expected == address_parser.get_address2(input_values)
