@@ -1,5 +1,5 @@
 import re
-address2_pattern = re.compile(r"((\#|apt|suite|ste)\.?\s?\d+)")
+address2_pattern = re.compile(r"((\#|apt|suite|ste)\.?\s?\d+)", re.IGNORECASE)
 
 def is_street_address(address):
   address_split = [address_part for address_part in address.split() if address_part not in ("and", "at")]
