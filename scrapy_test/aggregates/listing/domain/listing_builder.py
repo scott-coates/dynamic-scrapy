@@ -11,6 +11,7 @@ LAST_UPDATED_DATE = 'last_updated_date'
 ADDRESS1 = 'address1'
 ADDRESS2 = 'address2'
 CITY = 'city'
+STATE = 'state'
 
 BEDROOM_COUNT = 'bedroom_count'
 BATHROOM_COUNT = 'bathroom_count'
@@ -116,6 +117,13 @@ class ListingBuilder(object):
     if city:
       city = self._get_single_stripped_value(city)
       self._assign_output_attr(CITY, city)
+
+  def _build_state(self):
+    state = self.listing_attrs_input.get(STATE)
+
+    if state:
+      state = self._get_single_stripped_value(state)
+      self._assign_output_attr(STATE, state)
 
       #endregion
 

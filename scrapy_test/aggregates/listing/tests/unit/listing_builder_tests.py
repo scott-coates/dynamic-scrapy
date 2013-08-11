@@ -171,3 +171,17 @@ def test_builder_gets_correct_city_from_list():
   assert address_attr == city
 
 # endregion
+
+# region state tests
+def test_builder_gets_correct_city_from_list():
+  state = 'NY'
+
+  builder = ListingBuilder(state=state)
+
+  builder._build_state()
+
+  address_attr = builder.listing_attrs_output[listing_builder.STATE]
+
+  assert address_attr == state
+
+# endregion
