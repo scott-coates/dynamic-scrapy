@@ -14,6 +14,7 @@ def test_address_parser_detects_correct_street_addresses(input_values, expected)
 @pytest.mark.parametrize(("input_values", "expected"), [
   ('62nd at york', True),
   ('21 and broadway', True),
+  ('Macon st at Marcy ave', True),
   ('67 w 58th', False),
   ('250 e66', False),
 ])
