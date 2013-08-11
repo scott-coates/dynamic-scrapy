@@ -134,16 +134,14 @@ def test_builder_uses_apt1_if_no_apt2():
   address_parser_mock = MagicMock(spec=address_parser)
 
   builder = ListingBuilder(address_parser_mock, address2=None)
+  builder.listing_attrs_output = MagicMock()
+  builder.listing_attrs_output.get.return_value = True
 
   address_parser_mock.get_address2 = MagicMock(return_value=expected_address2)
 
-  builder.listing_attrs_output[listing_builder.ADDRESS1] = True #just mark it as not falsey
-
   builder._build_address2()
 
-  address_attr = builder.listing_attrs_output[listing_builder.ADDRESS2]
-
-  assert address_attr == expected_address2
+  assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.ADDRESS2, expected_address2)
 
 
 def test_builder_uses_apt2_if_available():
@@ -249,6 +247,7 @@ def test_builder_gets_correct_bedroom_from_title_if_not_in_list():
 
   builder._build_bedroom_count()
 
-  assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.BEDROOM_COUNT, )
+  assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.BEDROOM_COUNT,
+                                                                            expected_bedroom_count)
 
 # endregion
