@@ -93,7 +93,7 @@ class ListingBuilder(object):
           self._assign_output_attr(ADDRESS1, address)
           break
       else:
-        pass
+        self._assign_output_attr(ADDRESS1, ' and '.join(address1))
 
     #endregion
 

@@ -106,4 +106,15 @@ def test_builder_uses_firs_cross_street_address_to_populate():
   address_attr = builder.listing_attrs_output[listing_builder.ADDRESS1]
   assert address_attr is not None
 
+def test_builder_joins_addresses_if_no_valid_address():
+  xstreet1 = 'Foo'
+  xtreet2 = 'Bar'
+  address_parser_mock = MagicMock(spec=address_parser)
+  address_parser_mock.is_street_address = MagicMock(return_value=False)
+  address_parser_mock.is_cross_street_address = MagicMock(return_value=False)
+  builder = ListingBuilder(address_parser_mock, address1=[xstreet1,xtreet2])
+  builder._build_address1()
+  address_attr = builder.listing_attrs_output[listing_builder.ADDRESS1]
+  assert address_attr == 'Foo and Bar'
+
 # endregion
