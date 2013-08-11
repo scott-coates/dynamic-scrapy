@@ -1,0 +1,524 @@
+[
+  {
+    "pk": 1,
+    "model": "dynamic_scraper.scrapedobjclass",
+    "fields": {
+      "checker_scheduler_conf": "\"MIN_TIME\": 1440,\r\n\"MAX_TIME\": 10080,\r\n\"INITIAL_NEXT_ACTION_FACTOR\": 1,\r\n\"ZERO_ACTIONS_FACTOR_CHANGE\": 5,\r\n\"FACTOR_CHANGE_FACTOR\": 1.3,\r\n",
+      "scraper_scheduler_conf": "\"MIN_TIME\": 15,\r\n\"MAX_TIME\": 10080,\r\n\"INITIAL_NEXT_ACTION_FACTOR\": 10,\r\n\"ZERO_ACTIONS_FACTOR_CHANGE\": 20,\r\n\"FACTOR_CHANGE_FACTOR\": 1.3,\r\n",
+      "name": "Listing",
+      "comments": ""
+    }
+  },
+  {
+    "pk": 1,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "base",
+      "attr_type": "B"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "title",
+      "attr_type": "S"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "description",
+      "attr_type": "S"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "url",
+      "attr_type": "U"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "last_updated_date",
+      "attr_type": "S"
+    }
+  },
+  {
+    "pk": 6,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "address1",
+      "attr_type": "S"
+    }
+  },
+  {
+    "pk": 7,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "address2",
+      "attr_type": "S"
+    }
+  },
+  {
+    "pk": 8,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "city",
+      "attr_type": "S"
+    }
+  },
+  {
+    "pk": 9,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "state",
+      "attr_type": "S"
+    }
+  },
+  {
+    "pk": 10,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "zip_code",
+      "attr_type": "S"
+    }
+  },
+  {
+    "pk": 11,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "lat",
+      "attr_type": "S"
+    }
+  },
+  {
+    "pk": 12,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "lng",
+      "attr_type": "S"
+    }
+  },
+  {
+    "pk": 13,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "bedroom_count",
+      "attr_type": "S"
+    }
+  },
+  {
+    "pk": 14,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "bathroom_count",
+      "attr_type": "S"
+    }
+  },
+  {
+    "pk": 15,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "sqfeet",
+      "attr_type": "S"
+    }
+  },
+  {
+    "pk": 16,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "price",
+      "attr_type": "S"
+    }
+  },
+  {
+    "pk": 17,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "broker_fee",
+      "attr_type": "S"
+    }
+  },
+  {
+    "pk": 18,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "contact_name",
+      "attr_type": "S"
+    }
+  },
+  {
+    "pk": 19,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "contact_phone_number",
+      "attr_type": "S"
+    }
+  },
+  {
+    "pk": 20,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "contact_email",
+      "attr_type": "S"
+    }
+  },
+  {
+    "pk": 21,
+    "model": "dynamic_scraper.scrapedobjattr",
+    "fields": {
+      "obj_class": 1,
+      "name": "posted_date",
+      "attr_type": "S"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "dynamic_scraper.scraper",
+    "fields": {
+      "status": "A",
+      "pagination_page_replace": "",
+      "checker_ref_url": "",
+      "checker_x_path_result": "",
+      "name": "Craigslist Scraper",
+      "max_items_save": null,
+      "checker_x_path": "",
+      "pagination_append_str": "",
+      "max_items_read": 2,
+      "pagination_on_start": false,
+      "pagination_type": "N",
+      "checker_type": "N",
+      "comments": "",
+      "content_type": "H",
+      "scraped_obj_class": 1
+    }
+  },
+  {
+    "pk": 1,
+    "model": "dynamic_scraper.scraperelem",
+    "fields": {
+      "proc_ctxt": "",
+      "x_path": "//*[@id='toc_rows']/p[@class='row']",
+      "processors": "",
+      "scraped_obj_attr": 1,
+      "scraper": 1,
+      "from_detail_page": false,
+      "mandatory": false,
+      "reg_exp": ""
+    }
+  },
+  {
+    "pk": 2,
+    "model": "dynamic_scraper.scraperelem",
+    "fields": {
+      "proc_ctxt": "",
+      "x_path": "//*[@*='postingtitle']/text()[normalize-space(.)]",
+      "processors": "",
+      "scraped_obj_attr": 2,
+      "scraper": 1,
+      "from_detail_page": true,
+      "mandatory": false,
+      "reg_exp": ""
+    }
+  },
+  {
+    "pk": 3,
+    "model": "dynamic_scraper.scraperelem",
+    "fields": {
+      "proc_ctxt": "",
+      "x_path": "//*[@*='postingbody']//text()",
+      "processors": "",
+      "scraped_obj_attr": 3,
+      "scraper": 1,
+      "from_detail_page": true,
+      "mandatory": false,
+      "reg_exp": ""
+    }
+  },
+  {
+    "pk": 4,
+    "model": "dynamic_scraper.scraperelem",
+    "fields": {
+      "proc_ctxt": "'func':'scrapy_test.apps.web_scraper.scrapy.processors.pre_url_from_ref_object'",
+      "x_path": "a/@href",
+      "processors": "dynamic",
+      "scraped_obj_attr": 4,
+      "scraper": 1,
+      "from_detail_page": false,
+      "mandatory": false,
+      "reg_exp": ""
+    }
+  },
+  {
+    "pk": 5,
+    "model": "dynamic_scraper.scraperelem",
+    "fields": {
+      "proc_ctxt": "",
+      "x_path": "//*[@*='postinginfo'][contains(.,'Updated')][1]/date/text()",
+      "processors": "",
+      "scraped_obj_attr": 5,
+      "scraper": 1,
+      "from_detail_page": true,
+      "mandatory": false,
+      "reg_exp": ""
+    }
+  },
+  {
+    "pk": 6,
+    "model": "dynamic_scraper.scraperelem",
+    "fields": {
+      "proc_ctxt": "",
+      "x_path": "//*[@id='attributes']/span/text()",
+      "processors": "",
+      "scraped_obj_attr": 6,
+      "scraper": 1,
+      "from_detail_page": true,
+      "mandatory": false,
+      "reg_exp": ""
+    }
+  },
+  {
+    "pk": 7,
+    "model": "dynamic_scraper.scraperelem",
+    "fields": {
+      "proc_ctxt": "",
+      "x_path": "//*[@*='cltags']/comment()[contains(.,'city')]",
+      "processors": "",
+      "scraped_obj_attr": 8,
+      "scraper": 1,
+      "from_detail_page": true,
+      "mandatory": false,
+      "reg_exp": "=(.+)\\s+-->"
+    }
+  },
+  {
+    "pk": 8,
+    "model": "dynamic_scraper.scraperelem",
+    "fields": {
+      "proc_ctxt": "",
+      "x_path": "//*[@*='cltags']/comment()[contains(.,'region')]",
+      "processors": "",
+      "scraped_obj_attr": 9,
+      "scraper": 1,
+      "from_detail_page": true,
+      "mandatory": false,
+      "reg_exp": "=(.+)\\s+-->"
+    }
+  },
+  {
+    "pk": 9,
+    "model": "dynamic_scraper.scraperelem",
+    "fields": {
+      "proc_ctxt": "",
+      "x_path": "//*[@id=\"leaflet\"]/@data-latitude",
+      "processors": "",
+      "scraped_obj_attr": 11,
+      "scraper": 1,
+      "from_detail_page": true,
+      "mandatory": false,
+      "reg_exp": ""
+    }
+  },
+  {
+    "pk": 10,
+    "model": "dynamic_scraper.scraperelem",
+    "fields": {
+      "proc_ctxt": "",
+      "x_path": "//*[@id=\"leaflet\"]/@data-longitude",
+      "processors": "",
+      "scraped_obj_attr": 12,
+      "scraper": 1,
+      "from_detail_page": true,
+      "mandatory": false,
+      "reg_exp": ""
+    }
+  },
+  {
+    "pk": 11,
+    "model": "dynamic_scraper.scraperelem",
+    "fields": {
+      "proc_ctxt": "",
+      "x_path": "//*[@*='postingtitle']/text()[normalize-space(.)]",
+      "processors": "",
+      "scraped_obj_attr": 13,
+      "scraper": 1,
+      "from_detail_page": true,
+      "mandatory": false,
+      "reg_exp": ""
+    }
+  },
+  {
+    "pk": 12,
+    "model": "dynamic_scraper.scraperelem",
+    "fields": {
+      "proc_ctxt": "",
+      "x_path": "//*[@*='postingtitle']/text()[normalize-space(.)]",
+      "processors": "",
+      "scraped_obj_attr": 16,
+      "scraper": 1,
+      "from_detail_page": true,
+      "mandatory": false,
+      "reg_exp": ""
+    }
+  },
+  {
+    "pk": 13,
+    "model": "dynamic_scraper.scraperelem",
+    "fields": {
+      "proc_ctxt": "",
+      "x_path": "//*[@*='postingtitle']/text()[normalize-space(.)]",
+      "processors": "",
+      "scraped_obj_attr": 15,
+      "scraper": 1,
+      "from_detail_page": true,
+      "mandatory": false,
+      "reg_exp": ""
+    }
+  },
+  {
+    "pk": 14,
+    "model": "dynamic_scraper.scraperelem",
+    "fields": {
+      "proc_ctxt": "",
+      "x_path": "a/@href",
+      "processors": "",
+      "scraped_obj_attr": 17,
+      "scraper": 1,
+      "from_detail_page": false,
+      "mandatory": false,
+      "reg_exp": ""
+    }
+  },
+  {
+    "pk": 15,
+    "model": "dynamic_scraper.scraperelem",
+    "fields": {
+      "proc_ctxt": "",
+      "x_path": "//*[@*='cltags']//li[contains(.,'Listed By:')]/text()[normalize-space(.)] | //*[@*='postingbody']//text()",
+      "processors": "",
+      "scraped_obj_attr": 18,
+      "scraper": 1,
+      "from_detail_page": true,
+      "mandatory": false,
+      "reg_exp": ""
+    }
+  },
+  {
+    "pk": 16,
+    "model": "dynamic_scraper.scraperelem",
+    "fields": {
+      "proc_ctxt": "",
+      "x_path": "//*[@*='cltags']//li[contains(.,'Listed By:')]/text()[normalize-space(.)] | //*[@*='postingbody']//text()",
+      "processors": "",
+      "scraped_obj_attr": 19,
+      "scraper": 1,
+      "from_detail_page": true,
+      "mandatory": false,
+      "reg_exp": ""
+    }
+  },
+  {
+    "pk": 17,
+    "model": "dynamic_scraper.scraperelem",
+    "fields": {
+      "proc_ctxt": "",
+      "x_path": "//*[@*='cltags']//li[contains(.,'Listed By:')]/text()[normalize-space(.)] | //*[@*='postingbody']//text()",
+      "processors": "",
+      "scraped_obj_attr": 20,
+      "scraper": 1,
+      "from_detail_page": true,
+      "mandatory": false,
+      "reg_exp": ""
+    }
+  },
+  {
+    "pk": 18,
+    "model": "dynamic_scraper.scraperelem",
+    "fields": {
+      "proc_ctxt": "",
+      "x_path": "//*[@*='postinginfo'][contains(.,'Posted')][1]/date/text()",
+      "processors": "",
+      "scraped_obj_attr": 21,
+      "scraper": 1,
+      "from_detail_page": true,
+      "mandatory": false,
+      "reg_exp": ""
+    }
+  },
+  {
+    "pk": 19,
+    "model": "dynamic_scraper.scraperelem",
+    "fields": {
+      "proc_ctxt": "",
+      "x_path": "//*[@*='cltags']/comment()[contains(.,'xstreet0')] | //*[@*='cltags']/comment()[contains(.,'xstreet1')]",
+      "processors": "",
+      "scraped_obj_attr": 6,
+      "scraper": 1,
+      "from_detail_page": true,
+      "mandatory": false,
+      "reg_exp": "=(.+)\\s+-->"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "dynamic_scraper.schedulerruntime",
+    "fields": {
+      "next_action_factor": 10.0,
+      "next_action_time": "2013-08-03T02:43:15.619Z",
+      "num_zero_actions": 1,
+      "runtime_type": "S"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "dynamic_scraper.log",
+    "fields": {
+      "spider_name": "listing_spider",
+      "level": 40,
+      "scraper": 1,
+      "ref_object": "ListingSourceScraperConfig (1)",
+      "date": "2013-08-03T00:13:15.456Z",
+      "message": "Mandatory elem last_updated_date missing!",
+      "type": "None"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "dynamic_scraper.log",
+    "fields": {
+      "spider_name": "listing_spider",
+      "level": 40,
+      "scraper": 1,
+      "ref_object": "ListingSourceScraperConfig (1)",
+      "date": "2013-08-03T00:13:15.577Z",
+      "message": "Mandatory elem description missing!",
+      "type": "None"
+    }
+  }
+]
