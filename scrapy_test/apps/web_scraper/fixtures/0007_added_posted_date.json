@@ -294,7 +294,7 @@
     "model": "dynamic_scraper.scraperelem",
     "fields": {
       "proc_ctxt": "",
-      "x_path": "//*[@*='cltags']/comment()[contains(.,'xstreet0')] | //*[@*='cltags']/comment()[contains(.,'xstreet1')]",
+      "x_path": "//*[@id='attributes']/span | //*[@*='cltags']/comment()[contains(.,'xstreet0')] | //*[@*='cltags']/comment()[contains(.,'xstreet1')]",
       "processors": "",
       "scraped_obj_attr": 6,
       "scraper": 1,
