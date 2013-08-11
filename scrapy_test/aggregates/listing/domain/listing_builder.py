@@ -3,15 +3,18 @@ from scrapy_test.aggregates.listing import factories
 from dateutil.parser import parse
 from scrapy_test.libs.datetime_utils.timezone import time_zone_abbreviations
 
+TITLE = 'title'
+DESCRIPTION = 'description'
+POSTED_DATE = 'posted_date'
+LAST_UPDATED_DATE = 'last_updated_date'
+ADDRESS1 = 'address1'
+
 BEDROOM_COUNT = 'bedroom_count'
 BATHROOM_COUNT = 'bathroom_count'
 SQFEET = 'sqfeet'
 PRICE = 'price'
 BROKER_FEE = 'broker_fee'
-TITLE = 'title'
-DESCRIPTION = 'description'
-POSTED_DATE = 'posted_date'
-LAST_UPDATED_DATE = 'last_updated_date'
+
 newline_strip = '\r\n\t -'
 
 
@@ -69,6 +72,14 @@ class ListingBuilder(object):
         raise Exception("invalid date: %s" % last_updated_date)
 
       self._assign_output_attr(LAST_UPDATED_DATE, last_updated_date)
+
+  def _build_address1(self):
+    address1 = self.listing_attrs_input.get(ADDRESS1, None)
+
+    if address1:
+      address1 = set(address1)
+
+      self._assign_output_attr(ADDRESS1, address1)
 
   def _build_general_details(self):
     bed_count = self.listing_attrs_input.get(BEDROOM_COUNT)

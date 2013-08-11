@@ -75,5 +75,12 @@ def test_builder_sets_last_updated_date_to_correct_date(last_updated_date_395246
 # endregion
 
 # region address1 tests
+def test_builder_sets_makes_address_distinct():
+  address1 = '123 test st'
+  builder = ListingBuilder(address1=[address1,address1])
+  builder._build_address1()
+  address_attr = builder.listing_attrs_output[listing_builder.ADDRESS1]
+  assert len(address_attr) == 1
+
 
 # endregion
