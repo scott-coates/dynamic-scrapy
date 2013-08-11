@@ -94,7 +94,7 @@ def test_builder_uses_firs_street_address_to_populate():
   builder = ListingBuilder(address_parser_mock, address1=address1)
   builder._build_address1()
   address_attr = builder.listing_attrs_output[listing_builder.ADDRESS1]
-  assert address_attr != None
+  assert address_attr is not None
 
 def test_builder_uses_firs_cross_street_address_to_populate():
   address1 = '123 test st'
@@ -104,5 +104,6 @@ def test_builder_uses_firs_cross_street_address_to_populate():
   builder = ListingBuilder(address_parser_mock, address1=address1)
   builder._build_address1()
   address_attr = builder.listing_attrs_output[listing_builder.ADDRESS1]
-  assert address_attr != None
+  assert address_attr is not None
+
 # endregion
