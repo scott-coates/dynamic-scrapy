@@ -2,6 +2,7 @@ import collections
 from scrapy_test.aggregates.listing import factories
 from dateutil.parser import parse
 from scrapy_test.libs.datetime_utils.timezone import time_zone_abbreviations
+from scrapy_test.libs.geo_utils.parsing import address_parser
 
 TITLE = 'title'
 DESCRIPTION = 'description'
@@ -19,8 +20,9 @@ newline_strip = '\r\n\t -'
 
 
 class ListingBuilder(object):
-  def __init__(self, **listing_attrs):
+  def __init__(self, _address_parser=address_parser, **listing_attrs):
     self.listing_attrs_input = listing_attrs
+    self._address_parser = _address_parser
     self.listing_attrs_output = listing_attrs
 
   def _get_single_stripped_value(self, attr):
@@ -32,6 +34,7 @@ class ListingBuilder(object):
     attr = attr.strip(newline_strip)
     return attr
 
+  #region summary
   def _build_title(self):
     title = self.listing_attrs_input.get(TITLE, None)
     if title:
@@ -73,13 +76,26 @@ class ListingBuilder(object):
 
       self._assign_output_attr(LAST_UPDATED_DATE, last_updated_date)
 
+  #endregion
+
+  #region address
+  def _is_valid_address(self, address):
+    return self._address_parser.is_street_address(address) or self._address_parser.is_cross_street_address(address)
+
   def _build_address1(self):
     address1 = self.listing_attrs_input.get(ADDRESS1, None)
 
     if address1:
       address1 = set(address1)
 
-      self._assign_output_attr(ADDRESS1, address1)
+      for address in address1:
+        if self._is_valid_address(address):
+          self._assign_output_attr(ADDRESS1, address)
+          break
+      else:
+        pass
+
+    #endregion
 
   def _build_general_details(self):
     bed_count = self.listing_attrs_input.get(BEDROOM_COUNT)

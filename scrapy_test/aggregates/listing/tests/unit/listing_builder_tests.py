@@ -1,10 +1,13 @@
 import datetime
+from mock import MagicMock, create_autospec
 import pytest
 from scrapy_test.aggregates.listing.domain import listing_builder
 from scrapy_test.aggregates.listing.domain.listing_builder import ListingBuilder
 from scrapy_test.aggregates.listing.tests.unit import listing_test_data
 
 # region title tests
+from scrapy_test.libs.geo_utils.parsing import address_parser
+
 title_stripped = listing_test_data.cl_listing_3952467416['title']
 expected_title_stripped = listing_test_data.cl_listing_3952467416_expected_title
 
@@ -77,10 +80,29 @@ def test_builder_sets_last_updated_date_to_correct_date(last_updated_date_395246
 # region address1 tests
 def test_builder_sets_makes_address_distinct():
   address1 = '123 test st'
-  builder = ListingBuilder(address1=[address1,address1])
+  address_parser_mock = MagicMock(spec=address_parser)
+  address_parser_mock.is_street_address = MagicMock(return_value=True)
+  builder = ListingBuilder(address_parser_mock, address1=[address1,address1])
   builder._build_address1()
   address_attr = builder.listing_attrs_output[listing_builder.ADDRESS1]
-  assert len(address_attr) == 1
+  assert isinstance(address_attr, basestring)
 
+def test_builder_uses_firs_street_address_to_populate():
+  address1 = '123 test st'
+  address_parser_mock = MagicMock(spec=address_parser)
+  address_parser_mock.is_street_address = MagicMock(return_value=True)
+  builder = ListingBuilder(address_parser_mock, address1=address1)
+  builder._build_address1()
+  address_attr = builder.listing_attrs_output[listing_builder.ADDRESS1]
+  assert address_attr != None
 
+def test_builder_uses_firs_cross_street_address_to_populate():
+  address1 = '123 test st'
+  address_parser_mock = MagicMock(spec=address_parser)
+  address_parser_mock.is_street_address = MagicMock(return_value=False)
+  address_parser_mock.is_cross_street_address = MagicMock(return_value=True)
+  builder = ListingBuilder(address_parser_mock, address1=address1)
+  builder._build_address1()
+  address_attr = builder.listing_attrs_output[listing_builder.ADDRESS1]
+  assert address_attr != None
 # endregion
