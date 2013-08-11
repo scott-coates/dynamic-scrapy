@@ -220,7 +220,7 @@ def test_builder_gets_correct_lat_lng_from_list():
 
 # endregion
 
-#regin  bedroom tests
+#region  bedroom tests
 def test_builder_gets_correct_bedroom_from_list():
   bedroom_count = '2'
 

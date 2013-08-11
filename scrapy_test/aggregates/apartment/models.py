@@ -18,7 +18,7 @@ class Apartment(models.Model, AggregateBase):
   lat = models.FloatField()
   lng = models.FloatField()
 
-  bedroom_count = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
+  bedroom_count = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True) #todo should this be float?
   bathroom_count = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
   sqfeet = models.DecimalField(max_digits=8, decimal_places=3, blank=True, null=True)
   price = models.DecimalField(max_digits=7, decimal_places=2)
