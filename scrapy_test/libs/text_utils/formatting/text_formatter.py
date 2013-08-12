@@ -38,3 +38,7 @@ def decodeJs(text):
     return ''.join(unichr(int(point)) for point in m.group(1).split(','))
 
   return re.sub(r'fromCharCode\((.+)\)', fixup, text)
+
+
+def only_alpha_numeric(content):
+  return ''.join(x for x in content if x.isalnum())

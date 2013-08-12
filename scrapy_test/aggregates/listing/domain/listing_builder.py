@@ -296,8 +296,8 @@ class ListingBuilder(object):
         amenities = desc
 
     if amenities:
-      if not isinstance(amenities, collections.Iterable):
-        amenities = [amenities]
+      if isinstance(amenities, collections.Iterable):
+        amenities = ' '.join(amenities)
 
       amenities = self._text_parser.get_canonical_name_from_keywords(
         amenities,
