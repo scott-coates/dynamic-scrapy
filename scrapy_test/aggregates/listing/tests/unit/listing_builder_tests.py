@@ -261,14 +261,14 @@ def test_builder_gets_correct_bathroom_from_list():
 
   bedroom_count_attr = builder.listing_attrs_output[listing_builder.BATHROOM_COUNT]
 
-  expected_bedroom_count = 2
+  expected_bedroom_count = 2.0
 
   assert bedroom_count_attr == expected_bedroom_count
 
 def test_builder_gets_correct_bathroom_from_title_if_not_in_list():
   home_parser_mock = MagicMock(spec=home_parser)
 
-  expected_bathroom_count = 2
+  expected_bathroom_count = 2.0
   home_parser_mock.get_bathroom_count = MagicMock(return_value=expected_bathroom_count)
 
   builder = ListingBuilder(home_parser=home_parser_mock)
@@ -300,17 +300,17 @@ def test_builder_gets_correct_sqfreet_from_list():
 def test_builder_gets_correct_bathroom_from_title_if_not_in_list():
   home_parser_mock = MagicMock(spec=home_parser)
 
-  expected_bathroom_count = 2
-  home_parser_mock.get_bathroom_count = MagicMock(return_value=expected_bathroom_count)
+  expected_sqfeet = 100
+  home_parser_mock.get_sqfeet = MagicMock(return_value=expected_sqfeet)
 
   builder = ListingBuilder(home_parser=home_parser_mock)
 
   builder.listing_attrs_output = MagicMock()
   builder.listing_attrs_output.get.return_value = True
 
-  builder._build_bathroom_count()
+  builder._build_sqfeet()
 
-  assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.BATHROOM_COUNT,
-                                                                            expected_bathroom_count)
+  assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.SQFEET,
+                                                                            expected_sqfeet)
 
 # endregion

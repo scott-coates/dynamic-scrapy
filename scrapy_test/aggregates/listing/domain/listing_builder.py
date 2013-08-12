@@ -169,7 +169,7 @@ class ListingBuilder(object):
 
     if bathroom_count:
       bathroom_count = self._get_single_stripped_value(bathroom_count)
-      self._assign_output_attr(BATHROOM_COUNT, int(bathroom_count))
+      self._assign_output_attr(BATHROOM_COUNT, float(bathroom_count))
     else:
       desc = self.listing_attrs_output.get(DESCRIPTION)
       if desc:
