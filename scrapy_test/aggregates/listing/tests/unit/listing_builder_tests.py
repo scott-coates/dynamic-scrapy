@@ -282,3 +282,35 @@ def test_builder_gets_correct_bathroom_from_title_if_not_in_list():
                                                                             expected_bathroom_count)
 
 # endregion
+
+#region sqfeet tests
+def test_builder_gets_correct_sqfreet_from_list():
+  sqfeet = '100'
+
+  builder = ListingBuilder(sqfeet=[sqfeet])
+
+  builder._build_sqfeet()
+
+  sqfeet_attr = builder.listing_attrs_output[listing_builder.SQFEET]
+
+  expected_sqfeet = 100.0
+
+  assert sqfeet_attr == expected_sqfeet
+
+def test_builder_gets_correct_bathroom_from_title_if_not_in_list():
+  home_parser_mock = MagicMock(spec=home_parser)
+
+  expected_bathroom_count = 2
+  home_parser_mock.get_bathroom_count = MagicMock(return_value=expected_bathroom_count)
+
+  builder = ListingBuilder(home_parser=home_parser_mock)
+
+  builder.listing_attrs_output = MagicMock()
+  builder.listing_attrs_output.get.return_value = True
+
+  builder._build_bathroom_count()
+
+  assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.BATHROOM_COUNT,
+                                                                            expected_bathroom_count)
+
+# endregion

@@ -177,6 +177,18 @@ class ListingBuilder(object):
         if bathroom_count:
           self._assign_output_attr(BATHROOM_COUNT, bathroom_count)
 
+  def _build_sqfeet(self):
+    sqfeet = self.listing_attrs_input.get(SQFEET)
+
+    if sqfeet:
+      sqfeet = self._get_single_stripped_value(sqfeet)
+      self._assign_output_attr(SQFEET, float(sqfeet))
+    else:
+      desc = self.listing_attrs_output.get(DESCRIPTION)
+      if desc:
+        sqfeet = self._home_parser.get_sqfeet(desc)
+        if sqfeet:
+          self._assign_output_attr(SQFEET, sqfeet)
   #endregion
 
 
