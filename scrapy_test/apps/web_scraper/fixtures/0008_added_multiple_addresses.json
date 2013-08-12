@@ -426,7 +426,7 @@
       "scraper": 1,
       "from_detail_page": true,
       "mandatory": false,
-      "reg_exp": ""
+      "reg_exp": "Listed By: (.+)"
     }
   },
   {
@@ -440,7 +440,7 @@
       "scraper": 1,
       "from_detail_page": true,
       "mandatory": false,
-      "reg_exp": ""
+      "reg_exp": "Listed By: (.+)"
     }
   },
   {
@@ -454,7 +454,7 @@
       "scraper": 1,
       "from_detail_page": true,
       "mandatory": false,
-      "reg_exp": ""
+      "reg_exp": "Listed By: (.+)"
     }
   },
   {
