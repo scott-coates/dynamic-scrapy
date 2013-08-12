@@ -237,6 +237,25 @@ class ListingBuilder(object):
   #endregion
 
   def build_listing(self):
+    self._build_title()
+    self._build_description()
+    self._build_posted_date()
+    self._build_last_updated_date()
+    self._build_url()
+
+    self._build_address1()
+    self._build_address2()
+    self._build_city()
+    self._build_state()
+    self._build_zip_code()
+    self._build_lat_lng()
+
+    self._build_bedroom_count()
+    self._build_bathroom_count()
+    self._build_sqfeet()
+    self._build_price()
+    self._build_broker_fee()
+
     return factories.construct_listing(**self.listing_attrs_output)
 
   def _assign_output_attr(self, key, value):
