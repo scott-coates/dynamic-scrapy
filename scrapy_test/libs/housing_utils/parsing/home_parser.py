@@ -60,6 +60,6 @@ def get_price(price_str):
 
 
 def get_broker_fee_from_url(url):
-  ret_val = (url.split('/')[-2] == 'fee')
+  ret_val = 'fee' in url.split('/')
 
   return ret_val

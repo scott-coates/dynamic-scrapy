@@ -28,3 +28,10 @@ def test_home_parser_detects_correct_sqfeet(input_values, expected):
 ])
 def test_home_parser_detects_correct_price(input_values, expected):
   assert expected == home_parser.get_price(input_values)
+
+@pytest.mark.parametrize(("input_values", "expected"), [
+  ('http://newyork.craigslist.org/mnh/fee/3995786968.html', True),
+  ('http://newyork.craigslist.org/brk/abo/3981928312.html', False),
+])
+def test_home_parser_detects_correct_broker_fee(input_values, expected):
+  assert expected == home_parser.get_broker_fee_from_url(input_values)
