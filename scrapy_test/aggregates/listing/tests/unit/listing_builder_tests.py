@@ -4,6 +4,7 @@ import pytest
 from scrapy_test.aggregates.listing.domain import listing_builder
 from scrapy_test.aggregates.listing.domain.listing_builder import ListingBuilder
 from scrapy_test.aggregates.listing.tests.unit import listing_test_data
+from scrapy_test.libs.communication_utils.parsing import contact_parser
 from scrapy_test.libs.geo_utils.parsing import address_parser
 from scrapy_test.libs.housing_utils.parsing import home_parser
 
@@ -95,6 +96,7 @@ def test_builder_gets_correct_url_from_list():
   expected_url = url
 
   assert url_attr == expected_url
+
 # endregion
 
 # region address1 tests
@@ -248,6 +250,7 @@ def test_builder_gets_correct_bedroom_from_list():
 
   assert bedroom_count_attr == expected_bedroom_count
 
+
 def test_builder_gets_correct_bedroom_from_title_if_not_in_list():
   home_parser_mock = MagicMock(spec=home_parser)
 
@@ -279,6 +282,7 @@ def test_builder_gets_correct_bathroom_from_list():
   expected_bedroom_count = 2.0
 
   assert bedroom_count_attr == expected_bedroom_count
+
 
 def test_builder_gets_correct_bathroom_from_title_if_not_in_list():
   home_parser_mock = MagicMock(spec=home_parser)
@@ -312,6 +316,7 @@ def test_builder_gets_correct_sqfreet_from_list():
 
   assert sqfeet_attr == expected_sqfeet
 
+
 def test_builder_gets_correct_bathroom_from_title_if_not_in_list():
   home_parser_mock = MagicMock(spec=home_parser)
 
@@ -343,6 +348,7 @@ def test_builder_gets_correct_price_from_list():
   expected_price = 100.0
 
   assert sqfeet_attr == expected_price
+
 
 def test_builder_gets_correct_price_title_if_not_in_list():
   home_parser_mock = MagicMock(spec=home_parser)
@@ -376,6 +382,7 @@ def test_builder_gets_correct_broker_fee_from_list():
 
   assert broker_fee_attr == expected_fee
 
+
 def test_builder_gets_correct_broker_fee_from_url_if_not_in_list():
   home_parser_mock = MagicMock(spec=home_parser)
 
@@ -395,33 +402,62 @@ def test_builder_gets_correct_broker_fee_from_url_if_not_in_list():
 # endregion
 
 #region contact name tests
-def test_builder_gets_correct_contact_name_from_list():
-  contact_name = 'foo bar'
+def test_builder_uses_name_parser_when_in_name_provided():
+  expected_name = 'foo bar'
 
-  builder = ListingBuilder(contact_name=[contact_name])
+  contact_parser_mock = MagicMock(spec=contact_parser)
+
+  contact_parser_mock.get_contact_name = MagicMock(return_value=expected_name)
+
+  builder = ListingBuilder(contact_parser=contact_parser_mock, contact_name=[expected_name])
 
   builder._build_contact_name()
 
   contact_name = builder.listing_attrs_output[listing_builder.CONTACT_NAME]
 
-  expected_name = contact_name
-
   assert contact_name == expected_name
 
-def test_builder_gets_correct_broker_fee_from_url_if_not_in_list():
-  home_parser_mock = MagicMock(spec=home_parser)
+def test_builder_delegates_name_parsing_to_contact_parser():
+  expected_name = 'foo bar'
 
-  expected_fee = True
-  home_parser_mock.get_broker_fee_from_url = MagicMock(return_value=expected_fee)
+  contact_parser_mock = MagicMock(spec=contact_parser)
 
-  builder = ListingBuilder(home_parser=home_parser_mock)
+  builder = ListingBuilder(contact_parser=contact_parser_mock, contact_name=[expected_name])
 
-  builder.listing_attrs_output = MagicMock()
-  builder.listing_attrs_output.get.return_value = True
+  builder._build_contact_name()
 
-  builder._build_broker_fee()
+  contact_parser_mock.get_contact_name.assert_called_with('foo bar')
 
-  assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.BROKER_FEE,
-                                                                            expected_fee)
+# endregion
+
+#region contact phone number tests
+# def test_builder_gets_correct_contact_name_from_list():
+#   contact_name = 'foo bar'
+#
+#   builder = ListingBuilder(contact_name=[contact_name])
+#
+#   builder._build_contact_name()
+#
+#   contact_name = builder.listing_attrs_output[listing_builder.CONTACT_NAME]
+#
+#   expected_name = contact_name
+#
+#   assert contact_name == expected_name
+#
+# def test_builder_gets_correct_broker_fee_from_url_if_not_in_list():
+#   home_parser_mock = MagicMock(spec=home_parser)
+#
+#   expected_fee = True
+#   home_parser_mock.get_broker_fee_from_url = MagicMock(return_value=expected_fee)
+#
+#   builder = ListingBuilder(home_parser=home_parser_mock)
+#
+#   builder.listing_attrs_output = MagicMock()
+#   builder.listing_attrs_output.get.return_value = True
+#
+#   builder._build_broker_fee()
+#
+#   assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.BROKER_FEE,
+#                                                                             expected_fee)
 
 # endregion

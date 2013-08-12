@@ -1,6 +1,7 @@
 import collections
 from scrapy_test.aggregates.listing import factories
 from dateutil.parser import parse
+from scrapy_test.libs.communication_utils.parsing import contact_parser
 from scrapy_test.libs.datetime_utils.timezone import time_zone_abbreviations
 from scrapy_test.libs.geo_utils.parsing import address_parser
 from scrapy_test.libs.housing_utils.parsing import home_parser
@@ -31,12 +32,13 @@ CONTACT_EMAIL_ADDRESS = 'contact_email_address'
 
 _newline_strip = '\r\n\t -'
 
-
 class ListingBuilder(object):
-  def __init__(self, address_parser=address_parser, home_parser=home_parser, **listing_attrs):
+  def __init__(self, address_parser=address_parser, home_parser=home_parser,
+               contact_parser=contact_parser, **listing_attrs):
     self.listing_attrs_input = listing_attrs
     self._address_parser = address_parser
     self._home_parser = home_parser
+    self._contact_parser = contact_parser
     self.listing_attrs_output = {}
 
   def _get_single_stripped_value(self, attr, strip_chars=_newline_strip):
@@ -233,7 +235,7 @@ class ListingBuilder(object):
 
     if contact_name:
       contact_name = self._get_single_stripped_value(contact_name)
-      self._assign_output_attr(CONTACT_NAME, contact_name)
+      self._assign_output_attr(CONTACT_NAME, self._contact_parser.get_contact_name(contact_name))
   #endregion
 
   def build_listing(self):
