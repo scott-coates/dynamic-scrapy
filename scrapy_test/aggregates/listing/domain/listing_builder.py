@@ -247,7 +247,12 @@ class ListingBuilder(object):
         self._assign_output_attr(CONTACT_PHONE_NUMBER, contact_phone_number)
 
     if not contact_phone_number:
-      pass #use description
+      desc = self.listing_attrs_output.get(DESCRIPTION)
+      if desc :
+        contact_phone_number = self._contact_parser.get_contact_phone_number(desc)
+        if contact_phone_number:
+          self._assign_output_attr(CONTACT_PHONE_NUMBER, contact_phone_number)
+
 
   #endregion
 

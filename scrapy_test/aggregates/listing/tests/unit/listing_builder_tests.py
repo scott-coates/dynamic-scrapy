@@ -458,4 +458,21 @@ def test_builder_delegates_phone_parsing_to_contact_parser():
 
   contact_parser_mock.get_contact_phone_number.assert_called_with(expected_phone_number)
 
+def test_builder_uses_description_for_phone_if_not_available():
+  contact_parser_mock = MagicMock(spec=contact_parser)
+
+  expected_phone = '(555) 555-5555'
+  contact_parser_mock.get_contact_phone_number = MagicMock(return_value=expected_phone)
+
+  builder = ListingBuilder(contact_parser=contact_parser_mock)
+
+  builder.listing_attrs_output = MagicMock()
+  builder.listing_attrs_output.get.return_value = True
+
+  builder._build_contact_phone_number()
+
+  assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.CONTACT_PHONE_NUMBER,
+                                                                          expected_phone)
+
+
 # endregion
