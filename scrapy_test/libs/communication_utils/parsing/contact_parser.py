@@ -1,5 +1,6 @@
 import re
 import logging
+from scrapy_test.libs.text_utils.formatting.text_formatter import unescape, despacify, decodeJs
 
 specific_phone_number_pattern = re.compile(
   r'(1[\W_]*)?(?P<whole>(?P<area_code>[2-9]\d{2})[\W_]*(?P<exchange>\d{3})[\W_]*(?P<number>\d{4}))'
@@ -40,6 +41,59 @@ def get_contact_phone_number(phone_number_str):
 
   return phone_number
 
+
 def get_contact_email_address(contact_email_address_str):
-  ret_val = None
-  return ret_val
+  # Adapted from http://jasonpriem.org/obfuscation-decoder/.
+  # decode html entities
+  text = unescape(contact_email_address_str)
+
+  # remove tags
+  # This unfortunately removes <a href="mailto:xyz@abc.com">
+  text = re.sub(r'<[^>]+>', r'', text)
+
+  # mark all periods as periods, so that they don't look like dots
+  text = re.sub(r'\b\.\s', '[PERIOD] ', text)
+
+  # despacify text
+  text = despacify(text)
+
+  # find the "dot"
+  text = re.sub(r'[^A-Z0-9\-]*\.[^A-Z0-9\-]*|\W+dot\W+|\W+d0t\W+', r'.', text, flags=re.IGNORECASE)
+  text = re.sub(r'([a-z0-9])DOT([a-z0-9])', r'\1.\2', text)
+  text = re.sub(r'([A-Z0-9])dot([A-Z0-9])', r'\1.\2', text)
+
+  # find the "at"
+  text = re.sub(r'\W*@\W*|\W+at\W+', r'@', text, flags=re.IGNORECASE)
+  text = re.sub(r'([a-z0-9])AT([a-z0-9])', r'\1@\2', text)
+  text = re.sub(r'([A-Z0-9])at([A-Z0-9])', r'\1@\2', text)
+
+  # get rid of obfuscating phrases; if the offending phrase includes the "at" or "dot," we have to put that back
+  text = re.sub(r'[_\W]*n[_\W]*(o|0)[_\W]*(s|5)[_\W]*p[_\W]*a[_\W]*m[_\W]*', _deobfuscate_phrase, text,
+                flags=re.IGNORECASE)
+
+  # decode simple javascript fromCharCode obfuscations
+  text = decodeJs(text)
+
+  # pull out the now-standardized email address and return it
+  try:
+    email = re.compile(
+      r'\b[A-Z0-9\._\-]+@[A-Z0-9\.\-]+\.(?:[A-Z]{'
+      r'2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\b',
+
+      flags=re.IGNORECASE).search(text).group(0)
+    if 'www.' in email:
+      # This handles the highly unusual case where the text reads: "Find your next apartment at www.dwellee.com."
+      # That would parse to apartment@www.dwellee.com.
+      # @todo: Handle this case better.
+      email = False
+  except:
+    email = False
+  return email
+
+
+def _deobfuscate_phrase(match):
+  text = match.group(0)
+  if '.' in text: return '.'
+  if '@' in text: return '@'
+  return ''
+
