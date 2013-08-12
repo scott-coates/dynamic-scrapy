@@ -70,7 +70,7 @@ class ListingBuilder(object):
   def _build_description(self):
     description = self.listing_attrs_input.get(DESCRIPTION, None)
     if description:
-      if isinstance(description, collections.Iterable):
+      if not isinstance(description, basestring):
         description = ''.join(description)
       description = description.strip(_newline_strip)
       self._assign_output_attr(DESCRIPTION, description)
@@ -296,7 +296,7 @@ class ListingBuilder(object):
         amenities = desc
 
     if amenities:
-      if isinstance(amenities, collections.Iterable):
+      if not isinstance(amenities, basestring):
         amenities = ' '.join(amenities)
 
       amenities = self._text_parser.get_canonical_name_from_keywords(
@@ -332,6 +332,8 @@ class ListingBuilder(object):
     self._build_contact_name()
     self._build_contact_phone_number()
     self._build_contact_email_address()
+
+    self._build_amenities()
 
     return factories.construct_listing(**self.listing_attrs_output)
 
