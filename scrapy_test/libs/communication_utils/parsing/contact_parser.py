@@ -43,6 +43,7 @@ def get_contact_phone_number(phone_number_str):
 
 
 def get_contact_email_address(contact_email_address_str):
+  email_address = None
   # Adapted from http://jasonpriem.org/obfuscation-decoder/.
   # decode html entities
   text = unescape(contact_email_address_str)
@@ -76,19 +77,19 @@ def get_contact_email_address(contact_email_address_str):
 
   # pull out the now-standardized email address and return it
   try:
-    email = re.compile(
+    email_address = re.compile(
       r'\b[A-Z0-9\._\-]+@[A-Z0-9\.\-]+\.(?:[A-Z]{'
       r'2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\b',
 
       flags=re.IGNORECASE).search(text).group(0)
-    if 'www.' in email:
+    if 'www.' in email_address:
       # This handles the highly unusual case where the text reads: "Find your next apartment at www.dwellee.com."
       # That would parse to apartment@www.dwellee.com.
-      # @todo: Handle this case better.
-      email = False
+      email_address = None
   except:
-    email = False
-  return email
+    email_address = None
+
+  return email_address
 
 
 def _deobfuscate_phrase(match):
