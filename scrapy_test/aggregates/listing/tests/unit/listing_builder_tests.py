@@ -493,17 +493,16 @@ def test_builder_uses_email_parser_when_in_name_provided():
 
   assert contact_phone_number == expected_email
 
+def test_builder_delegates_email_parsing_to_contact_parser():
+  expected_email_address = 'test@test.com'
 
-# def test_builder_delegates_phone_parsing_to_contact_parser():
-#   expected_phone_number = '555-555-5555'
-#
-#   contact_parser_mock = MagicMock(spec=contact_parser)
-#
-#   builder = ListingBuilder(contact_parser=contact_parser_mock, contact_phone_number=[expected_phone_number])
-#
-#   builder._build_contact_phone_number()
-#
-#   contact_parser_mock.get_contact_phone_number.assert_called_with(expected_phone_number)
+  contact_parser_mock = MagicMock(spec=contact_parser)
+
+  builder = ListingBuilder(contact_parser=contact_parser_mock, contact_email_address=[expected_email_address])
+
+  builder._build_contact_email_address()
+
+  contact_parser_mock.get_contact_email_address.assert_called_with(expected_email_address)
 #
 #
 # def test_builder_uses_description_for_phone_if_not_available():
