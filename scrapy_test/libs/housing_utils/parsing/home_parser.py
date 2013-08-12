@@ -2,7 +2,7 @@ import re
 import logging
 
 bedroom_pattern = re.compile(r"(\d+)br", re.IGNORECASE)
-bathroom_pattern = re.compile(r"([\d\.]+) bath", re.IGNORECASE)
+bathroom_pattern = re.compile(r"([\d\.]+)(.)?bath(.)*", re.IGNORECASE)
 
 logger = logging.getLogger(__name__)
 
