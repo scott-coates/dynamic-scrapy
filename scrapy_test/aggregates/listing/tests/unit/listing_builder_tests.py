@@ -233,7 +233,6 @@ def test_builder_gets_correct_bedroom_from_list():
 
   assert bedroom_count_attr == expected_bedroom_count
 
-
 def test_builder_gets_correct_bedroom_from_title_if_not_in_list():
   home_parser_mock = MagicMock(spec=home_parser)
 
@@ -249,5 +248,37 @@ def test_builder_gets_correct_bedroom_from_title_if_not_in_list():
 
   assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.BEDROOM_COUNT,
                                                                             expected_bedroom_count)
+
+# endregion
+
+#region bathroom tests
+def test_builder_gets_correct_bathroom_from_list():
+  bathroom_count = '2'
+
+  builder = ListingBuilder(bathroom_count=[bathroom_count])
+
+  builder._build_bathroom_count()
+
+  bedroom_count_attr = builder.listing_attrs_output[listing_builder.BATHROOM_COUNT]
+
+  expected_bedroom_count = 2
+
+  assert bedroom_count_attr == expected_bedroom_count
+
+def test_builder_gets_correct_bathroom_from_title_if_not_in_list():
+  home_parser_mock = MagicMock(spec=home_parser)
+
+  expected_bathroom_count = 2
+  home_parser_mock.get_bathroom_count = MagicMock(return_value=expected_bathroom_count)
+
+  builder = ListingBuilder(home_parser=home_parser_mock)
+
+  builder.listing_attrs_output = MagicMock()
+  builder.listing_attrs_output.get.return_value = True
+
+  builder._build_bathroom_count()
+
+  assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.BATHROOM_COUNT,
+                                                                            expected_bathroom_count)
 
 # endregion

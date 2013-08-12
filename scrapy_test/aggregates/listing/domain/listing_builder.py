@@ -160,9 +160,22 @@ class ListingBuilder(object):
     else:
       desc = self.listing_attrs_output.get(DESCRIPTION)
       if desc:
-        bedroom_count =self._home_parser.get_bedroom_count(desc)
+        bedroom_count = self._home_parser.get_bedroom_count(desc)
         if bedroom_count:
           self._assign_output_attr(BEDROOM_COUNT, bedroom_count)
+
+  def _build_bathroom_count(self):
+    bathroom_count = self.listing_attrs_input.get(BATHROOM_COUNT)
+
+    if bathroom_count:
+      bathroom_count = self._get_single_stripped_value(bathroom_count)
+      self._assign_output_attr(BATHROOM_COUNT, int(bathroom_count))
+    else:
+      desc = self.listing_attrs_output.get(DESCRIPTION)
+      if desc:
+        bathroom_count = self._home_parser.get_bathroom_count(desc)
+        if bathroom_count:
+          self._assign_output_attr(BATHROOM_COUNT, bathroom_count)
 
   #endregion
 
