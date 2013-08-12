@@ -348,7 +348,7 @@ def test_builder_gets_correct_price_title_if_not_in_list():
   home_parser_mock = MagicMock(spec=home_parser)
 
   expected_price = 100.0
-  home_parser_mock.get_sqfeet = MagicMock(return_value=expected_price)
+  home_parser_mock.get_price = MagicMock(return_value=expected_price)
 
   builder = ListingBuilder(home_parser=home_parser_mock)
 

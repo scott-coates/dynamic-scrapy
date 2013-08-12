@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 def get_bedroom_count(bedroom_str):
   ret_val = None
-  if 'studio' in bedroom_str:
+  if 'studio' in bedroom_str.lower():
     ret_val = 0
   else:
     match = bedroom_pattern.search(bedroom_str)

@@ -209,7 +209,7 @@ class ListingBuilder(object):
     else:
       title = self.listing_attrs_output.get(TITLE)
       if title:
-        price = self._home_parser.get_sqfeet(title)
+        price = self._home_parser.get_price(title)
         if price:
           self._assign_output_attr(PRICE, price)
 
