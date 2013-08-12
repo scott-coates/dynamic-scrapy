@@ -185,7 +185,7 @@
     "model": "dynamic_scraper.scrapedobjattr",
     "fields": {
       "obj_class": 1,
-      "name": "contact_email",
+      "name": "contact_email_address",
       "attr_type": "S"
     }
   },
