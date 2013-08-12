@@ -346,3 +346,35 @@ def test_builder_gets_correct_price_title_if_not_in_list():
                                                                             expected_price)
 
 # endregion
+
+#region broker_fee tests
+def test_builder_gets_correct_broker_fee_from_list():
+  fee = 'True'
+
+  builder = ListingBuilder(broker_fee=[fee])
+
+  builder._build_broker_fee()
+
+  broker_fee_attr = builder.listing_attrs_output[listing_builder.BROKER_FEE]
+
+  expected_fee = True
+
+  assert broker_fee_attr == expected_fee
+
+def test_builder_gets_correct_price_title_if_not_in_list():
+  home_parser_mock = MagicMock(spec=home_parser)
+
+  expected_price = 100.0
+  home_parser_mock.get_sqfeet = MagicMock(return_value=expected_price)
+
+  builder = ListingBuilder(home_parser=home_parser_mock)
+
+  builder.listing_attrs_output = MagicMock()
+  builder.listing_attrs_output.get.return_value = True
+
+  builder._build_price()
+
+  assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.PRICE,
+                                                                            expected_price)
+
+# endregion

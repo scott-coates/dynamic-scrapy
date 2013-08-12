@@ -203,6 +203,18 @@ class ListingBuilder(object):
         if price:
           self._assign_output_attr(PRICE, price)
 
+  def _build_broker_fee(self):
+    broker_fee = self.listing_attrs_input.get(BROKER_FEE)
+
+    if broker_fee:
+      broker_fee = self._get_single_stripped_value(broker_fee)
+      self._assign_output_attr(BROKER_FEE, broker_fee.lower() == 'true')
+    else:
+      title = self.listing_attrs_output.get(TITLE)
+      if title:
+        broker_fee = self._home_parser.get_sqfeet(title)
+        if broker_fee:
+          self._assign_output_attr(PRICE, broker_fee)
   #endregion
 
 
