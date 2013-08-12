@@ -4,6 +4,7 @@ import logging
 bedroom_pattern = re.compile(r"(\d+)br", re.IGNORECASE)
 bathroom_pattern = re.compile(r"([\d\.]+)(.)?bath(.)*", re.IGNORECASE)
 sqfeet_pattern = re.compile(r"(\d+)ft", re.IGNORECASE)
+price_pattern = re.compile(r"\$(\S+)", re.IGNORECASE)
 
 logger = logging.getLogger(__name__)
 
@@ -39,5 +40,16 @@ def get_sqfeet(sqfeet_str):
       ret_val = float(match.groups()[0])
     except:
       logger.warn("Error casting sqfeet count: {0}".format(sqfeet_str), exc_info=1)
+
+  return ret_val
+
+def get_price(price_str):
+  ret_val = None
+  match = price_pattern.search(price_str)
+  if match:
+    try:
+      ret_val = float(match.groups()[0])
+    except:
+      logger.warn("Error casting price count: {0}".format(price_str), exc_info=1)
 
   return ret_val
