@@ -59,7 +59,6 @@ class ListingBuilder(object):
       description = description.strip(_newline_strip)
       self._assign_output_attr(DESCRIPTION, description)
 
-
   def _build_posted_date(self):
     posted_date = self.listing_attrs_input.get(POSTED_DATE, None)
 
@@ -86,6 +85,12 @@ class ListingBuilder(object):
 
       self._assign_output_attr(LAST_UPDATED_DATE, last_updated_date)
 
+  def _build_url(self):
+    url = self.listing_attrs_input.get(URL, None)
+
+    if url:
+      url = self._get_single_stripped_value(url)
+      self._assign_output_attr(URL, url)
   #endregion
 
   #region address

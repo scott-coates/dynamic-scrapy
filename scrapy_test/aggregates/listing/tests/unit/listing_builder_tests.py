@@ -82,6 +82,21 @@ def test_builder_sets_last_updated_date_to_correct_date(last_updated_date_395246
 
 # endregion
 
+#region url tests
+def test_builder_gets_correct_url_from_list():
+  url = 'http://newyork.craigslist.org/brk/abo/3981928312.html'
+
+  builder = ListingBuilder(url=[url])
+
+  builder._build_url()
+
+  url_attr = builder.listing_attrs_output[listing_builder.URL]
+
+  expected_url = url
+
+  assert url_attr == expected_url
+# endregion
+
 # region address1 tests
 def test_builder_sets_makes_address_distinct():
   address1 = '123 test st'
