@@ -158,9 +158,9 @@ class ListingBuilder(object):
       bedroom_count = self._get_single_stripped_value(bedroom_count)
       self._assign_output_attr(BEDROOM_COUNT, int(bedroom_count))
     else:
-      desc = self.listing_attrs_output.get(DESCRIPTION)
-      if desc:
-        bedroom_count = self._home_parser.get_bedroom_count(desc)
+      title = self.listing_attrs_output.get(TITLE)
+      if title:
+        bedroom_count = self._home_parser.get_bedroom_count(title)
         if bedroom_count:
           self._assign_output_attr(BEDROOM_COUNT, bedroom_count)
 
@@ -171,9 +171,9 @@ class ListingBuilder(object):
       bathroom_count = self._get_single_stripped_value(bathroom_count)
       self._assign_output_attr(BATHROOM_COUNT, float(bathroom_count))
     else:
-      desc = self.listing_attrs_output.get(DESCRIPTION)
-      if desc:
-        bathroom_count = self._home_parser.get_bathroom_count(desc)
+      title = self.listing_attrs_output.get(TITLE)
+      if title:
+        bathroom_count = self._home_parser.get_bathroom_count(title)
         if bathroom_count:
           self._assign_output_attr(BATHROOM_COUNT, bathroom_count)
 
@@ -184,9 +184,9 @@ class ListingBuilder(object):
       sqfeet = self._get_single_stripped_value(sqfeet)
       self._assign_output_attr(SQFEET, float(sqfeet))
     else:
-      desc = self.listing_attrs_output.get(DESCRIPTION)
-      if desc:
-        sqfeet = self._home_parser.get_sqfeet(desc)
+      title = self.listing_attrs_output.get(TITLE)
+      if title:
+        sqfeet = self._home_parser.get_sqfeet(title)
         if sqfeet:
           self._assign_output_attr(SQFEET, sqfeet)
 
@@ -197,9 +197,9 @@ class ListingBuilder(object):
       price = self._get_single_stripped_value(price)
       self._assign_output_attr(PRICE, float(price))
     else:
-      desc = self.listing_attrs_output.get(DESCRIPTION)
-      if desc:
-        price = self._home_parser.get_sqfeet(desc)
+      title = self.listing_attrs_output.get(TITLE)
+      if title:
+        price = self._home_parser.get_sqfeet(title)
         if price:
           self._assign_output_attr(PRICE, price)
 
