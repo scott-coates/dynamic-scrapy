@@ -314,3 +314,35 @@ def test_builder_gets_correct_bathroom_from_title_if_not_in_list():
                                                                             expected_sqfeet)
 
 # endregion
+
+#region price tests
+def test_builder_gets_correct_price_from_list():
+  price = '100'
+
+  builder = ListingBuilder(price=[price])
+
+  builder._build_price()
+
+  sqfeet_attr = builder.listing_attrs_output[listing_builder.PRICE]
+
+  expected_price = 100.0
+
+  assert sqfeet_attr == expected_price
+
+def test_builder_gets_correct_bathroom_from_title_if_not_in_list():
+  home_parser_mock = MagicMock(spec=home_parser)
+
+  expected_sqfeet = 100
+  home_parser_mock.get_sqfeet = MagicMock(return_value=expected_sqfeet)
+
+  builder = ListingBuilder(home_parser=home_parser_mock)
+
+  builder.listing_attrs_output = MagicMock()
+  builder.listing_attrs_output.get.return_value = True
+
+  builder._build_sqfeet()
+
+  assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.SQFEET,
+                                                                            expected_sqfeet)
+
+# endregion

@@ -189,6 +189,20 @@ class ListingBuilder(object):
         sqfeet = self._home_parser.get_sqfeet(desc)
         if sqfeet:
           self._assign_output_attr(SQFEET, sqfeet)
+
+  def _build_price(self):
+    price = self.listing_attrs_input.get(PRICE)
+
+    if price:
+      price = self._get_single_stripped_value(price)
+      self._assign_output_attr(PRICE, float(price))
+    else:
+      desc = self.listing_attrs_output.get(DESCRIPTION)
+      if desc:
+        price = self._home_parser.get_sqfeet(desc)
+        if price:
+          self._assign_output_attr(PRICE, price)
+
   #endregion
 
 
