@@ -235,7 +235,9 @@ class ListingBuilder(object):
 
     if contact_name:
       contact_name = self._get_single_stripped_value(contact_name)
-      self._assign_output_attr(CONTACT_NAME, self._contact_parser.get_contact_name(contact_name))
+      contact_name = self._contact_parser.get_contact_name(contact_name)
+      if contact_name:
+        self._assign_output_attr(CONTACT_NAME, contact_name)
 
   def _build_contact_phone_number(self):
     contact_phone_number = self.listing_attrs_input.get(CONTACT_PHONE_NUMBER)
@@ -290,6 +292,10 @@ class ListingBuilder(object):
     self._build_sqfeet()
     self._build_price()
     self._build_broker_fee()
+
+    self._build_contact_name()
+    self._build_contact_phone_number()
+    self._build_contact_email_address()
 
     return factories.construct_listing(**self.listing_attrs_output)
 
