@@ -9,6 +9,7 @@ from scrapy_test.libs.geo_utils.parsing import address_parser
 from scrapy_test.libs.housing_utils.parsing import home_parser
 
 # region title tests
+from scrapy_test.libs.text_utils.parsers import text_parser
 
 title_stripped = listing_test_data.cl_listing_3952467416['title']
 expected_title_stripped = listing_test_data.cl_listing_3952467416_expected_title
@@ -417,6 +418,7 @@ def test_builder_uses_name_parser_when_in_name_provided():
 
   assert contact_name == expected_name
 
+
 def test_builder_delegates_name_parsing_to_contact_parser():
   expected_name = 'foo bar'
 
@@ -458,6 +460,7 @@ def test_builder_delegates_phone_parsing_to_contact_parser():
 
   contact_parser_mock.get_contact_phone_number.assert_called_with(expected_phone_number)
 
+
 def test_builder_uses_description_for_phone_if_not_available():
   contact_parser_mock = MagicMock(spec=contact_parser)
 
@@ -472,7 +475,7 @@ def test_builder_uses_description_for_phone_if_not_available():
   builder._build_contact_phone_number()
 
   assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.CONTACT_PHONE_NUMBER,
-                                                                          expected_phone)
+                                                                            expected_phone)
 
 
 # endregion
@@ -493,6 +496,7 @@ def test_builder_uses_email_parser_when_in_name_provided():
 
   assert contact_phone_number == expected_email
 
+
 def test_builder_delegates_email_parsing_to_contact_parser():
   expected_email_address = 'test@test.com'
 
@@ -509,7 +513,7 @@ def test_builder_uses_description_for_email_if_not_available():
   contact_parser_mock = MagicMock(spec=contact_parser)
 
   expected_email = 'foo@bar.com'
-  contact_parser_mock.get_contact_email_address= MagicMock(return_value=expected_email)
+  contact_parser_mock.get_contact_email_address = MagicMock(return_value=expected_email)
 
   builder = ListingBuilder(contact_parser=contact_parser_mock)
 
@@ -532,4 +536,26 @@ def test_builder_gets_amenities_from_desc_if_not_in_list():
   builder._build_amenities()
 
   builder.listing_attrs_output.get.assert_called_with(listing_builder.DESCRIPTION)
+
+
+def test_builder_delegates_amenitiy_lookup_to_parser():
+  expected_amenities = [1, 2, 3]
+
+  text_parser_mock = MagicMock(spec=text_parser)
+
+  text_parser_mock.get_canonical_name_from_keywords = MagicMock(return_value=expected_amenities)
+
+  builder = ListingBuilder(text_parser=text_parser_mock)
+
+  builder.listing_attrs_output = MagicMock()
+
+  builder.listing_attrs_output.get.return_value = True
+
+  builder._build_amenities()
+
+  assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(
+    listing_builder.AMENITIES,
+    expected_amenities
+  )
+
 #endregion

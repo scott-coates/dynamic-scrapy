@@ -5,6 +5,7 @@ from scrapy_test.libs.communication_utils.parsing import contact_parser
 from scrapy_test.libs.datetime_utils.timezone import time_zone_abbreviations
 from scrapy_test.libs.geo_utils.parsing import address_parser
 from scrapy_test.libs.housing_utils.parsing import home_parser
+from scrapy_test.libs.text_utils.parsers import text_parser
 
 TITLE = 'title'
 DESCRIPTION = 'description'
@@ -34,13 +35,15 @@ AMENITIES = 'amenities'
 
 _newline_strip = '\r\n\t -'
 
+
 class ListingBuilder(object):
   def __init__(self, address_parser=address_parser, home_parser=home_parser,
-               contact_parser=contact_parser, **listing_attrs):
+               contact_parser=contact_parser, text_parser=text_parser, **listing_attrs):
     self.listing_attrs_input = listing_attrs
     self._address_parser = address_parser
     self._home_parser = home_parser
     self._contact_parser = contact_parser
+    self._text_parser = text_parser
     self.listing_attrs_output = {}
 
   def _get_single_stripped_value(self, attr, strip_chars=_newline_strip):
@@ -99,7 +102,8 @@ class ListingBuilder(object):
     if url:
       url = self._get_single_stripped_value(url)
       self._assign_output_attr(URL, url)
-  #endregion
+
+    #endregion
 
   #region address
   def _is_valid_address(self, address):
@@ -229,7 +233,8 @@ class ListingBuilder(object):
         broker_fee = self._home_parser.get_broker_fee_from_url(url)
         if broker_fee:
           self._assign_output_attr(BROKER_FEE, broker_fee)
-  #endregion
+
+    #endregion
 
   #region contact
   def _build_contact_name(self):
@@ -252,7 +257,7 @@ class ListingBuilder(object):
 
     if not contact_phone_number:
       desc = self.listing_attrs_output.get(DESCRIPTION)
-      if desc :
+      if desc:
         contact_phone_number = self._contact_parser.get_contact_phone_number(desc)
         if contact_phone_number:
           self._assign_output_attr(CONTACT_PHONE_NUMBER, contact_phone_number)
@@ -268,7 +273,7 @@ class ListingBuilder(object):
 
     if not contact_email_address:
       desc = self.listing_attrs_output.get(DESCRIPTION)
-      if desc :
+      if desc:
         contact_email_address = self._contact_parser.get_contact_email_address(desc)
         if contact_email_address:
           self._assign_output_attr(CONTACT_EMAIL_ADDRESS, contact_email_address)
@@ -282,10 +287,15 @@ class ListingBuilder(object):
 
     if not amenities:
       desc = self.listing_attrs_output.get(DESCRIPTION)
+      if desc:
+        amenities = desc
 
     if amenities:
-      pass #parse them
-
+      if not isinstance(amenities, collections.Iterable):
+        amenities = [amenities]
+      amenities = self._text_parser.get_canonical_name_from_keywords(amenities, {})
+      if amenities:
+        self._assign_output_attr(AMENITIES, amenities)
 
   #endregion
 
