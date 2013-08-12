@@ -26,6 +26,8 @@ PRICE = 'price'
 BROKER_FEE = 'broker_fee'
 
 CONTACT_NAME = 'contact_name'
+CONTACT_PHONE_NUMBER = 'contact_phone_number'
+CONTACT_EMAIL_ADDRESS = 'contact_email_address'
 
 _newline_strip = '\r\n\t -'
 
@@ -225,15 +227,16 @@ class ListingBuilder(object):
           self._assign_output_attr(BROKER_FEE, broker_fee)
   #endregion
 
-  def build_listing(self):
-    self._build_title()
-    self._build_description()
-    self._build_bedroom_count()
-    self._build_fees()
-    self._build_location()
-    self._build_contact_details()
-    self._build_amenities()
+  #region contact
+  def _build_contact_name(self):
+    contact_name = self.listing_attrs_input.get(CONTACT_NAME)
 
+    if contact_name:
+      contact_name = self._get_single_stripped_value(contact_name)
+      self._assign_output_attr(CONTACT_NAME, contact_name)
+  #endregion
+
+  def build_listing(self):
     return factories.construct_listing(**self.listing_attrs_output)
 
   def _assign_output_attr(self, key, value):
