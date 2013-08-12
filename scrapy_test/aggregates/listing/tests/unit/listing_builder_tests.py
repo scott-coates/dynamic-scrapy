@@ -431,33 +431,31 @@ def test_builder_delegates_name_parsing_to_contact_parser():
 # endregion
 
 #region contact phone number tests
-# def test_builder_gets_correct_contact_name_from_list():
-#   contact_name = 'foo bar'
+def test_builder_uses_phone_number_parser_when_in_name_provided():
+  expected_phone_number = '555-555-5555'
+
+  contact_parser_mock = MagicMock(spec=contact_parser)
+
+  contact_parser_mock.get_contact_phone_number = MagicMock(return_value=expected_phone_number)
+
+  builder = ListingBuilder(contact_parser=contact_parser_mock, contact_phone_number=[expected_phone_number])
+
+  builder._build_contact_phone_number()
+
+  contact_phone_number = builder.listing_attrs_output[listing_builder.CONTACT_PHONE_NUMBER]
+
+  assert contact_phone_number == expected_phone_number
+
+
+# def test_builder_delegates_name_parsing_to_contact_parser():
+#   expected_name = 'foo bar'
 #
-#   builder = ListingBuilder(contact_name=[contact_name])
+#   contact_parser_mock = MagicMock(spec=contact_parser)
+#
+#   builder = ListingBuilder(contact_parser=contact_parser_mock, contact_name=[expected_name])
 #
 #   builder._build_contact_name()
 #
-#   contact_name = builder.listing_attrs_output[listing_builder.CONTACT_NAME]
-#
-#   expected_name = contact_name
-#
-#   assert contact_name == expected_name
-#
-# def test_builder_gets_correct_broker_fee_from_url_if_not_in_list():
-#   home_parser_mock = MagicMock(spec=home_parser)
-#
-#   expected_fee = True
-#   home_parser_mock.get_broker_fee_from_url = MagicMock(return_value=expected_fee)
-#
-#   builder = ListingBuilder(home_parser=home_parser_mock)
-#
-#   builder.listing_attrs_output = MagicMock()
-#   builder.listing_attrs_output.get.return_value = True
-#
-#   builder._build_broker_fee()
-#
-#   assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.BROKER_FEE,
-#                                                                             expected_fee)
+#   contact_parser_mock.get_contact_name.assert_called_with('foo bar')
 
 # endregion

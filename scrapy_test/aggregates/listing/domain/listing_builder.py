@@ -236,6 +236,19 @@ class ListingBuilder(object):
     if contact_name:
       contact_name = self._get_single_stripped_value(contact_name)
       self._assign_output_attr(CONTACT_NAME, self._contact_parser.get_contact_name(contact_name))
+
+  def _build_contact_phone_number(self):
+    contact_phone_number = self.listing_attrs_input.get(CONTACT_PHONE_NUMBER)
+
+    if contact_phone_number:
+      contact_phone_number = self._get_single_stripped_value(contact_phone_number)
+      contact_phone_number = self._contact_parser.get_contact_phone_number(contact_phone_number)
+      if contact_phone_number:
+        self._assign_output_attr(CONTACT_PHONE_NUMBER, contact_phone_number)
+
+    if not contact_phone_number:
+      pass #use description
+
   #endregion
 
   def build_listing(self):
