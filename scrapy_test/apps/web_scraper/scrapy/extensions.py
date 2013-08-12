@@ -20,8 +20,9 @@ class StopOnDuplicateItem(object):
       duplicate = Listing.objects.filter(url=url).get()
 
       if timezone.now() - duplicate.created_date >= timedelta(hours=1):
-        # if this listing is being crawled again, but we just recently created it, don't crawling. This could happen if
-        #  we first encounter it on page 100.html but new posts appeared and forced this to 200.html, the next page.
+        # if this listing is being crawled again, but we just recently created it,
+        # don't stop crawling. This could happen if
+        # we first encounter it on page 100.html but new posts appeared and forced this to 200.html, the next page.
 
         if item['last_updated_date'] == duplicate.last_updated_date:
         # if this listing was created a long time ago but just recently re-newed or re-updated.
