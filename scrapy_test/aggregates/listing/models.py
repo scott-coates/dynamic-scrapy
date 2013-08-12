@@ -40,7 +40,7 @@ class Listing(models.Model, AggregateBase):
 
   contact_name = models.CharField(max_length=255, blank=True, null=True)
   contact_phone_number = PhoneNumberField(blank=True, null=True)
-  contact_email = models.EmailField(blank=True, null=True)
+  contact_email_address = models.EmailField(blank=True, null=True)
 
   requires_sanity_checking = models.BooleanField()
   validation_parsing_errors = jsonfield.JSONField(blank=True, null=True)

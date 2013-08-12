@@ -25,6 +25,8 @@ SQFEET = 'sqfeet'
 PRICE = 'price'
 BROKER_FEE = 'broker_fee'
 
+CONTACT_NAME = 'contact_name'
+
 _newline_strip = '\r\n\t -'
 
 
