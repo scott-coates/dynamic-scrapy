@@ -75,11 +75,6 @@ MIDDLEWARE_CLASSES += (
 
 
 ########## TESTING CONFIGURATION
-# See: https://github.com/jbalogh/django-nose
 INSTALLED_APPS += (
-  'django_nose',
 )
-
-# See: https://github.com/jbalogh/django-nose#installation
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-########## END TOOLBAR CONFIGURATION
+########## END TESTING CONFIGURATION
