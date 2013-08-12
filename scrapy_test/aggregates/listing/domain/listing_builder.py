@@ -30,6 +30,8 @@ CONTACT_NAME = 'contact_name'
 CONTACT_PHONE_NUMBER = 'contact_phone_number'
 CONTACT_EMAIL_ADDRESS = 'contact_email_address'
 
+AMENITIES = 'amenities'
+
 _newline_strip = '\r\n\t -'
 
 class ListingBuilder(object):
@@ -270,6 +272,20 @@ class ListingBuilder(object):
         contact_email_address = self._contact_parser.get_contact_email_address(desc)
         if contact_email_address:
           self._assign_output_attr(CONTACT_EMAIL_ADDRESS, contact_email_address)
+
+  #endregion
+
+  #region amenities
+
+  def _build_amenities(self):
+    amenities = self.listing_attrs_input.get(AMENITIES)
+
+    if not amenities:
+      desc = self.listing_attrs_output.get(DESCRIPTION)
+
+    if amenities:
+      pass #parse them
+
 
   #endregion
 

@@ -523,3 +523,13 @@ def test_builder_uses_description_for_email_if_not_available():
 
 
 # endregion
+
+#region amenity tests
+def test_builder_gets_amenities_from_desc_if_not_in_list():
+  builder = ListingBuilder()
+
+  builder.listing_attrs_output = MagicMock()
+  builder._build_amenities()
+
+  builder.listing_attrs_output.get.assert_called_with(listing_builder.DESCRIPTION)
+#endregion
