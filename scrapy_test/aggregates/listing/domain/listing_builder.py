@@ -253,6 +253,21 @@ class ListingBuilder(object):
         if contact_phone_number:
           self._assign_output_attr(CONTACT_PHONE_NUMBER, contact_phone_number)
 
+  def _build_contact_email_address(self):
+    contact_email_address = self.listing_attrs_input.get(CONTACT_EMAIL_ADDRESS)
+
+    if contact_email_address:
+      contact_email_address = self._get_single_stripped_value(contact_email_address)
+      contact_email_address = self._contact_parser.get_contact_email_address(contact_email_address)
+      if contact_email_address:
+        self._assign_output_attr(CONTACT_EMAIL_ADDRESS, contact_email_address)
+
+    if not contact_email_address:
+      desc = self.listing_attrs_output.get(DESCRIPTION)
+      if desc :
+        contact_email_address = self._contact_parser.get_contact_email_address(desc)
+        if contact_email_address:
+          self._assign_output_attr(CONTACT_EMAIL_ADDRESS, contact_email_address)
 
   #endregion
 

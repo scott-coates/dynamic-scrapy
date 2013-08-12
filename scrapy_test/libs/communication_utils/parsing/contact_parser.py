@@ -40,3 +40,6 @@ def get_contact_phone_number(phone_number_str):
 
   return phone_number
 
+def get_contact_email_address(contact_email_address_str):
+  ret_val = None
+  return ret_val
