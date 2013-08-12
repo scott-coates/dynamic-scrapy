@@ -8,6 +8,7 @@ price_pattern = re.compile(r"\$(\S+)", re.IGNORECASE)
 
 logger = logging.getLogger(__name__)
 
+
 def get_bedroom_count(bedroom_str):
   ret_val = None
   if 'studio' in bedroom_str:
@@ -21,6 +22,7 @@ def get_bedroom_count(bedroom_str):
         logger.warn("Error casting bedroom count: {0}".format(bedroom_str), exc_info=1)
   return ret_val
 
+
 def get_bathroom_count(bathroom_str):
   ret_val = None
   match = bathroom_pattern.search(bathroom_str)
@@ -31,6 +33,7 @@ def get_bathroom_count(bathroom_str):
       logger.warn("Error casting bathroom count: {0}".format(bathroom_str), exc_info=1)
 
   return ret_val
+
 
 def get_sqfeet(sqfeet_str):
   ret_val = None
@@ -43,6 +46,7 @@ def get_sqfeet(sqfeet_str):
 
   return ret_val
 
+
 def get_price(price_str):
   ret_val = None
   match = price_pattern.search(price_str)
@@ -51,5 +55,11 @@ def get_price(price_str):
       ret_val = float(match.groups()[0])
     except:
       logger.warn("Error casting price count: {0}".format(price_str), exc_info=1)
+
+  return ret_val
+
+
+def get_broker_fee_from_url(url):
+  ret_val = (url.split('/')[-2] == 'fee')
 
   return ret_val
