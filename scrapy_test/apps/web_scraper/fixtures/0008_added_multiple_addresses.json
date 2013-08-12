@@ -420,7 +420,7 @@
     "model": "dynamic_scraper.scraperelem",
     "fields": {
       "proc_ctxt": "",
-      "x_path": "//*[@*='cltags']//li[contains(.,'Listed By:')]/text()[normalize-space(.)] | //*[@*='postingbody']//text()",
+      "x_path": "//*[@*='cltags']//li[contains(.,'Listed By:')]/text()[normalize-space(.)]",
       "processors": "",
       "scraped_obj_attr": 18,
       "scraper": 1,
@@ -434,7 +434,7 @@
     "model": "dynamic_scraper.scraperelem",
     "fields": {
       "proc_ctxt": "",
-      "x_path": "//*[@*='cltags']//li[contains(.,'Listed By:')]/text()[normalize-space(.)] | //*[@*='postingbody']//text()",
+      "x_path": "//*[@*='cltags']//li[contains(.,'Listed By:')]/text()[normalize-space(.)]",
       "processors": "",
       "scraped_obj_attr": 19,
       "scraper": 1,
@@ -448,7 +448,7 @@
     "model": "dynamic_scraper.scraperelem",
     "fields": {
       "proc_ctxt": "",
-      "x_path": "//*[@*='cltags']//li[contains(.,'Listed By:')]/text()[normalize-space(.)] | //*[@*='postingbody']//text()",
+      "x_path": "//*[@*='cltags']//li[contains(.,'Listed By:')]/text()[normalize-space(.)]",
       "processors": "",
       "scraped_obj_attr": 20,
       "scraper": 1,
