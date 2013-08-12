@@ -1,0 +1,178 @@
+[
+  {
+    "pk": 1,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Doorman",
+      "aliases": "doorman\r\ndoor-man"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Extra Storage",
+      "aliases": "storage"
+    }
+  },
+  {
+    "pk": 8,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Pool",
+      "aliases": "pool"
+    }
+  },
+  {
+    "pk": 9,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Recycling Available",
+      "aliases": "recycling available"
+    }
+  },
+  {
+    "pk": 12,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Cable Ready",
+      "aliases": "cable ready\r\ncable-ready\r\ncable\r\n"
+    }
+  },
+  {
+    "pk": 15,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Stove",
+      "aliases": "stove\r\nstove/oven"
+    }
+  },
+  {
+    "pk": 16,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Walk-in Closets",
+      "aliases": "walk-in\r\nwalk in\r\nwalkin closet"
+    }
+  },
+  {
+    "pk": 14,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Hardwood Floors",
+      "aliases": "oak floors\r\noak wood\r\nhardwood\r\nhard wood\r\nwood floor\r\nwood floors\r\nwood flooring\r\nhwd floor\r\nhwf\r\nhard-wood"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Elevator",
+      "aliases": "elevator\r\nelv"
+    }
+  },
+  {
+    "pk": 23,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Balcony, Patio, Deck",
+      "aliases": "balcony\r\npatio\r\ndeck\r\nroof access"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Laundry Facility",
+      "aliases": "laundry in bldg\r\nlaundry in building\r\nlaundry available\r\nlaundry room\r\nonsite laundry\r\non site laundry\r\nbasement laundry\r\ncentral laundry\r\nw/d in building\r\nw/d in the building\r\nwasher/dryer in the building\r\nwasher/dryers in basement \r\nwasher/dryer in basement\r\nwasher/dryer in the basement\r\nwasher/dryers in the basement\r\nwashers/dryers in basement\r\nwashers/dryers in the basement\r\nwasher and dryer in the building\r\nlaundry in the building\r\nlaundry on-site\r\nwith laundry\r\nlaundry facility\r\nlaundry facilities\r\nlaundry in basement\r\nlaundry building\r\nwasher and dryer on facilities"
+    }
+  },
+  {
+    "pk": 18,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Yard",
+      "aliases": "yard\r\ngarden\r\noutdoor space\r\nbackyard"
+    }
+  },
+  {
+    "pk": 19,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "No Pets",
+      "aliases": "no pets\r\nno dogs\r\nno cats\r\ndogs not allowed\r\npets not allowed"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Fitness Center",
+      "aliases": "gym\r\nworkout\r\nfitness center"
+    }
+  },
+  {
+    "pk": 13,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Dishwasher",
+      "aliases": "dishwasher\r\ndw\r\nd/w\r\nd.washer\r\ndish washer"
+    }
+  },
+  {
+    "pk": 6,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Onsite Personnel",
+      "aliases": "superintendent\r\non site super\r\non-site super\r\nconcierge\r\nlive-in super\r\nlive in super\r\nlivein super\r\nsuper on-site\r\nsuper on site\r\nsuper on premises\r\nsuper in building\r\nmanager on-site\r\non-site management\r\non-site manager\r\nattended lobby"
+    }
+  },
+  {
+    "pk": 7,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Parking Available",
+      "aliases": "parking available\r\nparking is available\r\non site parking\r\non-site parking\r\nonsite parking\r\nparking included\r\nparking is included\r\ncovered parking"
+    }
+  },
+  {
+    "pk": 21,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Cats OK",
+      "aliases": "cats ok\r\ncat ok\r\npet friendly\r\npets allowed\r\npets upon approval"
+    }
+  },
+  {
+    "pk": 22,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Dogs OK",
+      "aliases": "dogs ok\r\ndog ok\r\npet friendly\r\npets allowed\r\npets upon approval"
+    }
+  },
+  {
+    "pk": 11,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Air Conditioning",
+      "aliases": "air conditioning\r\ncentral air\r\na/c\r\ncentral a/c\r\ncentral air conditioning"
+    }
+  },
+  {
+    "pk": 17,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Washer/Dryer in Unit",
+      "aliases": "washer & dryer in apartment\r\nstacked washer/dryer\r\nwasherdryer in the apartment\r\nwasherdryer in the unit\r\nwasherdryer within the unit\r\nwasherdryer within the apartment\r\nwasherdryer en suite\r\nlaundry in apartment\r\nlaundry in apt\r\nlaundry in unit\r\nwasherdryers\r\nwasherdryer\r\nwashersdryer\r\nwashersdryers\r\nwd\r\nwasher and dryer in unit\r\nwasher dryer in unit\r\nwasher & dryer in the units"
+    }
+  },
+  {
+    "pk": 10,
+    "model": "amenity.amenity",
+    "fields": {
+      "name": "Some Utilities Covered",
+      "aliases": "heat&hot water\r\nheat & hot water\r\nheat& hot water\r\nheat &hot water\r\nheat and hot water\r\nhot water&heat\r\nhot water & heat\r\nhot water& heat\r\nhot water &heat\r\nhot water and heat\r\nheat included\r\nwater included\r\nutilities included\r\nheat, hw, and gas\r\nheat and hw\r\nall utilities are included\r\nall utilities included"
+    }
+  }
+]

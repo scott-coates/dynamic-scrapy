@@ -13,6 +13,5 @@ class Amenity(models.Model):
 
       amenity_service.save_or_update(self)
 
-
-def __unicode__(self):
-  return self.name
+  def __unicode__(self):
+    return self.name
