@@ -1,4 +1,5 @@
 import collections
+from scrapy_test.aggregates.amenity.services import amenity_service
 from scrapy_test.aggregates.listing import factories
 from dateutil.parser import parse
 from scrapy_test.libs.communication_utils.parsing import contact_parser
@@ -37,13 +38,17 @@ _newline_strip = '\r\n\t -'
 
 
 class ListingBuilder(object):
-  def __init__(self, address_parser=address_parser, home_parser=home_parser,
-               contact_parser=contact_parser, text_parser=text_parser, **listing_attrs):
+  def __init__(
+      self, address_parser=address_parser, home_parser=home_parser,
+      contact_parser=contact_parser, text_parser=text_parser, amenity_service=amenity_service,
+      **listing_attrs
+  ):
     self.listing_attrs_input = listing_attrs
     self._address_parser = address_parser
     self._home_parser = home_parser
     self._contact_parser = contact_parser
     self._text_parser = text_parser
+    self._amenity_service = amenity_service
     self.listing_attrs_output = {}
 
   def _get_single_stripped_value(self, attr, strip_chars=_newline_strip):
@@ -103,7 +108,7 @@ class ListingBuilder(object):
       url = self._get_single_stripped_value(url)
       self._assign_output_attr(URL, url)
 
-    #endregion
+      #endregion
 
   #region address
   def _is_valid_address(self, address):
@@ -234,7 +239,7 @@ class ListingBuilder(object):
         if broker_fee:
           self._assign_output_attr(BROKER_FEE, broker_fee)
 
-    #endregion
+          #endregion
 
   #region contact
   def _build_contact_name(self):
@@ -293,7 +298,12 @@ class ListingBuilder(object):
     if amenities:
       if not isinstance(amenities, collections.Iterable):
         amenities = [amenities]
-      amenities = self._text_parser.get_canonical_name_from_keywords(amenities, {})
+
+      amenities = self._text_parser.get_canonical_name_from_keywords(
+        amenities,
+        self._amenity_service.get_keyword_hash()
+      )
+
       if amenities:
         self._assign_output_attr(AMENITIES, amenities)
 

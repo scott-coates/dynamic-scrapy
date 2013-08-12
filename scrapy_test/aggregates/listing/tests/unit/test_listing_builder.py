@@ -1,6 +1,7 @@
 import datetime
 from mock import MagicMock, call
 import pytest
+from scrapy_test.aggregates.amenity.services import amenity_service
 from scrapy_test.aggregates.listing.domain import listing_builder
 from scrapy_test.aggregates.listing.domain.listing_builder import ListingBuilder
 from scrapy_test.aggregates.listing.tests.unit import listing_test_data
@@ -530,7 +531,9 @@ def test_builder_uses_description_for_email_if_not_available():
 
 #region amenity tests
 def test_builder_gets_amenities_from_desc_if_not_in_list():
-  builder = ListingBuilder()
+  amenity_service_mock = MagicMock(spec=amenity_service)
+
+  builder = ListingBuilder(amenity_service=amenity_service_mock)
 
   builder.listing_attrs_output = MagicMock()
   builder._build_amenities()
@@ -545,7 +548,9 @@ def test_builder_delegates_amenitiy_lookup_to_parser():
 
   text_parser_mock.get_canonical_name_from_keywords = MagicMock(return_value=expected_amenities)
 
-  builder = ListingBuilder(text_parser=text_parser_mock)
+  amenity_service_mock = MagicMock(spec=amenity_service)
+
+  builder = ListingBuilder(text_parser=text_parser_mock, amenity_service=amenity_service_mock)
 
   builder.listing_attrs_output = MagicMock()
 
