@@ -47,12 +47,7 @@ class Listing(models.Model, AggregateBase):
 
   apartment = models.ForeignKey('apartment.Apartment', related_name='listings', blank=True, null=True)
 
-  # amenities = dbarray.TextArrayField(blank=True, null=True)
-  # pets               = models.ManyToManyField('pet.Pet',                          blank=True, null=True)
-  # building_amenities = models.ManyToManyField('building_amenity.BuildingAmenity', blank=True, null=True)
-  # building_types     = models.ManyToManyField('building_type.BuildingType',       blank=True, null=True)
-  # unit_amenities     = models.ManyToManyField('unit_amenity.UnitAmenity',         blank=True, null=True)
-  # unit_types         = models.ManyToManyField('unit_type.UnitType',               blank=True, null=True)
+  amenities = models.ManyToManyField('amenity.Amenity', blank=True, null=True)
 
   #is the listing actually viewable on an external website?
   is_alive = models.BooleanField()
