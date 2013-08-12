@@ -1,43 +1,43 @@
 from functools import partial
-from django.test import SimpleTestCase
 from mock import MagicMock
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.common_domain.event_record import EventRecord
 from scrapy_test.libs.common_domain.event_signal import EventSignal
 
 
-class AggregateBaseTestCase(SimpleTestCase):
-  class TestAggregate(AggregateBase):
-    pass
+class TestAggregate(AggregateBase):
+  pass
 
-  def test_aggregate_base_sends_event_in_order(self):
-    results = []
 
-    def side_effect(signal_num, *ignore_me):
-      results.append(signal_num)
+def test_aggregate_base_sends_event_in_order():
+  results = []
 
-    aggregate_test = AggregateBaseTestCase.TestAggregate()
+  def side_effect(signal_num, *ignore_me):
+    results.append(signal_num)
 
-    signal1 = MagicMock(spec=EventRecord)
-    signal1.event_obj.send = MagicMock(side_effect=partial(side_effect, 1))
-    signal2 = MagicMock(spec=EventRecord)
-    signal2.event_obj.send = MagicMock(side_effect=partial(side_effect, 2))
+  aggregate_test = TestAggregate()
 
-    aggregate_test._uncommitted_events.append(signal1)
-    aggregate_test._uncommitted_events.append(signal2)
+  signal1 = MagicMock(spec=EventRecord)
+  signal1.event_obj.send = MagicMock(side_effect=partial(side_effect, 1))
+  signal2 = MagicMock(spec=EventRecord)
+  signal2.event_obj.send = MagicMock(side_effect=partial(side_effect, 2))
 
-    aggregate_test.send_events()
+  aggregate_test._uncommitted_events.append(signal1)
+  aggregate_test._uncommitted_events.append(signal2)
 
-    self.assertListEqual(results, [1, 2])
+  aggregate_test.send_events()
 
-  def test_aggregate_uses_correct_naming_convention_when_applying(self):
-    aggregate_test = AggregateBaseTestCase.TestAggregate()
+  assert results == [1, 2]
 
-    event = MagicMock(spec=EventSignal)
-    event.name = 'test'
 
-    aggregate_test._handle_test_event = MagicMock()
+def test_aggregate_uses_correct_naming_convention_when_applying():
+  aggregate_test = TestAggregate()
 
-    aggregate_test._apply_event(event)
+  event = MagicMock(spec=EventSignal)
+  event.name = 'test'
 
-    aggregate_test._handle_test_event.assert_called_with()
+  aggregate_test._handle_test_event = MagicMock()
+
+  aggregate_test._apply_event(event)
+
+  aggregate_test._handle_test_event.assert_called_with()
