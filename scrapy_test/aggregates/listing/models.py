@@ -47,8 +47,6 @@ class Listing(models.Model, AggregateBase):
 
   apartment = models.ForeignKey('apartment.Apartment', related_name='listings', blank=True, null=True)
 
-  amenities = models.ManyToManyField('amenity.Amenity', blank=True, null=True)
-
   #is the listing actually viewable on an external website?
   is_alive = models.BooleanField()
   #did we manually delete this?
@@ -103,7 +101,7 @@ class Listing(models.Model, AggregateBase):
   def make_sanitized(self):
     self._raise_event(sanitized, sender=Listing, instance=self)
 
-  def make_unsanitized(self,errors):
+  def make_unsanitized(self, errors):
     self._raise_event(unsanitized, sender=Listing, errors=errors, instance=self)
 
   def make_deleted(self):
@@ -149,3 +147,12 @@ class Listing(models.Model, AggregateBase):
       from scrapy_test.aggregates.listing.services import listing_service
 
       listing_service.save_or_update(self)
+
+
+class Amenity(models.Model):
+  is_available = models.BooleanField()
+  listing = models.ForeignKey(Listing, related_name='amenities')
+  amenity_type = models.ForeignKey('amenity.Amenity', related_name='listing_instance')
+
+  class Meta:
+    unique_together = ("listing", "amenity_type")
