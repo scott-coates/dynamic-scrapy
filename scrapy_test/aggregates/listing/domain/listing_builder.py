@@ -37,7 +37,7 @@ class ListingBuilder(object):
     self.listing_attrs_input = listing_attrs
     self._address_parser = address_parser
     self._home_parser = home_parser
-    self.listing_attrs_output = listing_attrs
+    self.listing_attrs_output = {}
 
   def _get_single_stripped_value(self, attr, strip_chars=_newline_strip):
     if not isinstance(attr, basestring):
