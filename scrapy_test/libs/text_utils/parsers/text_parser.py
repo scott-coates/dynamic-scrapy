@@ -4,7 +4,7 @@ from collections import namedtuple
 
 logger = logging.getLogger(__name__)
 
-CanonicalNameResult = namedtuple('CanonicalNameResult', 'keyword_id is_truthy')
+CanonicalNameResult = namedtuple('CanonicalNameResult', 'keyword_id is_available')
 
 
 def get_canonical_name_from_keywords(content, keywords):
