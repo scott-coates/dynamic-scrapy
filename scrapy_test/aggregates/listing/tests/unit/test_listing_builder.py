@@ -536,6 +536,7 @@ def test_builder_gets_amenities_from_desc_if_not_in_list():
   builder = ListingBuilder(amenity_service=amenity_service_mock)
 
   builder.listing_attrs_output = MagicMock()
+  builder.listing_attrs_output.get.return_value = 'IGNORE ME'
   builder._build_amenities()
 
   builder.listing_attrs_output.get.assert_called_with(listing_builder.DESCRIPTION)
@@ -554,7 +555,7 @@ def test_builder_delegates_amenitiy_lookup_to_parser():
 
   builder.listing_attrs_output = MagicMock()
 
-  builder.listing_attrs_output.get.return_value = True
+  builder.listing_attrs_output.get.return_value = 'IGNORE ME'
 
   builder._build_amenities()
 
