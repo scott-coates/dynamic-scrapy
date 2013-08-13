@@ -1,4 +1,5 @@
 import logging
+from django.core.exceptions import ValidationError
 
 from django.db import models, transaction
 import jsonfield
@@ -10,6 +11,7 @@ from scrapy_test.aggregates.listing_source.models import ListingSource
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.django_utils.models.utils import copy_django_model_attrs
 from scrapy_test.libs.common_domain.models import RevisionEvent
+from scrapy_test.libs.geo_utils.parsing import address_parser
 
 
 logger = logging.getLogger(__name__)
@@ -57,11 +59,35 @@ class Listing(models.Model, AggregateBase):
 
 
   @classmethod
-  def _from_attrs(cls, **kwargs):
+  def _from_attrs(cls, address_parser=address_parser, **kwargs):
     #todo some validation should go here and in the command handler (zip code validation, etc)
     ret_val = cls()
 
     if not kwargs.get('listing_source_id'): raise TypeError('listing source id is required')
+
+    price = kwargs.get('price')
+    if not price:
+      raise TypeError("price is required")
+    elif price < .01:
+      raise ValidationError("price is not valid: {0}".format(price))
+
+    lat = kwargs.get('lat')
+    if not lat:
+      raise TypeError("lat is required")
+    elif lat < .01:
+      raise ValidationError("lat is not valid: {0}".format(lat))
+
+    lng = kwargs.get('lng')
+    if not lng:
+      raise TypeError("lng is required")
+    elif price < .01:
+      raise ValidationError("lng is not valid: {0}".format(lng))
+
+    zip_code = kwargs.get('zip_code')
+    if not zip_code:
+      raise TypeError("zip_code is required")
+    elif not address_parser.is_valid_zip_code(zip_code):
+      raise ValidationError("zip_code is not valid: {0}".format(zip_code))
 
     ret_val._raise_event(created, sender=Listing, instance=ret_val, attrs=kwargs)
 
