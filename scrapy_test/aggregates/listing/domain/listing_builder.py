@@ -8,6 +8,8 @@ from scrapy_test.libs.geo_utils.parsing import address_parser
 from scrapy_test.libs.housing_utils.parsing import home_parser
 from scrapy_test.libs.text_utils.parsers import text_parser
 
+LISTING_SOURCE = 'listing_source_id'
+
 TITLE = 'title'
 DESCRIPTION = 'description'
 POSTED_DATE = 'posted_date'
@@ -60,6 +62,13 @@ class ListingBuilder(object):
     attr = attr.strip(strip_chars)
     return attr
 
+  #region listing source
+  def _build_listing_source(self):
+    listing_source = self.listing_attrs_input.get(LISTING_SOURCE)
+    self._assign_output_attr(LISTING_SOURCE, listing_source)
+
+  #endregion
+
   #region summary
   def _build_title(self):
     title = self.listing_attrs_input.get(TITLE, None)
@@ -108,7 +117,7 @@ class ListingBuilder(object):
       url = self._get_single_stripped_value(url)
       self._assign_output_attr(URL, url)
 
-      #endregion
+  #endregion
 
   #region address
   def _is_valid_address(self, address):
@@ -239,7 +248,7 @@ class ListingBuilder(object):
         if broker_fee:
           self._assign_output_attr(BROKER_FEE, broker_fee)
 
-          #endregion
+  #endregion
 
   #region contact
   def _build_contact_name(self):
@@ -310,6 +319,8 @@ class ListingBuilder(object):
   #endregion
 
   def build_listing(self):
+    self._build_listing_source()
+
     self._build_title()
     self._build_description()
     self._build_posted_date()

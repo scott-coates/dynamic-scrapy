@@ -61,7 +61,7 @@ class Listing(models.Model, AggregateBase):
     #todo some validation should go here and in the command handler (zip code validation, etc)
     ret_val = cls()
 
-    if 'listing_source_id' not in kwargs: raise TypeError('listing source id is required')
+    if not kwargs.get('listing_source_id'): raise TypeError('listing source id is required')
 
     ret_val._raise_event(created, sender=Listing, instance=ret_val, attrs=kwargs)
 
