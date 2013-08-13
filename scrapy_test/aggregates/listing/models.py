@@ -18,6 +18,10 @@ logger = logging.getLogger(__name__)
 
 
 class Listing(models.Model, AggregateBase):
+  def __init__(self, *args, **kwargs):
+    super(Listing, self).__init__(*args, **kwargs)
+    self._amenity_list = []
+
   listing_source = models.ForeignKey(ListingSource)
 
   title = models.CharField(max_length=8000)
@@ -136,6 +140,10 @@ class Listing(models.Model, AggregateBase):
   #region event handlers
 
   def _handle_created_event(self, **kwargs):
+    amenities = kwargs.pop('amenities', None)
+    if amenities:
+      self._amenity_list.extend(amenities)
+
     # django model constructor has pretty smart logic for mass assignment
     copy_django_model_attrs(self, **kwargs.get('attrs'))
 
@@ -165,6 +173,11 @@ class Listing(models.Model, AggregateBase):
       with transaction.commit_on_success():
         with reversion.create_revision():
           super(Listing, self).save(*args, **kwargs)
+
+          for a in self._amenity_list:
+            #add actually does a save internally, hitting the db
+            self.amenities.add(a)
+
           for event in self._uncommitted_events:
             reversion.add_meta(RevisionEvent, name=event.event_fq_name, version=event.version)
 
