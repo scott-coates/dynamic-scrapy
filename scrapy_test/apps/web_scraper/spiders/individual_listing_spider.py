@@ -7,6 +7,9 @@ class IndividualListingSpider(IndividualItemSpider, ListingSpider):
   name = 'individual_listing_spider'
 
   def __init__(self, *args, **kwargs):
+    #hack process based utils expects id to be a primary key, but we're passing in a url
+    #if we just passed in url, processbased utils would not forward it onto the crawler process
+
     url = kwargs['id']
 
     #get the root domain - but this is pretty naive. consider
