@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 class Listing(models.Model, AggregateBase):
+  #todo put in unique constraints (zip, lat, lng, etc)
   def __init__(self, *args, **kwargs):
     super(Listing, self).__init__(*args, **kwargs)
     self._amenity_list = []
