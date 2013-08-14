@@ -140,12 +140,12 @@ class Listing(models.Model, AggregateBase):
   #region event handlers
 
   def _handle_created_event(self, **kwargs):
-    amenities = kwargs.pop('amenities', None)
+    amenities = kwargs['attrs'].pop('amenities', None)
     if amenities:
       self._amenity_list.extend(amenities)
 
     # django model constructor has pretty smart logic for mass assignment
-    copy_django_model_attrs(self, **kwargs.get('attrs'))
+    copy_django_model_attrs(self, **kwargs['attrs'])
 
     logger.info("{0} has been created".format(self))
 
