@@ -4,7 +4,10 @@ from dynamic_scraper.spiders.django_spider import DjangoSpider
 class IndividualItemSpider(DjangoSpider):
   def parse(self, response):
     url_elem = self.scraper.get_detail_page_url_elem()
+
+    #the loader in the DJspider class expects a dict to populate
     response.request.meta['item'] = self.scraped_obj_item_class()
+
     item = self.parse_item(response)
     url_name = url_elem.scraped_obj_attr.name
     if item:
