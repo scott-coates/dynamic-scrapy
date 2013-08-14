@@ -9,9 +9,9 @@ class ListingSpider(DjangoSpider):
   name = 'listing_spider'
 
   def __init__(self, *args, **kwargs):
-    self._set_ref_object(ListingSourceScraperConfig, **kwargs)
-    self.scraper = self.ref_object.scraper
-    self.scrape_url = self.ref_object.listing_source.url
+    if not self.ref_object: self._set_ref_object(ListingSourceScraperConfig, **kwargs)
+    if not self.scraper: self.scraper = self.ref_object.scraper
+    if not self.scrape_url: self.scrape_url = self.ref_object.listing_source.url
     self.scheduler_runtime = self.ref_object.scraper_runtime
     self.scraped_obj_class = Listing
     self.scraped_obj_item_class = ListingScrapyItem

@@ -9,7 +9,7 @@ def run_spiders():
   t = ProcessBasedUtils()
   t.run_spiders(ListingSourceScraperConfig, 'scraper', 'scraper_runtime', 'listing_spider')
 
-def run_individual_item_spider(url):
+def run_individual_listing_spider(url):
   t = IndividualProcessBasedItemLauncher()
   t.run_spider('individual_listing_spider', url)
 

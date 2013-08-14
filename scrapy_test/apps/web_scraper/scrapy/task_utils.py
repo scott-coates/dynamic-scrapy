@@ -8,6 +8,8 @@ class IndividualItemLauncher(object):
 
 class IndividualProcessBasedItemLauncher(IndividualItemLauncher, ProcessBasedUtils):
   def run_spider(self, spider_name, url):
-    super(IndividualProcessBasedItemLauncher, self)._run_spider(run_type='TASK', do_action='yes')
-    self._run_spider(spider=spider_name, url=url)
-
+    #hack process based utils expects id to be a primary key, but we're passing in a url
+    #if we just passed in url, processbased utils would not forward it onto the crawler process
+    super(IndividualProcessBasedItemLauncher, self)._run_spider(
+      id=url, run_type='TASK', do_action='yes', spider=spider_name
+    )
