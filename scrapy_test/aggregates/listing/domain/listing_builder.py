@@ -43,6 +43,7 @@ class ListingBuilder(object):
   def __init__(
       self, address_parser=address_parser, home_parser=home_parser,
       contact_parser=contact_parser, text_parser=text_parser, amenity_service=amenity_service,
+      geo_service=geo_service,
       **listing_attrs
   ):
     self.listing_attrs_input = listing_attrs
@@ -51,6 +52,7 @@ class ListingBuilder(object):
     self._contact_parser = contact_parser
     self._text_parser = text_parser
     self._amenity_service = amenity_service
+    self._geo_service=geo_service
     self.listing_attrs_output = {}
 
   def _get_single_stripped_value(self, attr, strip_chars=_newline_strip):
@@ -104,6 +106,7 @@ class ListingBuilder(object):
       last_updated_date = self._get_single_stripped_value(last_updated_date)
 
       try:
+        #todo make this a dependent service
         last_updated_date = parse(last_updated_date, tzinfos=time_zone_abbreviations)
       except:
         raise Exception("invalid date: %s" % last_updated_date)
