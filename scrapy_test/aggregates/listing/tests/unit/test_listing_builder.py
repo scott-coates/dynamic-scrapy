@@ -6,6 +6,7 @@ from scrapy_test.aggregates.listing.domain import listing_builder
 from scrapy_test.aggregates.listing.domain.listing_builder import ListingBuilder
 from scrapy_test.aggregates.listing.tests.unit import listing_test_data
 from scrapy_test.libs.communication_utils.parsing import contact_parser
+from scrapy_test.libs.datetime_utils.parsers import datetime_parser
 from scrapy_test.libs.geo_utils.parsing import address_parser
 from scrapy_test.libs.housing_utils.parsing import home_parser
 
@@ -53,35 +54,56 @@ def test_builder_description_combines_elements_into_scalar_description():
 # endregion
 
 # region date tests
-@pytest.fixture
-def posted_date_3952467416():
-  builder = ListingBuilder(posted_date=listing_test_data.cl_listing_3952467416[listing_builder.POSTED_DATE])
-  builder._build_posted_date()
-  date = builder.listing_attrs_output[listing_builder.POSTED_DATE]
-  return date
 
+def test_builder_uses_datetime_parser():
+  datetime_parser_mock = MagicMock(spec=datetime_parser)
 
-@pytest.fixture
-def last_updated_date_3952467416():
-  builder = ListingBuilder(
-    last_updated_date=listing_test_data.cl_listing_3952467416[listing_builder.LAST_UPDATED_DATE]
+  datetime_parser_mock.get_datetime = MagicMock(
+    return_value=listing_test_data.cl_listing_3952467416[listing_builder.POSTED_DATE]
   )
 
-  builder._build_last_updated_date()
-  date = builder.listing_attrs_output[listing_builder.LAST_UPDATED_DATE]
+  some_time = 'SOME TIME'
+
+  builder = ListingBuilder(datetime_parser=datetime_parser_mock, posted_date=some_time)
+
+  builder._build_posted_date()
+
+  datetime_parser_mock.get_datetime.assert_called_with(some_time)
+
+
+def test_builder_sets_posted_date_to_correct_date():
+  datetime_parser_mock = MagicMock(spec=datetime_parser)
+
+  datetime_parser_mock.get_datetime = MagicMock(
+    return_value=listing_test_data.cl_listing_3952467416[listing_builder.POSTED_DATE]
+  )
+
+  builder = ListingBuilder(datetime_parser=datetime_parser_mock, posted_date='IGNOREME')
+
+  builder._build_posted_date()
+
+  date = builder.listing_attrs_output[listing_builder.POSTED_DATE]
+
   return date
 
 
-def test_builder_sets_posted_date_to_date_type(posted_date_3952467416):
-  assert isinstance(posted_date_3952467416, datetime.datetime)
+def test_builder_sets_last_updated_date_to_correct_date():
+  datetime_parser_mock = MagicMock(spec=datetime_parser)
+
+  datetime_parser_mock.get_datetime = MagicMock(
+    return_value=listing_test_data.cl_listing_3952467416[listing_builder.LAST_UPDATED_DATE]
+  )
+
+  builder = ListingBuilder(datetime_parser=datetime_parser_mock, last_updated_date='IGNOREME')
+
+  builder._build_last_updated_date()
+
+  date = builder.listing_attrs_output[listing_builder.LAST_UPDATED_DATE]
+
+  return date
 
 
-def test_builder_sets_posted_date_to_correct_date(posted_date_3952467416):
-  assert posted_date_3952467416 == listing_test_data.cl_listing_3952467416_expected_posted_date
-
-
-def test_builder_sets_last_updated_date_to_correct_date(last_updated_date_3952467416):
-  assert last_updated_date_3952467416 == listing_test_data.cl_listing_3952467416_expected_last_updated_date
+  assert date == listing_test_data.cl_listing_3952467416_expected_last_updated_date
 
 # endregion
 
@@ -237,6 +259,25 @@ def test_builder_gets_correct_lat_lng_from_list():
   assert lng_out == lng_attr
 
 # endregion
+
+#region address sanitization tests
+def test_builder_delegates_address_sanitization():
+  lat = '40.681449'
+  lng = '-73.946437'
+
+  builder = ListingBuilder(lat=[lat], lng=[lng])
+
+  builder._build_lat_lng()
+
+  lat_attr = builder.listing_attrs_output[listing_builder.LAT]
+  lng_attr = builder.listing_attrs_output[listing_builder.LNG]
+
+  lat_out = 40.681449
+  lng_out = -73.946437
+
+  assert lat_out == lat_attr
+  assert lng_out == lng_attr
+#endregion
 
 #region  bedroom tests
 def test_builder_gets_correct_bedroom_from_list():

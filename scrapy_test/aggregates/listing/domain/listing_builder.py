@@ -1,9 +1,7 @@
-import collections
 from scrapy_test.aggregates.amenity.services import amenity_service
 from scrapy_test.aggregates.listing import factories
-from dateutil.parser import parse
 from scrapy_test.libs.communication_utils.parsing import contact_parser
-from scrapy_test.libs.datetime_utils.timezone import time_zone_abbreviations
+from scrapy_test.libs.datetime_utils.parsers import datetime_parser
 from scrapy_test.libs.geo_utils.parsing import address_parser
 from scrapy_test.libs.housing_utils.parsing import home_parser
 from scrapy_test.libs.text_utils.parsers import text_parser
@@ -41,18 +39,24 @@ _newline_strip = '\r\n\t -'
 
 class ListingBuilder(object):
   def __init__(
-      self, address_parser=address_parser, home_parser=home_parser,
-      contact_parser=contact_parser, text_parser=text_parser, amenity_service=amenity_service,
-      geo_service=geo_service,
+      self,
+      address_parser=address_parser,
+      datetime_parser=datetime_parser,
+      home_parser=home_parser,
+      contact_parser=contact_parser,
+      text_parser=text_parser,
+      amenity_service=amenity_service,
+      geo_service=None, #geo_service,
       **listing_attrs
   ):
     self.listing_attrs_input = listing_attrs
     self._address_parser = address_parser
+    self._datetime_parser = datetime_parser
     self._home_parser = home_parser
     self._contact_parser = contact_parser
     self._text_parser = text_parser
     self._amenity_service = amenity_service
-    self._geo_service=geo_service
+    self._geo_service = geo_service
     self.listing_attrs_output = {}
 
   def _get_single_stripped_value(self, attr, strip_chars=_newline_strip):
@@ -93,7 +97,7 @@ class ListingBuilder(object):
       posted_date = self._get_single_stripped_value(posted_date)
 
       try:
-        posted_date = parse(posted_date, tzinfos=time_zone_abbreviations)
+        posted_date = self._datetime_parser.get_datetime(posted_date)
       except:
         raise Exception("invalid date: %s" % posted_date)
 
@@ -107,7 +111,7 @@ class ListingBuilder(object):
 
       try:
         #todo make this a dependent service
-        last_updated_date = parse(last_updated_date, tzinfos=time_zone_abbreviations)
+        last_updated_date = self._datetime_parser.get_datetime(last_updated_date)
       except:
         raise Exception("invalid date: %s" % last_updated_date)
 
