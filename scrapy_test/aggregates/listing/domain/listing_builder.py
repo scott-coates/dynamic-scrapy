@@ -1,5 +1,7 @@
 from scrapy_test.aggregates.amenity.services import amenity_service
 from scrapy_test.aggregates.listing import factories
+from scrapy_test.aggregates.listing.models import Listing
+from scrapy_test.aggregates.listing.services import listing_geo_service
 from scrapy_test.libs.communication_utils.parsing import contact_parser
 from scrapy_test.libs.datetime_utils.parsers import datetime_parser
 from scrapy_test.libs.geo_utils.parsing import address_parser
@@ -36,7 +38,6 @@ AMENITIES = 'amenities'
 
 _newline_strip = '\r\n\t -'
 
-
 class ListingBuilder(object):
   def __init__(
       self,
@@ -46,7 +47,7 @@ class ListingBuilder(object):
       contact_parser=contact_parser,
       text_parser=text_parser,
       amenity_service=amenity_service,
-      geo_location_service=None, #geo_location_service,
+      listing_geo_service=listing_geo_service,
       **listing_attrs
   ):
     self.listing_attrs_input = listing_attrs
@@ -56,7 +57,7 @@ class ListingBuilder(object):
     self._contact_parser = contact_parser
     self._text_parser = text_parser
     self._amenity_service = amenity_service
-    self._geo_location_service = geo_location_service
+    self._listing_geo_service=listing_geo_service
     self.listing_attrs_output = {}
 
   def _get_single_stripped_value(self, attr, strip_chars=_newline_strip):
@@ -187,7 +188,7 @@ class ListingBuilder(object):
       self._assign_output_attr(LNG, float(lng))
 
   def _sanitize_address(self):
-    sanitized_address = self._geo_location_service.get_sanitized_address(
+    sanitized_address = self._listing_geo_service.get_sanitized_address(
       self.listing_attrs_output.get(LAT),
       self.listing_attrs_output.get(LNG),
       self.listing_attrs_output.get(ADDRESS1),

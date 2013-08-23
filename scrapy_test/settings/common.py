@@ -214,7 +214,6 @@ LOCAL_APPS = (
   'scrapy_test.aggregates.listing_source',
   # APPS
   'scrapy_test.apps.web_scraper',
-  'scrapy_test.apps.geo_location',
   # LIBS
   'scrapy_test.libs.common_domain',
   'scrapy_test.libs.django_utils',
@@ -270,7 +269,6 @@ CELERY_IMPORTS = (
   'aggregates.apartment.services.apartment_tasks',
   'aggregates.listing.services.listing_tasks',
   'apps.web_scraper.services.web_scraper_tasks'
-  'apps.geo_location.services.geo_location_tasks'
 )
 
 # See: http://celery.github.com/celery/django/

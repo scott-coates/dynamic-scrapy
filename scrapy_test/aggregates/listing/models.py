@@ -5,6 +5,7 @@ from django.db import models, transaction
 import jsonfield
 from localflavor.us.models import USStateField, PhoneNumberField
 import reversion
+from scrapy_test.aggregates.listing.managers import ListingManager
 
 from scrapy_test.aggregates.listing.signals import created, sanitized, deleted, unsanitized
 from scrapy_test.aggregates.listing_source.models import ListingSource
@@ -22,6 +23,8 @@ class Listing(models.Model, AggregateBase):
   def __init__(self, *args, **kwargs):
     super(Listing, self).__init__(*args, **kwargs)
     self._amenity_list = []
+
+  objects = ListingManager()
 
   listing_source = models.ForeignKey(ListingSource)
 
@@ -64,7 +67,7 @@ class Listing(models.Model, AggregateBase):
 
 
   @classmethod
-  def _from_attrs(cls, address_parser=address_parser, **kwargs):
+  def _from_attrs(cls, **kwargs):
     #todo some validation should go here and in the command handler (zip code validation, etc)
     ret_val = cls()
 

@@ -1,14 +1,14 @@
-import datetime
 from mock import MagicMock, call, ANY
 import pytest
 from scrapy_test.aggregates.amenity.services import amenity_service
 from scrapy_test.aggregates.listing.domain import listing_builder
 from scrapy_test.aggregates.listing.domain.listing_builder import ListingBuilder
+from scrapy_test.aggregates.listing.services import listing_geo_service
 from scrapy_test.aggregates.listing.tests.unit import listing_test_data
-from scrapy_test.apps.geo_location.services import geo_location_service
 from scrapy_test.libs.communication_utils.parsing import contact_parser
 from scrapy_test.libs.datetime_utils.parsers import datetime_parser
 from scrapy_test.libs.geo_utils.parsing import address_parser
+from scrapy_test.libs.geo_utils.services import geo_location_service
 from scrapy_test.libs.housing_utils.parsing import home_parser
 
 # region title tests
@@ -263,9 +263,9 @@ def test_builder_gets_correct_lat_lng_from_list():
 
 #region address sanitization tests
 def test_builder_delegates_address_sanitization():
-  geo_service_mock = MagicMock(spec=geo_location_service)
+  geo_service_mock = MagicMock(spec=listing_geo_service)
 
-  builder = ListingBuilder(geo_location_service=geo_service_mock)
+  builder = ListingBuilder(listing_geo_service=geo_service_mock)
 
   builder._sanitize_address()
 
