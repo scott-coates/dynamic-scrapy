@@ -1,10 +1,11 @@
 import datetime
-from mock import MagicMock, call
+from mock import MagicMock, call, ANY
 import pytest
 from scrapy_test.aggregates.amenity.services import amenity_service
 from scrapy_test.aggregates.listing.domain import listing_builder
 from scrapy_test.aggregates.listing.domain.listing_builder import ListingBuilder
 from scrapy_test.aggregates.listing.tests.unit import listing_test_data
+from scrapy_test.apps.geo_location.services import geo_location_service
 from scrapy_test.libs.communication_utils.parsing import contact_parser
 from scrapy_test.libs.datetime_utils.parsers import datetime_parser
 from scrapy_test.libs.geo_utils.parsing import address_parser
@@ -262,21 +263,14 @@ def test_builder_gets_correct_lat_lng_from_list():
 
 #region address sanitization tests
 def test_builder_delegates_address_sanitization():
-  lat = '40.681449'
-  lng = '-73.946437'
+  geo_service_mock = MagicMock(spec=geo_location_service)
 
-  builder = ListingBuilder(lat=[lat], lng=[lng])
+  builder = ListingBuilder(geo_location_service=geo_service_mock)
 
-  builder._build_lat_lng()
+  builder._sanitize_address()
 
-  lat_attr = builder.listing_attrs_output[listing_builder.LAT]
-  lng_attr = builder.listing_attrs_output[listing_builder.LNG]
+  geo_service_mock.get_sanitized_address.assert_called_with(ANY, ANY, ANY, ANY, ANY, ANY, ANY)
 
-  lat_out = 40.681449
-  lng_out = -73.946437
-
-  assert lat_out == lat_attr
-  assert lng_out == lng_attr
 #endregion
 
 #region  bedroom tests

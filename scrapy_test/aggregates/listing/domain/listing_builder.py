@@ -46,7 +46,7 @@ class ListingBuilder(object):
       contact_parser=contact_parser,
       text_parser=text_parser,
       amenity_service=amenity_service,
-      geo_service=None, #geo_service,
+      geo_location_service=None, #geo_location_service,
       **listing_attrs
   ):
     self.listing_attrs_input = listing_attrs
@@ -56,7 +56,7 @@ class ListingBuilder(object):
     self._contact_parser = contact_parser
     self._text_parser = text_parser
     self._amenity_service = amenity_service
-    self._geo_service = geo_service
+    self._geo_location_service = geo_location_service
     self.listing_attrs_output = {}
 
   def _get_single_stripped_value(self, attr, strip_chars=_newline_strip):
@@ -185,6 +185,25 @@ class ListingBuilder(object):
       lng = self._get_single_stripped_value(lng, None)
       self._assign_output_attr(LAT, float(lat))
       self._assign_output_attr(LNG, float(lng))
+
+  def _sanitize_address(self):
+    sanitized_address = self._geo_location_service.get_sanitized_address(
+      self.listing_attrs_output.get(LAT),
+      self.listing_attrs_output.get(LNG),
+      self.listing_attrs_output.get(ADDRESS1),
+      self.listing_attrs_output.get(ADDRESS2),
+      self.listing_attrs_output.get(CITY),
+      self.listing_attrs_output.get(STATE),
+      self.listing_attrs_output.get(ZIP_CODE)
+    )
+
+    self.listing_attrs_output[LAT] = sanitized_address.lat
+    self.listing_attrs_output[LNG] = sanitized_address.lat
+    self.listing_attrs_output[ADDRESS1] = sanitized_address.lat
+    self.listing_attrs_output[ADDRESS2] = sanitized_address.lat
+    self.listing_attrs_output[CITY] = sanitized_address.lat
+    self.listing_attrs_output[STATE] = sanitized_address.lat
+    self.listing_attrs_output[ZIP_CODE] = sanitized_address.lat
 
   #endregion
 
@@ -339,6 +358,7 @@ class ListingBuilder(object):
     self._build_state()
     self._build_zip_code()
     self._build_lat_lng()
+    self._sanitize_address()
 
     self._build_bedroom_count()
     self._build_bathroom_count()
