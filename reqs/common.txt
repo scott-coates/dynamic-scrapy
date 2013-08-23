@@ -13,3 +13,4 @@ jsonfield
 django-reversion==1.7.1
 python-dateutil==2.1
 pytz==2013b
+pygeocoder==1.2.1
