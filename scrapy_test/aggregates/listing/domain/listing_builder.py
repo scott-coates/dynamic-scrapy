@@ -110,7 +110,6 @@ class ListingBuilder(object):
       last_updated_date = self._get_single_stripped_value(last_updated_date)
 
       try:
-        #todo make this a dependent service
         last_updated_date = self._datetime_parser.get_datetime(last_updated_date)
       except:
         raise Exception("invalid date: %s" % last_updated_date)
