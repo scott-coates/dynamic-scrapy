@@ -25,7 +25,7 @@ def get_sanitized_address(address, city, state,
       # address like "5th st" when it should be "5th and 68th". The formatted address will contain this proper version
       geocoded_listing['address'] = formatted_parts[0]
 
-    address2 = geocoded_listing.po('address2', None)
+    address2 = geocoded_listing.pop('address2', None)
     if address2:
       address2_formatted = ' #{0}'.format(address2)
       geocoded_listing['formatted_address'] = geocoded_listing['formatted_address'].replace(address2_formatted, '')
