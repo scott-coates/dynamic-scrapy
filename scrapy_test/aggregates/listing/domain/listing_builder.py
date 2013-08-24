@@ -155,13 +155,6 @@ class ListingBuilder(object):
       state = self._get_single_stripped_value(state)
       self._assign_output_attr(STATE, state)
 
-  def _build_zip_code(self):
-    zip_code = self.listing_attrs_input.get(ZIP_CODE)
-
-    if zip_code:
-      zip_code = self._get_single_stripped_value(zip_code)
-      self._assign_output_attr(ZIP_CODE, zip_code)
-
   def _build_lat_lng(self):
     lat = self.listing_attrs_input.get(LAT)
     lng = self.listing_attrs_input.get(LNG)

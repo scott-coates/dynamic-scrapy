@@ -197,20 +197,6 @@ def test_builder_gets_correct_city_from_list():
 
 # endregion
 
-# region zip code tests
-def test_builder_gets_correct_zip_code_from_list():
-  zip_code = '12345'
-
-  builder = ListingBuilder(state=[zip_code])
-
-  builder._build_state()
-
-  address_attr = builder.listing_attrs_output[listing_builder.STATE]
-
-  assert address_attr == zip_code
-
-# endregion
-
 # region lat/lng tests
 def test_builder_gets_correct_lat_lng_from_list():
   lat = '40.681449'
