@@ -164,8 +164,7 @@ def test_builder_joins_addresses_if_no_valid_address():
   address_parser_mock.is_cross_street_address = MagicMock(return_value=False)
   builder = ListingBuilder(address_parser_mock, address=[xstreet1, xtreet2])
   builder._build_address()
-  address_attr = builder.listing_attrs_output[listing_builder.ADDRESS]
-  assert address_attr == 'Foo & Bar'
+  address_parser_mock.join_cross_street.assert_called_with({'Foo', 'Bar'})
 
 # endregion
 

@@ -29,3 +29,6 @@ def test_address_parser_detects_correct_cross_street_addresses(input_values, exp
 ])
 def test_address_parser_detects_address2(input_values, expected):
   assert expected == address_parser.get_address2(input_values)
+
+def test_address_parser_joins_cross_street():
+  assert 'Foo & Bar' == address_parser.join_cross_street(('Foo','Bar'))
