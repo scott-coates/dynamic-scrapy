@@ -21,6 +21,7 @@ STATE = 'state'
 ZIP_CODE = 'zip_code'
 LAT = 'lat'
 LNG = 'lng'
+FORMATTED_ADDRESS = 'formatted_address'
 
 BEDROOM_COUNT = 'bedroom_count'
 BATHROOM_COUNT = 'bathroom_count'
@@ -178,6 +179,7 @@ class ListingBuilder(object):
     self.listing_attrs_output[CITY] = sanitized_address.city
     self.listing_attrs_output[STATE] = sanitized_address.state
     self.listing_attrs_output[ZIP_CODE] = sanitized_address.zip_code
+    self.listing_attrs_output[FORMATTED_ADDRESS] = sanitized_address.formatted_address
 
   #endregion
 
