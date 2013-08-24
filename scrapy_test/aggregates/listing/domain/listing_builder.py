@@ -1,6 +1,5 @@
 from scrapy_test.aggregates.amenity.services import amenity_service
 from scrapy_test.aggregates.listing import factories
-from scrapy_test.aggregates.listing.models import Listing
 from scrapy_test.aggregates.listing.services import listing_geo_service
 from scrapy_test.libs.communication_utils.parsing import contact_parser
 from scrapy_test.libs.datetime_utils.parsers import datetime_parser
@@ -16,8 +15,7 @@ POSTED_DATE = 'posted_date'
 LAST_UPDATED_DATE = 'last_updated_date'
 URL = 'url'
 
-ADDRESS1 = 'address1'
-ADDRESS2 = 'address2'
+ADDRESS = 'address'
 CITY = 'city'
 STATE = 'state'
 ZIP_CODE = 'zip_code'
@@ -130,31 +128,18 @@ class ListingBuilder(object):
   def _is_valid_address(self, address):
     return self._address_parser.is_street_address(address) or self._address_parser.is_cross_street_address(address)
 
-  def _build_address1(self):
-    address1 = self.listing_attrs_input.get(ADDRESS1, None)
+  def _build_address(self):
+    address1 = self.listing_attrs_input.get(ADDRESS, None)
 
     if address1:
       address1 = set(address1)
 
       for address in address1:
         if self._is_valid_address(address):
-          self._assign_output_attr(ADDRESS1, address)
+          self._assign_output_attr(ADDRESS, address)
           break
       else:
-        self._assign_output_attr(ADDRESS1, ' and '.join(address1))
-
-  def _build_address2(self):
-    address2 = self.listing_attrs_input.get(ADDRESS2)
-
-    if address2:
-      address2 = list(set(address2))[0]
-    else:
-      address2 = self.listing_attrs_output.get(ADDRESS1)
-      if address2:
-        address2 = self._address_parser.get_address2(address2)
-
-    if address2:
-      self._assign_output_attr(ADDRESS2, address2)
+        self._assign_output_attr(ADDRESS, ' and '.join(address1))
 
   def _build_city(self):
     city = self.listing_attrs_input.get(CITY)
@@ -191,8 +176,7 @@ class ListingBuilder(object):
     sanitized_address = self._listing_geo_service.get_sanitized_address(
       self.listing_attrs_output.get(LAT),
       self.listing_attrs_output.get(LNG),
-      self.listing_attrs_output.get(ADDRESS1),
-      self.listing_attrs_output.get(ADDRESS2),
+      self.listing_attrs_output.get(ADDRESS),
       self.listing_attrs_output.get(CITY),
       self.listing_attrs_output.get(STATE),
       self.listing_attrs_output.get(ZIP_CODE)
@@ -200,8 +184,7 @@ class ListingBuilder(object):
 
     self.listing_attrs_output[LAT] = sanitized_address.lat
     self.listing_attrs_output[LNG] = sanitized_address.lat
-    self.listing_attrs_output[ADDRESS1] = sanitized_address.lat
-    self.listing_attrs_output[ADDRESS2] = sanitized_address.lat
+    self.listing_attrs_output[ADDRESS] = sanitized_address.lat
     self.listing_attrs_output[CITY] = sanitized_address.lat
     self.listing_attrs_output[STATE] = sanitized_address.lat
     self.listing_attrs_output[ZIP_CODE] = sanitized_address.lat
@@ -353,8 +336,7 @@ class ListingBuilder(object):
     self._build_last_updated_date()
     self._build_url()
 
-    self._build_address1()
-    self._build_address2()
+    self._build_address()
     self._build_city()
     self._build_state()
     self._build_zip_code()

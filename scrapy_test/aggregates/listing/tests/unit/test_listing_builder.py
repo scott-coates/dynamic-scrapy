@@ -129,9 +129,9 @@ def test_builder_sets_makes_address_distinct():
   address1 = '123 test st'
   address_parser_mock = MagicMock(spec=address_parser)
   address_parser_mock.is_street_address = MagicMock(return_value=True)
-  builder = ListingBuilder(address_parser_mock, address1=[address1, address1])
-  builder._build_address1()
-  address_attr = builder.listing_attrs_output[listing_builder.ADDRESS1]
+  builder = ListingBuilder(address_parser_mock, address=[address1, address1])
+  builder._build_address()
+  address_attr = builder.listing_attrs_output[listing_builder.ADDRESS]
   assert isinstance(address_attr, basestring)
 
 
@@ -139,9 +139,9 @@ def test_builder_uses_firs_street_address_to_populate():
   address1 = '123 test st'
   address_parser_mock = MagicMock(spec=address_parser)
   address_parser_mock.is_street_address = MagicMock(return_value=True)
-  builder = ListingBuilder(address_parser_mock, address1=address1)
-  builder._build_address1()
-  address_attr = builder.listing_attrs_output[listing_builder.ADDRESS1]
+  builder = ListingBuilder(address_parser_mock, address=address1)
+  builder._build_address()
+  address_attr = builder.listing_attrs_output[listing_builder.ADDRESS]
   assert address_attr is not None
 
 
@@ -150,9 +150,9 @@ def test_builder_uses_firs_cross_street_address_to_populate():
   address_parser_mock = MagicMock(spec=address_parser)
   address_parser_mock.is_street_address = MagicMock(return_value=False)
   address_parser_mock.is_cross_street_address = MagicMock(return_value=True)
-  builder = ListingBuilder(address_parser_mock, address1=address1)
-  builder._build_address1()
-  address_attr = builder.listing_attrs_output[listing_builder.ADDRESS1]
+  builder = ListingBuilder(address_parser_mock, address=address1)
+  builder._build_address()
+  address_attr = builder.listing_attrs_output[listing_builder.ADDRESS]
   assert address_attr is not None
 
 
@@ -162,40 +162,10 @@ def test_builder_joins_addresses_if_no_valid_address():
   address_parser_mock = MagicMock(spec=address_parser)
   address_parser_mock.is_street_address = MagicMock(return_value=False)
   address_parser_mock.is_cross_street_address = MagicMock(return_value=False)
-  builder = ListingBuilder(address_parser_mock, address1=[xstreet1, xtreet2])
-  builder._build_address1()
-  address_attr = builder.listing_attrs_output[listing_builder.ADDRESS1]
+  builder = ListingBuilder(address_parser_mock, address=[xstreet1, xtreet2])
+  builder._build_address()
+  address_attr = builder.listing_attrs_output[listing_builder.ADDRESS]
   assert address_attr == 'Foo and Bar'
-
-# endregion
-
-# region address2 tests
-def test_builder_uses_apt1_if_no_apt2():
-  expected_address2 = 'apt. 5'
-
-  address_parser_mock = MagicMock(spec=address_parser)
-
-  builder = ListingBuilder(address_parser_mock, address2=None)
-  builder.listing_attrs_output = MagicMock()
-  builder.listing_attrs_output.get.return_value = True
-
-  address_parser_mock.get_address2 = MagicMock(return_value=expected_address2)
-
-  builder._build_address2()
-
-  assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.ADDRESS2, expected_address2)
-
-
-def test_builder_uses_apt2_if_available():
-  address2 = 'apt. 5'
-
-  builder = ListingBuilder(address2=[address2])
-
-  builder._build_address2()
-
-  address_attr = builder.listing_attrs_output[listing_builder.ADDRESS2]
-
-  assert address_attr == address2
 
 # endregion
 
@@ -269,7 +239,7 @@ def test_builder_delegates_address_sanitization():
 
   builder._sanitize_address()
 
-  geo_service_mock.get_sanitized_address.assert_called_with(ANY, ANY, ANY, ANY, ANY, ANY, ANY)
+  geo_service_mock.get_sanitized_address.assert_called_with(ANY, ANY, ANY, ANY, ANY, ANY)
 
 #endregion
 

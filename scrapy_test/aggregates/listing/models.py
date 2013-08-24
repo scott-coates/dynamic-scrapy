@@ -34,8 +34,7 @@ class Listing(models.Model, AggregateBase):
   last_updated_date = models.DateTimeField()
   url = models.URLField()
 
-  address1 = models.CharField(max_length=255, blank=True, null=True)
-  address2 = models.CharField(max_length=255, blank=True, null=True)
+  address = models.CharField(max_length=255, blank=True, null=True)
   city = models.CharField(max_length=255)
   state = USStateField()
   zip_code = models.CharField(max_length=10, blank=True, null=True)
