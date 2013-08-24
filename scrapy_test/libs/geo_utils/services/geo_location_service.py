@@ -21,6 +21,9 @@ def get_geocoded_address(address, city, state):
   address_components = results.data[0]['address_components']
 
   address1 = _get_address_component(address_components, 'street_number')
+  if not address1:
+    address1 = _get_address_component(address_components, 'route')
+
   address2 = _get_address_component(address_components, 'subpremise')
   city = _get_address_component(address_components, 'sublocality')
   state = _get_address_component(address_components, 'administrative_area_level_1')
