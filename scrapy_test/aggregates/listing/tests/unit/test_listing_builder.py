@@ -165,7 +165,7 @@ def test_builder_joins_addresses_if_no_valid_address():
   builder = ListingBuilder(address_parser_mock, address=[xstreet1, xtreet2])
   builder._build_address()
   address_attr = builder.listing_attrs_output[listing_builder.ADDRESS]
-  assert address_attr == 'Foo and Bar'
+  assert address_attr == 'Foo & Bar'
 
 # endregion
 

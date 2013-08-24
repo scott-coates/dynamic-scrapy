@@ -139,7 +139,7 @@ class ListingBuilder(object):
           self._assign_output_attr(ADDRESS, address)
           break
       else:
-        self._assign_output_attr(ADDRESS, ' and '.join(address1))
+        self._assign_output_attr(ADDRESS, ' & '.join(address1))
 
   def _build_city(self):
     city = self.listing_attrs_input.get(CITY)
