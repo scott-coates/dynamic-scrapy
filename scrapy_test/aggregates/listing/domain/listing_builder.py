@@ -167,12 +167,9 @@ class ListingBuilder(object):
 
   def _sanitize_address(self):
     sanitized_address = self._listing_geo_service.get_sanitized_address(
-      self.listing_attrs_output.get(LAT),
-      self.listing_attrs_output.get(LNG),
       self.listing_attrs_output.get(ADDRESS),
       self.listing_attrs_output.get(CITY),
       self.listing_attrs_output.get(STATE),
-      self.listing_attrs_output.get(ZIP_CODE)
     )
 
     self.listing_attrs_output[LAT] = sanitized_address.lat
