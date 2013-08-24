@@ -31,7 +31,7 @@ class Listing(models.Model, AggregateBase):
   title = models.CharField(max_length=8000)
   description = models.TextField()
   posted_date = models.DateTimeField()
-  last_updated_date = models.DateTimeField()
+  last_updated_date = models.DateTimeField(blank=True, null=True)
   url = models.URLField()
 
   address = models.CharField(max_length=255, blank=True, null=True)
@@ -105,8 +105,8 @@ class Listing(models.Model, AggregateBase):
 
   def reset_sanitization_status(self):
     errors = {}
-    if not self.address1:
-      errors["address"] = ["Missing address1"]
+    if not self.address:
+      errors["address"] = ["Missing address"]
 
     if not self.price:
       errors["price"] = ["Missing price"]
