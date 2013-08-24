@@ -332,7 +332,6 @@ class ListingBuilder(object):
     self._build_address()
     self._build_city()
     self._build_state()
-    self._build_zip_code()
     self._build_lat_lng()
     self._sanitize_address()
 
