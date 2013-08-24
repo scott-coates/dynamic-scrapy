@@ -11,7 +11,6 @@ class Migration(DataMigration):
     def forwards(self, orm):
       load_data(orm, "0013_mandatory_elements.json")
 
-
     def backwards(self, orm):
         "Write your backwards methods here."
 
@@ -35,6 +34,27 @@ class Migration(DataMigration):
             'state': ('localflavor.us.models.USStateField', [], {'max_length': '2'}),
             'zip_code': ('django.db.models.fields.CharField', [], {'max_length': '10', 'null': 'True', 'blank': 'True'})
         },
+        u'dynamic_scraper.log': {
+            'Meta': {'ordering': "['-date']", 'object_name': 'Log'},
+            'date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'level': ('django.db.models.fields.IntegerField', [], {}),
+            'message': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'ref_object': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'scraper': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['dynamic_scraper.Scraper']", 'null': 'True', 'blank': 'True'}),
+            'spider_name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'type': ('django.db.models.fields.CharField', [], {'max_length': '25', 'blank': 'True'})
+        },
+        u'dynamic_scraper.logmarker': {
+            'Meta': {'object_name': 'LogMarker'},
+            'custom_type': ('django.db.models.fields.CharField', [], {'max_length': '25', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'mark_with_type': ('django.db.models.fields.CharField', [], {'max_length': '2'}),
+            'message_contains': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'ref_object': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
+            'scraper': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['dynamic_scraper.Scraper']", 'null': 'True', 'blank': 'True'}),
+            'spider_name': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'})
+        },
         u'dynamic_scraper.schedulerruntime': {
             'Meta': {'ordering': "['next_action_time']", 'object_name': 'SchedulerRuntime'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -42,6 +62,13 @@ class Migration(DataMigration):
             'next_action_time': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'num_zero_actions': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'runtime_type': ('django.db.models.fields.CharField', [], {'default': "'P'", 'max_length': '1'})
+        },
+        u'dynamic_scraper.scrapedobjattr': {
+            'Meta': {'object_name': 'ScrapedObjAttr'},
+            'attr_type': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'obj_class': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['dynamic_scraper.ScrapedObjClass']"})
         },
         u'dynamic_scraper.scrapedobjclass': {
             'Meta': {'ordering': "['name']", 'object_name': 'ScrapedObjClass'},
@@ -69,6 +96,18 @@ class Migration(DataMigration):
             'pagination_type': ('django.db.models.fields.CharField', [], {'default': "'N'", 'max_length': '1'}),
             'scraped_obj_class': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['dynamic_scraper.ScrapedObjClass']"}),
             'status': ('django.db.models.fields.CharField', [], {'default': "'P'", 'max_length': '1'})
+        },
+        u'dynamic_scraper.scraperelem': {
+            'Meta': {'object_name': 'ScraperElem'},
+            'from_detail_page': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'mandatory': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'proc_ctxt': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
+            'processors': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
+            'reg_exp': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
+            'scraped_obj_attr': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['dynamic_scraper.ScrapedObjAttr']"}),
+            'scraper': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['dynamic_scraper.Scraper']"}),
+            'x_path': ('django.db.models.fields.CharField', [], {'max_length': '200'})
         },
         u'listing.listing': {
             'Meta': {'object_name': 'Listing'},
@@ -121,5 +160,5 @@ class Migration(DataMigration):
         }
     }
 
-    complete_apps = ['web_scraper']
+    complete_apps = ['dynamic_scraper', 'web_scraper']
     symmetrical = True
