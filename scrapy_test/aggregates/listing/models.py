@@ -146,7 +146,7 @@ class Listing(models.Model, AggregateBase):
   def _handle_created_event(self, **kwargs):
     amenities = kwargs['attrs'].pop('amenities', None)
     if amenities:
-      self._amenity_list.extend(amenities)
+      self._amenity_list.extend(Amenity(amenity_type=a.keyword_id, is_available=a.is_available) for a in amenities)
 
     # django model constructor has pretty smart logic for mass assignment
     copy_django_model_attrs(self, **kwargs['attrs'])
