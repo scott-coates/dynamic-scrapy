@@ -8,7 +8,6 @@ from scrapy_test.aggregates.listing.tests.unit import listing_test_data
 from scrapy_test.libs.communication_utils.parsing import contact_parser
 from scrapy_test.libs.datetime_utils.parsers import datetime_parser
 from scrapy_test.libs.geo_utils.parsing import address_parser
-from scrapy_test.libs.geo_utils.services import geo_location_service
 from scrapy_test.libs.housing_utils.parsing import home_parser
 
 # region title tests
