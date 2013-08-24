@@ -40,6 +40,7 @@ class Listing(models.Model, AggregateBase):
   zip_code = models.CharField(max_length=10, blank=True, null=True)
   lat = models.FloatField()
   lng = models.FloatField()
+  formatted_address = models.CharField(max_length=4096)
 
   bedroom_count = models.PositiveSmallIntegerField(max_length=2, blank=True, null=True)
   bathroom_count = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
@@ -169,7 +170,8 @@ class Listing(models.Model, AggregateBase):
   #endregion
 
   def __unicode__(self):
-    return self.title
+    return 'Listing #' + str(self.pk) + ': ' + self.formatted_address
+
 
   def save(self, internal=False, *args, **kwargs):
     if internal:

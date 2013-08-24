@@ -17,23 +17,13 @@ class Apartment(models.Model, AggregateBase):
   zip_code = models.CharField(max_length=10, blank=True, null=True)
   lat = models.FloatField()
   lng = models.FloatField()
+  formatted_address = models.CharField(max_length=4096)
 
   bedroom_count = models.PositiveSmallIntegerField(max_length=2, blank=True, null=True)
   bathroom_count = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
   sqfeet = models.DecimalField(max_digits=8, decimal_places=3, blank=True, null=True)
   price = models.DecimalField(max_digits=7, decimal_places=2)
   broker_fee = models.BooleanField()
-
-  # apartment    = models.ForeignKey('apartment.Apartment', related_name='listings', blank=True, null=True)
-  #
-  # crawl    = models.ForeignKey('crawl.Crawl', related_name='listings', blank=True, null=True)
-  #
-  # amenities = dbarray.TextArrayField(blank=True, null=True)
-  # pets               = models.ManyToManyField('pet.Pet',                          blank=True, null=True)
-  # building_amenities = models.ManyToManyField('building_amenity.BuildingAmenity', blank=True, null=True)
-  # building_types     = models.ManyToManyField('building_type.BuildingType',       blank=True, null=True)
-  # unit_amenities     = models.ManyToManyField('unit_amenity.UnitAmenity',         blank=True, null=True)
-  # unit_types         = models.ManyToManyField('unit_type.UnitType',               blank=True, null=True)
 
   #can this apartment be rented?
   is_available = models.BooleanField()
@@ -45,8 +35,7 @@ class Apartment(models.Model, AggregateBase):
     self.listings.add(listing)
 
   def __unicode__(self):
-    return ('Apartment #' + str(self.pk) + ': ' + str(self.address1 or '') + " (" + str(self.city or '') + ", " +
-            str(self.state or '') + ")")
+    return 'Apartment #' + str(self.pk) + ': ' + self.formatted_address
 
   def save(self, internal=False, *args, **kwargs):
     if internal:
