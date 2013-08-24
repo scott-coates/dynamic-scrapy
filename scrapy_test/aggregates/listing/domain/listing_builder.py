@@ -129,17 +129,17 @@ class ListingBuilder(object):
     return self._address_parser.is_street_address(address) or self._address_parser.is_cross_street_address(address)
 
   def _build_address(self):
-    address = self.listing_attrs_input.get(ADDRESS, None)
+    addresses = self.listing_attrs_input.get(ADDRESS, None)
 
-    if address:
-      address = set(address)
+    if addresses:
+      addresses = set(addresses)
 
-      for address in address:
+      for address in addresses:
         if self._is_valid_address(address):
           self._assign_output_attr(ADDRESS, address)
           break
       else:
-        self._assign_output_attr(ADDRESS, self._address_parser.join_cross_street(address))
+        self._assign_output_attr(ADDRESS, self._address_parser.join_cross_street(addresses))
 
   def _build_city(self):
     city = self.listing_attrs_input.get(CITY)

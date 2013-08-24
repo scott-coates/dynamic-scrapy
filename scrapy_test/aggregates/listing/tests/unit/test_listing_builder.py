@@ -223,7 +223,7 @@ def test_builder_delegates_address_sanitization():
 
   builder._sanitize_address()
 
-  geo_service_mock.get_sanitized_address.assert_called_with(ANY, ANY, ANY, ANY, ANY, ANY)
+  geo_service_mock.get_sanitized_address.assert_called_with(ANY, ANY, ANY)
 
 #endregion
 

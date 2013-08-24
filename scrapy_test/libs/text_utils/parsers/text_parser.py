@@ -1,15 +1,8 @@
 import logging
+from scrapy_test.libs.text_utils.CanonicalNameResult import CanonicalNameResult
 from scrapy_test.libs.text_utils.formatting.text_formatter import only_alpha_numeric
-from collections import namedtuple
 
 logger = logging.getLogger(__name__)
-
-
-#is_available is a bool
-#False = it is found in the text but negated. Ex: ("No dogs allowed"). Dogs is found but negated.
-#True = it is found in the text and positively truthy.
-CanonicalNameResult = namedtuple('CanonicalNameResult', 'keyword_id is_available')
-
 
 def get_canonical_name_from_keywords(content, keywords):
   ret_val = []
