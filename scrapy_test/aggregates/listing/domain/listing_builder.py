@@ -129,17 +129,17 @@ class ListingBuilder(object):
     return self._address_parser.is_street_address(address) or self._address_parser.is_cross_street_address(address)
 
   def _build_address(self):
-    address1 = self.listing_attrs_input.get(ADDRESS, None)
+    address = self.listing_attrs_input.get(ADDRESS, None)
 
-    if address1:
-      address1 = set(address1)
+    if address:
+      address = set(address)
 
-      for address in address1:
+      for address in address:
         if self._is_valid_address(address):
           self._assign_output_attr(ADDRESS, address)
           break
       else:
-        self._assign_output_attr(ADDRESS, self._address_parser.join_cross_street(address1))
+        self._assign_output_attr(ADDRESS, self._address_parser.join_cross_street(address))
 
   def _build_city(self):
     city = self.listing_attrs_input.get(CITY)
@@ -173,11 +173,11 @@ class ListingBuilder(object):
     )
 
     self.listing_attrs_output[LAT] = sanitized_address.lat
-    self.listing_attrs_output[LNG] = sanitized_address.lat
-    self.listing_attrs_output[ADDRESS] = sanitized_address.lat
-    self.listing_attrs_output[CITY] = sanitized_address.lat
-    self.listing_attrs_output[STATE] = sanitized_address.lat
-    self.listing_attrs_output[ZIP_CODE] = sanitized_address.lat
+    self.listing_attrs_output[LNG] = sanitized_address.lng
+    self.listing_attrs_output[ADDRESS] = sanitized_address.address
+    self.listing_attrs_output[CITY] = sanitized_address.city
+    self.listing_attrs_output[STATE] = sanitized_address.state
+    self.listing_attrs_output[ZIP_CODE] = sanitized_address.zip_code
 
   #endregion
 
