@@ -24,7 +24,8 @@ class StopOnDuplicateItem(object):
         # don't stop crawling. This could happen if
         # we first encounter it on page 100.html but new posts appeared and forced this to 200.html, the next page.
 
-        if len(item['last_updated_date']) and item['last_updated_date'][0] == duplicate.last_updated_date:
+        #get first item in last_updated_date or None
+        if next((x for x in item['last_updated_date']), None) == duplicate.last_updated_date:
         # if this listing was created a long time ago but just recently re-newed or re-updated.
 
           if timezone.now() - duplicate.changed >= timedelta(hours=1):
