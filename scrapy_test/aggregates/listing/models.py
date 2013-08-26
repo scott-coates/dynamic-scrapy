@@ -1,13 +1,15 @@
+from datetime import datetime
 import logging
 from django.core.exceptions import ValidationError
 
 from django.db import models, transaction
+from django.utils import timezone
 import jsonfield
 from localflavor.us.models import USStateField, PhoneNumberField
 import reversion
 from scrapy_test.aggregates.listing.managers import ListingManager
 
-from scrapy_test.aggregates.listing.signals import created, sanitized, deleted, unsanitized
+from scrapy_test.aggregates.listing.signals import created, sanitized, deleted, unsanitized, updated_last_updated_date
 from scrapy_test.aggregates.listing_source.models import ListingSource
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.django_utils.models.utils import copy_django_model_attrs
@@ -97,11 +99,28 @@ class Listing(models.Model, AggregateBase):
     elif not address_parser.is_valid_zip_code(zip_code):
       raise ValidationError("zip_code is not valid: {0}".format(zip_code))
 
+    posted_date = kwargs.get('posted_date')
+    if not posted_date:
+      raise TypeError("posted_date is required")
+    cls._validate_listing_date(posted_date)
+
     ret_val._raise_event(created, sender=Listing, instance=ret_val, attrs=kwargs)
 
     ret_val.reset_sanitization_status()
 
     return ret_val
+
+  def _validate_listing_date(self, last_updated_date):
+    if not isinstance(last_updated_date, datetime):
+      raise TypeError("Provided date must be a datetime type")
+
+    if timezone.is_naive(last_updated_date):
+      raise ValidationError("Provided date must have a timezone")
+
+  def update_last_updated_date(self, last_updated_date):
+    self._validate_listing_date(last_updated_date)
+
+    self._raise_event(updated_last_updated_date, sender=Listing, last_updated_date=last_updated_date, instance=self)
 
   def reset_sanitization_status(self):
     errors = {}
@@ -118,9 +137,6 @@ class Listing(models.Model, AggregateBase):
       errors["description"] = ["Missing description"]
     elif len(self.description) < 20:
       errors["description"] = ["Description too short"]
-
-    if not self.last_updated_date:
-      errors["last updated date"] = ["Missing last updated date"]
 
     if not self.posted_date:
       errors["posted date"] = ["Missing posted date"]
@@ -158,14 +174,18 @@ class Listing(models.Model, AggregateBase):
     logger.info("{0} has been marked as deleted".format(self))
 
   def _handle_sanitized_event(self, **kwargs):
+    self.requires_sanity_checking = False
     logger.info("{0} has been marked as sanitized".format(self))
 
-  def _handle_unsanitized_event(self, **kwargs):
-    errors = kwargs.get('errors')
+  def _handle_unsanitized_event(self, errors):
     self.validation_parsing_errors = errors
     self.requires_sanity_checking = True
 
     logger.info("{0} has been marked as unsanitized".format(self))
+
+  def _handle_updated_last_updated_date_event(self, last_updated_date):
+    self.last_updated_date = last_updated_date
+    logger.info("{0} last_updated_date set to {1}".format(self, last_updated_date))
 
   #endregion
 

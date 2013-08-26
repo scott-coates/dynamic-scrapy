@@ -9,11 +9,15 @@ class AggregateCommandPipeline(object):
   def process_item(self, item, spider):
     try:
 
-      listing_tasks.create_listing_task.delay(**dict(item, listing_source_id=spider.ref_object.listing_source.id))
+      if item['url'][0:6] == 'DOUBLE':
+        item['url'] = item['url'][6:]
+        listing_tasks.create_listing_task.delay(**dict(item, listing_source_id=spider.ref_object.listing_source.id))
+      else:
+        listing_tasks.create_listing_task.delay(**dict(item, listing_source_id=spider.ref_object.listing_source.id))
 
       spider.action_successful = True
       spider.log("Listing item sent to application to be processed.", log.INFO)
-    except Exception as e:
+    except:
       spider.log(traceback.format_exc(), log.ERROR)
       raise DropItem("Error sending listing item.")
 
