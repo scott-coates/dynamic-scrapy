@@ -2,6 +2,7 @@ from datetime import timedelta
 from django.utils import timezone
 from scrapy import signals
 from scrapy_test.aggregates.listing.models import Listing
+from scrapy_test.libs.datetime_utils.parsers import datetime_parser
 
 
 class StopOnDuplicateItem(object):
@@ -25,7 +26,8 @@ class StopOnDuplicateItem(object):
         # we first encounter it on page 100.html but new posts appeared and forced this to 200.html, the next page.
 
         #get first item in last_updated_date or None
-        if next((x for x in item['last_updated_date']), None) == duplicate.last_updated_date:
+        if next((datetime_parser.get_datetime(x) for x in item['last_updated_date']), None) == \
+            duplicate.last_updated_date:
         # if this listing was created a long time ago but just recently re-newed or re-updated.
 
           if timezone.now() - duplicate.changed >= timedelta(hours=1):
