@@ -82,15 +82,6 @@
     }
   },
   {
-    "pk": 10,
-    "model": "dynamic_scraper.scrapedobjattr",
-    "fields": {
-      "obj_class": 1,
-      "name": "zip_code",
-      "attr_type": "S"
-    }
-  },
-  {
     "pk": 11,
     "model": "dynamic_scraper.scrapedobjattr",
     "fields": {

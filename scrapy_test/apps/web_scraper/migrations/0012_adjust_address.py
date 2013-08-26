@@ -7,7 +7,8 @@ from django.db import models
 class Migration(DataMigration):
 
     def forwards(self, orm):
-      orm['dynamic_scraper.scrapedobjattr'].objects.filter(id__in=[7]).delete()
+      orm['dynamic_scraper.scrapedobjattr'].objects.filter(id__in=[10]).delete()#zip_code
+      orm['dynamic_scraper.scrapedobjattr'].objects.filter(id__in=[7]).delete()#address 2
       orm['dynamic_scraper.scrapedobjattr'].objects.filter(id__in=[6]).update(name='address')
 
     def backwards(self, orm):
