@@ -16,8 +16,8 @@ class StopOnDuplicateItem(object):
 
   def item_scraped(self, item, spider):
     url = item['url']
-    try:
-      duplicate = Listing.objects.filter(url=url).get()
+    if url[0:6] == 'DOUBLE':
+      duplicate = Listing.objects.filter(url=url[6:]).get()
 
       if timezone.now() - duplicate.created_date >= timedelta(hours=1):
         # if this listing is being crawled again, but we just recently created it,
@@ -40,7 +40,3 @@ class StopOnDuplicateItem(object):
             # because we'd need to manually modify a listing minutes after it shows up as a re-post.
 
             self.crawler.engine.close_spider(spider, 'duplicate listing found: {0}'.format(url))
-
-    except Listing.DoesNotExist:
-      pass
-

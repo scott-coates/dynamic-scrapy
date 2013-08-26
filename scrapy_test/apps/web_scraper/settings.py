@@ -13,7 +13,7 @@ SPIDER_MODULES = ['dynamic_scraper.spiders', 'apps.web_scraper.spiders',]
 USER_AGENT = '%s/%s' % (BOT_NAME, '1.0')
 
 ITEM_PIPELINES = [
-    'dynamic_scraper.pipelines.ValidationPipeline',
+    'scrapy_test.apps.web_scraper.pipelines.validation_pipeline.ValidationPipeline',
     'scrapy_test.apps.web_scraper.pipelines.aggregate_writer_pipeline.AggregateCommandPipeline',
 ]
 
