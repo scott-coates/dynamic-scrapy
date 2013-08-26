@@ -7,6 +7,7 @@ from scrapy_test.libs.geo_utils.parsing import address_parser
   ('100 e 55th', True),
   ('5th', False),
   ('5th and 55th', False),
+  ('St John''s Place', False),
 ])
 def test_address_parser_detects_correct_street_addresses(input_values, expected):
   assert expected == address_parser.is_street_address(input_values)
