@@ -25,7 +25,14 @@ def get_geocoded_address(address, city, state):
     address1 = _get_address_component(address_components, 'route')
 
   address2 = _get_address_component(address_components, 'subpremise')
+
   city = _get_address_component(address_components, 'sublocality')
+  if not city:
+    city = _get_address_component(address_components, 'locality')
+
+  #manhattan is not legally a city, but google geocoder thinks it is.
+  if city and city.lower == 'manhattan':city = 'New York'
+
   state = _get_address_component(address_components, 'administrative_area_level_1')
   zip_code = _get_address_component(address_components, 'postal_code')
 
