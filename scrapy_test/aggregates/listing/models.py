@@ -111,7 +111,7 @@ class Listing(models.Model, AggregateBase):
     if not self.price:
       errors["price"] = ["Missing price"]
 
-    if not self.contact_phone_number and not self.contact_email:
+    if not self.contact_phone_number and not self.contact_email_address:
       errors["communication"] = ["Missing phone and email"]
 
     if not self.description:

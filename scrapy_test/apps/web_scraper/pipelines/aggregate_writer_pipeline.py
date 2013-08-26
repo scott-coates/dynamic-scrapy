@@ -1,3 +1,4 @@
+import traceback
 from scrapy import log
 from scrapy.exceptions import DropItem
 from scrapy_test.aggregates.listing.services import listing_tasks
@@ -12,9 +13,8 @@ class AggregateCommandPipeline(object):
 
       spider.action_successful = True
       spider.log("Listing item sent to application to be processed.", log.INFO)
-
     except Exception as e:
-      spider.log(str(e), log.ERROR)
+      spider.log(traceback.format_exc(), log.ERROR)
       raise DropItem("Error sending listing item.")
 
     return item
