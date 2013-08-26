@@ -51,7 +51,7 @@
     "fields": {
       "obj_class": 1,
       "name": "last_updated_date",
-      "attr_type": "S"
+      "attr_type": "T"
     }
   },
   {
