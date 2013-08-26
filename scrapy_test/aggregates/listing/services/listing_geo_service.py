@@ -24,6 +24,8 @@ def get_sanitized_address(address, city, state,
       #geo coding services won't return the cross street in the actual 'address' field. It'll only pull in the first
       # address like "5th st" when it should be "5th and 68th". The formatted address will contain this proper version
       geocoded_listing['address'] = formatted_parts[0]
+    else:
+      raise TypeError('address1 is required but was not returned from the geo location service')
 
     address2 = geocoded_listing.pop('address2', None)
     if address2:
