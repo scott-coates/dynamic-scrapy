@@ -7,7 +7,7 @@ def is_street_address(address):
   return len(address_split) >= 3 and address_split[0].isdigit()
 
 def is_cross_street_address(address):
-  return " and " in address or " at " in address
+  return " and " in address or " at " in address or " & " in address
 
 def join_cross_street(address):
   return ' & '.join(address)
