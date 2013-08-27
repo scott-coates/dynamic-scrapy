@@ -1,8 +1,14 @@
-from django.db import models
 import logging
+
+from django.db import models, transaction
 from localflavor.us.models import USStateField
+import reversion
+
 from scrapy_test.aggregates.apartment.managers import ApartmentManager
+from scrapy_test.aggregates.apartment.signals import adopted_listing
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
+from scrapy_test.libs.common_domain.models import RevisionEvent
+
 
 logger = logging.getLogger(__name__)
 
@@ -33,15 +39,48 @@ class Apartment(models.Model, AggregateBase):
   class Meta:
     unique_together = ("lat", "lng", "price")
 
+  def __init__(self, *args, **kwargs):
+    super(Apartment, self).__init__(*args, **kwargs)
+    self._listing_list = []
+
   def adopt_listing(self, listing):
-    self.listings.add(listing)
+    self._raise_event(adopted_listing, sender=Apartment, instance=self, listing=listing)
+
+  def _handle_adopted_listing_event(self, listing):
+    self._listing_list.append(listing)
+
+    self.address = self.address or listing.address
+    self.city = self.city or listing.city
+    self.state = self.state or listing.state
+    self.zip_code = self.zip_code or listing.zip_code
+    self.lat = self.lat or listing.lat
+    self.lng = self.lng or listing.lng
+    self.formatted_address = self.formatted_address or listing.formatted_address
+
+    self.bedroom_count = self.bedroom_count or listing.bedroom_count
+    self.bathroom_count = self.bathroom_count or listing.bathroom_count
+    self.sqfeet = self.sqfeet or listing.sqfeet
+    self.price = self.price or listing.price
+    self.broker_fee = self.broker_fee or listing.broker_fee
+
+    self.is_available = True
 
   def __unicode__(self):
     return 'Apartment #' + str(self.pk) + ': ' + self.formatted_address
 
   def save(self, internal=False, *args, **kwargs):
     if internal:
-      super(Apartment, self).save(*args, **kwargs)
+      with transaction.commit_on_success():
+        with reversion.create_revision():
+          super(Apartment, self).save(*args, **kwargs)
+
+          for l in self._listing_list:
+            #add actually does a save internally, hitting the db
+            self.listings.add(l)
+
+          for event in self._uncommitted_events:
+            reversion.add_meta(RevisionEvent, name=event.event_fq_name, version=event.version)
+
       self.send_events()
     else:
       from scrapy_test.aggregates.apartment.services import apartment_service
