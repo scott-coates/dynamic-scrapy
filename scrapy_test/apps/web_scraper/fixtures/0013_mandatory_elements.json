@@ -192,7 +192,7 @@
       "max_items_save": null,
       "checker_x_path": "",
       "pagination_append_str": "",
-      "max_items_read": 2,
+      "max_items_read": 20,
       "pagination_on_start": false,
       "pagination_type": "N",
       "checker_type": "N",
