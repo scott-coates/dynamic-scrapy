@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 
 class Apartment(models.Model, AggregateBase):
-  #todo create unique constraint for lat, lng price
   objects = ApartmentManager()
 
   address = models.CharField(max_length=255, blank=True, null=True)
