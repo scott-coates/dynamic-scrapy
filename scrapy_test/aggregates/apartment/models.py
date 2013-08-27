@@ -31,6 +31,9 @@ class Apartment(models.Model, AggregateBase):
   created_date = models.DateTimeField(auto_now_add=True)
   changed_date = models.DateTimeField(auto_now=True)
 
+  class Meta:
+    unique_together = ("lat", "lng", "price")
+
   def adopt_listing(self, listing):
     self.listings.add(listing)
 
