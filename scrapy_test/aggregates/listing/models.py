@@ -102,7 +102,7 @@ class Listing(models.Model, AggregateBase):
     posted_date = kwargs.get('posted_date')
     if not posted_date:
       raise TypeError("posted_date is required")
-    cls._validate_listing_date(posted_date)
+    ret_val._validate_listing_date(posted_date)
 
     ret_val._raise_event(created, sender=Listing, instance=ret_val, attrs=kwargs)
 
