@@ -9,7 +9,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "scrapy_test.settings.dev") #Cha
 
 BOT_NAME = 'scrapy_test'
 
-SPIDER_MODULES = ['dynamic_scraper.spiders', 'apps.web_scraper.spiders',]
+SPIDER_MODULES = ['dynamic_scraper.spiders', 'scrapy_test.apps.web_scraper.spiders',]
 USER_AGENT = '%s/%s' % (BOT_NAME, '1.0')
 
 ITEM_PIPELINES = [
