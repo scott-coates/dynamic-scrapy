@@ -1,6 +1,5 @@
 import datetime
 import pytz
-from dateutil.tz import tzlocal
 
 eastern_time_zone = pytz.timezone('US/Eastern')
 
@@ -23,13 +22,11 @@ cl_listing_3952467416 = {u'city': [], u'contact_phone_number': [u'\n\t\tHOUSE FO
                                             u'\nNEW KITCHEN ', u'\nCALL DIANA 718-343-2739', u'\nNO BROKERS FEE\n\t',
                                             u'Listed By: PRIVATE DEVELOPMENT'], u'lng': [], 'listing_source_id': 1,
                          u'lat': [],
-                         u'bedroom_count': [u'\n  - $1750 / 3br - BEST AREA IN FAR ROCKAWAY (FAR ROCKAWAY)\n'],
                          u'contact_name': [u'\n\t\tHOUSE FOR RENT IN GOOD LOCATION',
                                            u'\n3 BED ROOM LIVING ROOM DINING ROOM',
                                            u'\nNEW KITCHEN ', u'\nCALL DIANA 718-343-2739', u'\nNO BROKERS FEE\n\t',
                                            u'Listed By: PRIVATE DEVELOPMENT'],
-                         u'broker_fee': [u'/que/abo/3952467416.html'],
-                         u'sqfeet': [u'\n  - $1750 / 3br - BEST AREA IN FAR ROCKAWAY (FAR ROCKAWAY)\n']}
+                         u'broker_fee': [u'/que/abo/3952467416.html']}
 
 cl_listing_3952467416_expected_title = '$1750 / 3br - BEST AREA IN FAR ROCKAWAY (FAR ROCKAWAY)'
 cl_listing_3952467416_expected_description = u'HOUSE FOR RENT IN GOOD LOCATION\n3 BED ROOM LIVING ROOM DINING ROOM\nNEW KITCHEN \nCALL DIANA 718-343-2739\nNO BROKERS FEE'
@@ -76,8 +73,6 @@ cl_listing_3970405942 = {u'city': [u'Bronx'], u'contact_phone_number': [
                                            u'\n3 Brand New Gas Boilers & Hot Water Tanks. Massive Backyard. Near Shopping & Schools. ',
                                            u'\nCALL 917-417-7648 (Se Habla Espanol) ',
                                            u'Listed By: Jose Rodriguez, Inc'], 'listing_source_id': 1, u'lat': [],
-                         u'bedroom_count': [
-                           u'\n  - $1850 / 3br - 3 Bedroom 2 Full Bath Luxury Apartment (Bronx, NY)\n'], u'lng': [],
-                         u'broker_fee': [u'/brx/abo/3970405942.html'],
-                         u'sqfeet': [u'\n  - $1850 / 3br - 3 Bedroom 2 Full Bath Luxury Apartment (Bronx, NY)\n']}
+                         u'lng': [],
+                         u'broker_fee': [u'/brx/abo/3970405942.html']}
 #endregion

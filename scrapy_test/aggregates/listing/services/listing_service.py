@@ -32,4 +32,5 @@ def save_or_update(listing):
 
 def associate_listing_with_apartment(listing, apartment):
   listing.associate_with_apartment(apartment)
+  save_or_update(listing)
   return listing
