@@ -1,2 +1,2 @@
-from scrapy_test.aggregates.listing import signals
+from scrapy_test.aggregates.listing import event_handlers
 from scrapy_test.aggregates.listing import reversions
