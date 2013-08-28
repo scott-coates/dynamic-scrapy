@@ -1,5 +1,7 @@
-from scrapy_test.libs.geo_utils.geocoded_address import GeocodedAddress
 from pygeocoder import Geocoder
+
+from scrapy_test.libs.geo_utils.geocoded_address import GeocodedAddress
+
 
 _geocoder = Geocoder()
 
@@ -31,7 +33,7 @@ def get_geocoded_address(address, city, state):
     city = _get_address_component(address_components, 'locality')
 
   #manhattan is not legally a city, but google geocoder thinks it is.
-  if city and city.lower == 'manhattan':city = 'New York'
+  if city and city.lower() == 'manhattan': city = 'New York'
 
   state = _get_address_component(address_components, 'administrative_area_level_1')
   zip_code = _get_address_component(address_components, 'postal_code')
