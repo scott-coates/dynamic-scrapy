@@ -1,5 +1,4 @@
 import reversion
-from scrapy_test.aggregates.listing.models import Listing, Amenity
+from scrapy_test.aggregates.apartment.models import Apartment
 
-reversion.register(Listing, follow=['amenities'])
-reversion.register(Amenity, follow=['amenity_type'])
+reversion.register(Apartment, follow=['amenities'])
