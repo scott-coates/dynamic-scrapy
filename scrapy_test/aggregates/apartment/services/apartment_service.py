@@ -10,7 +10,7 @@ def save_or_update(apartment):
   apartment.save(internal=True)
 
 
-def associate_listing_with_apartment(listing):
+def adopt_listing(listing):
   try:
     apartment = Apartment.objects.find_from_listing(listing)
     apartment.adopt_listing(listing)

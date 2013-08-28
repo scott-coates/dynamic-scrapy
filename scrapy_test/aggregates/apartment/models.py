@@ -39,14 +39,10 @@ class Apartment(models.Model, AggregateBase):
   class Meta:
     unique_together = ("lat", "lng", "price")
 
-  def __init__(self, *args, **kwargs):
-    super(Apartment, self).__init__(*args, **kwargs)
-    self._listing_list = []
-
   def adopt_listing(self, listing):
     self._raise_event(adopted_listing, sender=Apartment, instance=self, listing=listing)
 
-  def _handle_adopted_listing_event(self, listing):
+  def _handle_adopted_listing_event(self, listing, **kwargs):
     self._listing_list.append(listing)
 
     self.address = self.address or listing.address
@@ -73,10 +69,6 @@ class Apartment(models.Model, AggregateBase):
       with transaction.commit_on_success():
         with reversion.create_revision():
           super(Apartment, self).save(*args, **kwargs)
-
-          for l in self._listing_list:
-            #add actually does a save internally, hitting the db
-            self.listings.add(l)
 
           for event in self._uncommitted_events:
             reversion.add_meta(RevisionEvent, name=event.event_fq_name, version=event.version)

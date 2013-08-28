@@ -9,7 +9,8 @@ from localflavor.us.models import USStateField, PhoneNumberField
 import reversion
 from scrapy_test.aggregates.listing.managers import ListingManager
 
-from scrapy_test.aggregates.listing.signals import created, sanitized, deleted, unsanitized, updated_last_updated_date
+from scrapy_test.aggregates.listing.signals import created, sanitized, deleted, unsanitized, \
+  updated_last_updated_date, associated_with_apartment
 from scrapy_test.aggregates.listing_source.models import ListingSource
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.django_utils.models.utils import copy_django_model_attrs
@@ -157,7 +158,10 @@ class Listing(models.Model, AggregateBase):
   def make_deleted(self):
     self._raise_event(deleted, sender=Listing, instance=self)
 
-  #region event handlers
+  def associate_with_apartment(self, apartment):
+    self._raise_event(associated_with_apartment, sender=Listing, instance=self, apartment=apartment)
+
+    #region event handlers
 
   def _handle_created_event(self, **kwargs):
     amenities = kwargs['attrs'].pop('amenities', None)
@@ -177,17 +181,21 @@ class Listing(models.Model, AggregateBase):
     self.requires_sanity_checking = False
     logger.info("{0} has been marked as sanitized".format(self))
 
-  def _handle_unsanitized_event(self, errors):
+  def _handle_unsanitized_event(self, errors, **kwargs):
     self.validation_parsing_errors = errors
     self.requires_sanity_checking = True
 
     logger.info("{0} has been marked as unsanitized".format(self))
 
-  def _handle_updated_last_updated_date_event(self, last_updated_date):
+  def _handle_updated_last_updated_date_event(self, last_updated_date, **kwargs):
     self.last_updated_date = last_updated_date
     logger.info("{0} last_updated_date set to {1}".format(self, last_updated_date))
 
-  #endregion
+  def _handle_associated_with_apartment_event(self, apartment, **kwargs):
+    self.apartment = apartment
+    logger.info("{0} has been associated with {1}".format(self, apartment))
+
+    #endregion
 
   def __unicode__(self):
     return 'Listing #' + str(self.pk) + ': ' + self.formatted_address

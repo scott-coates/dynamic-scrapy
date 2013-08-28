@@ -6,4 +6,4 @@ from scrapy_test.aggregates.listing.models import Listing
 
 @receiver(sanitized,sender = Listing)
 def event_occurred_callback(sender, **kwargs):
-  apartment_tasks.associate_listing_with_apartment_task.delay(kwargs['instance'].id)
+  apartment_tasks.adopt_listing_task.delay(kwargs['instance'].id)

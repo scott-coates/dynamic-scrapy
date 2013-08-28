@@ -28,3 +28,7 @@ def update_listing(**listing_attrs):
 
 def save_or_update(listing):
   listing.save(internal=True)
+
+
+def associate_listing_with_apartment(listing, apartment):
+  listing.associate_with_apartment(apartment)
