@@ -43,8 +43,6 @@ class Apartment(models.Model, AggregateBase):
     self._raise_event(adopted_listing, sender=Apartment, instance=self, listing=listing)
 
   def _handle_adopted_listing_event(self, listing, **kwargs):
-    self._listing_list.append(listing)
-
     self.address = self.address or listing.address
     self.city = self.city or listing.city
     self.state = self.state or listing.state
