@@ -13,6 +13,7 @@ class ListingScrapyItem(DjangoItem):
 
 
 class ListingSourceScraperConfig(models.Model):
+  #todo if a listing_source is deleted, then this config should be deleted too
   listing_source = models.OneToOneField(ListingSource, primary_key=True, related_name='scraper_config')
   scraper = models.OneToOneField(Scraper, blank=True, null=True, on_delete=models.SET_NULL)
   scraper_runtime = models.OneToOneField(SchedulerRuntime, blank=True, null=True, on_delete=models.SET_NULL)
@@ -22,6 +23,7 @@ class ListingSourceScraperConfig(models.Model):
 
 
 class ListingCheckerConfig(models.Model):
+  #todo if a listing is deleted, then this config should be deleted too
   listing = models.OneToOneField(Listing, primary_key=True)
   checker_runtime = models.OneToOneField(SchedulerRuntime, blank=True, null=True, on_delete=models.SET_NULL)
 
