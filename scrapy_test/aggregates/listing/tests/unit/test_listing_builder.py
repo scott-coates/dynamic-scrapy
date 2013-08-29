@@ -4,7 +4,7 @@ from scrapy_test.aggregates.amenity.services import amenity_service
 from scrapy_test.aggregates.listing.domain import listing_builder
 from scrapy_test.aggregates.listing.domain.listing_builder import ListingBuilder
 from scrapy_test.aggregates.listing.services import listing_geo_service
-from scrapy_test.aggregates.listing.tests.unit import listing_test_data
+from scrapy_test.aggregates.listing.tests import listing_test_data
 from scrapy_test.libs.communication_utils.parsing import contact_parser
 from scrapy_test.libs.datetime_utils.parsers import datetime_parser
 from scrapy_test.libs.geo_utils.parsing import address_parser
@@ -13,7 +13,7 @@ from scrapy_test.libs.housing_utils.parsing import home_parser
 # region title tests
 from scrapy_test.libs.text_utils.parsers import text_parser
 
-title_stripped = listing_test_data.cl_listing_3952467416['title']
+title_stripped = listing_test_data.cl_listing_3952467416_title
 expected_title_stripped = listing_test_data.cl_listing_3952467416_expected_title
 
 title_scalar = 'My Title'
@@ -39,14 +39,14 @@ def test_builder_throws_appropriate_error_for_invalid_type():
 
 # region description tests
 def test_builder_description_combines_elements_into_scalar_description():
-  builder = ListingBuilder(description=listing_test_data.cl_listing_3952467416[listing_builder.DESCRIPTION])
+  builder = ListingBuilder(description=listing_test_data.cl_listing_3952467416_description)
   builder._build_description()
   description = builder.listing_attrs_output[listing_builder.DESCRIPTION]
   assert isinstance(description, basestring)
 
 
 def test_builder_description_combines_elements_into_scalar_description():
-  builder = ListingBuilder(description=listing_test_data.cl_listing_3952467416[listing_builder.DESCRIPTION])
+  builder = ListingBuilder(description=listing_test_data.cl_listing_3952467416_description)
   builder._build_description()
   description = builder.listing_attrs_output[listing_builder.DESCRIPTION]
   assert description == listing_test_data.cl_listing_3952467416_expected_description
@@ -59,7 +59,7 @@ def test_builder_uses_datetime_parser():
   datetime_parser_mock = MagicMock(spec=datetime_parser)
 
   datetime_parser_mock.get_datetime = MagicMock(
-    return_value=listing_test_data.cl_listing_3952467416[listing_builder.POSTED_DATE]
+    return_value=listing_test_data.cl_listing_3952467416_posted_date
   )
 
   some_time = 'SOME TIME'
@@ -75,7 +75,7 @@ def test_builder_sets_posted_date_to_correct_date():
   datetime_parser_mock = MagicMock(spec=datetime_parser)
 
   datetime_parser_mock.get_datetime = MagicMock(
-    return_value=listing_test_data.cl_listing_3952467416[listing_builder.POSTED_DATE]
+    return_value=listing_test_data.cl_listing_3952467416_posted_date
   )
 
   builder = ListingBuilder(datetime_parser=datetime_parser_mock, posted_date='IGNOREME')
@@ -91,7 +91,7 @@ def test_builder_sets_last_updated_date_to_correct_date():
   datetime_parser_mock = MagicMock(spec=datetime_parser)
 
   datetime_parser_mock.get_datetime = MagicMock(
-    return_value=listing_test_data.cl_listing_3952467416[listing_builder.LAST_UPDATED_DATE]
+    return_value=listing_test_data.cl_listing_3952467416_last_updated_date
   )
 
   builder = ListingBuilder(datetime_parser=datetime_parser_mock, last_updated_date='IGNOREME')

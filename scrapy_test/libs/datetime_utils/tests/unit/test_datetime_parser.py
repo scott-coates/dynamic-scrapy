@@ -1,6 +1,6 @@
 import datetime
 import pytest
-from scrapy_test.aggregates.listing.tests.unit.listing_test_data import eastern_time_zone
+from scrapy_test.aggregates.listing.tests.listing_test_data import eastern_time_zone
 from scrapy_test.libs.datetime_utils.parsers import datetime_parser
 
 
