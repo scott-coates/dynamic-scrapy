@@ -8,5 +8,5 @@ enable_south_migrations()
 
 @pytest.mark.django_db()
 def test_listing_is_created_from_attrs():
-  listing_service.create_listing(**listing_test_data.cl_listing_4033538277)
+  listing = listing_service.create_listing(**listing_test_data.cl_listing_4033538277)
   assert 1 == Listing.objects.count()
