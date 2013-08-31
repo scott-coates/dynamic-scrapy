@@ -2,6 +2,8 @@ from datetime import timedelta
 from django.utils import timezone
 from scrapy import signals
 from scrapy_test.aggregates.listing.models import Listing
+from scrapy_test.apps.web_scraper.spiders.listing_spider import ListingSpider
+from scrapy_test.libs.analytics_utils.services import analytics_service
 from scrapy_test.libs.datetime_utils.parsers import datetime_parser
 
 
@@ -45,8 +47,9 @@ class StopOnDuplicateItem(object):
 
 
 class StatsReporter(object):
-  def __init__(self, crawler):
+  def __init__(self, crawler, analytics_service=analytics_service):
     self.crawler = crawler
+    self._analytics_service = analytics_service
 
     crawler.signals.connect(self.spider_closed, signal=signals.spider_closed)
 
@@ -55,7 +58,14 @@ class StatsReporter(object):
     return cls(crawler)
 
   def spider_closed(self, spider):
-    #get the stats
     stats = self.crawler.stats.get_stats()
+
     stats_to_log = {key: value for key, value in stats.items() if key.startswith('item_dropped')}
-    pass
+
+    stats_to_log['spider_name'] = spider.name
+
+    if isinstance(spider, ListingSpider):
+      stats_to_log['listing_source_name'] = spider.ref_object.listing_source.name
+      stats_to_log['listing_source_url'] = spider.ref_object.listing_source.url
+
+    self._analytics_service.send_event("Crawler Finished", **stats_to_log)
