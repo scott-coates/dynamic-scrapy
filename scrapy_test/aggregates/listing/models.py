@@ -22,11 +22,6 @@ logger = logging.getLogger(__name__)
 
 
 class Listing(models.Model, AggregateBase):
-  #todo put in unique constraints (zip, lat, lng, etc)
-  def __init__(self, *args, **kwargs):
-    super(Listing, self).__init__(*args, **kwargs)
-    self._amenity_list = []
-
   objects = ListingManager()
 
   listing_source = models.ForeignKey(ListingSource)
@@ -35,7 +30,7 @@ class Listing(models.Model, AggregateBase):
   description = models.TextField()
   posted_date = models.DateTimeField()
   last_updated_date = models.DateTimeField(blank=True, null=True)
-  url = models.URLField()
+  url = models.URLField(unique=True)
 
   address = models.CharField(max_length=255, blank=True, null=True)
   city = models.CharField(max_length=255)
@@ -68,6 +63,9 @@ class Listing(models.Model, AggregateBase):
   created_date = models.DateTimeField(auto_now_add=True)
   changed_date = models.DateTimeField(auto_now=True)
 
+  def __init__(self, *args, **kwargs):
+    super(Listing, self).__init__(*args, **kwargs)
+    self._amenity_list = []
 
   @classmethod
   def _from_attrs(cls, **kwargs):
