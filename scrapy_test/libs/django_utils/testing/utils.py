@@ -5,6 +5,7 @@ import pytest
 
 @pytest.fixture(scope='session')
 def enable_south_migrations():
+  #this was taken directly from the pycharm test runner
   management.get_commands()
   if hasattr(settings, "SOUTH_TESTS_MIGRATE") and not settings.SOUTH_TESTS_MIGRATE:
     # point at the core syncdb command when creating tests
