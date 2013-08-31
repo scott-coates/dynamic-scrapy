@@ -5,7 +5,7 @@ from scrapy_test.libs.common_domain.event_record import EventRecord
 from scrapy_test.libs.common_domain.event_signal import EventSignal
 
 
-class TestAggregate(AggregateBase):
+class DummyAggregate(AggregateBase):
   pass
 
 
@@ -15,7 +15,7 @@ def test_aggregate_base_sends_event_in_order():
   def side_effect(signal_num, *ignore_me):
     results.append(signal_num)
 
-  aggregate_test = TestAggregate()
+  aggregate_test = DummyAggregate()
 
   signal1 = MagicMock(spec=EventRecord)
   signal1.event_obj.send = MagicMock(side_effect=partial(side_effect, 1))
@@ -31,7 +31,7 @@ def test_aggregate_base_sends_event_in_order():
 
 
 def test_aggregate_uses_correct_naming_convention_when_applying():
-  aggregate_test = TestAggregate()
+  aggregate_test = DummyAggregate()
 
   event = MagicMock(spec=EventSignal)
   event.name = 'test'
