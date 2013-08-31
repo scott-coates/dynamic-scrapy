@@ -42,3 +42,20 @@ class StopOnDuplicateItem(object):
             # because we'd need to manually modify a listing minutes after it shows up as a re-post.
 
             self.crawler.engine.close_spider(spider, 'duplicate listing found: {0}'.format(url))
+
+
+class StatsReporter(object):
+  def __init__(self, crawler):
+    self.crawler = crawler
+
+    crawler.signals.connect(self.spider_closed, signal=signals.spider_closed)
+
+  @classmethod
+  def from_crawler(cls, crawler):
+    return cls(crawler)
+
+  def spider_closed(self, spider):
+    #get the stats
+    stats = self.crawler.stats.get_stats()
+    stats_to_log = {key: value for key, value in stats.items() if key.startswith('item_dropped')}
+    pass

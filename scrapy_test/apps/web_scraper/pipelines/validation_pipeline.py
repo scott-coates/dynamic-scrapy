@@ -14,6 +14,9 @@ class ValidationPipeline(object):
       if not elem.scraped_obj_attr.name in item or \
           (elem.scraped_obj_attr.name in item and not item[elem.scraped_obj_attr.name]):
         spider.log("Mandatory elem " + elem.scraped_obj_attr.name + " missing!", log.ERROR)
+        spider.crawler.stats.inc_value(
+          'item_dropped/{0}/{1}/missing_{1}'.format(spider.name, elem.scraped_obj_attr.name)
+        )
         raise DropItem()
 
     if spider.conf['MAX_ITEMS_SAVE'] and spider.items_save_count >= spider.conf['MAX_ITEMS_SAVE']:

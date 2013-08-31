@@ -19,4 +19,5 @@ ITEM_PIPELINES = [
 
 EXTENSIONS = {
   'scrapy_test.apps.web_scraper.scrapy.extensions.StopOnDuplicateItem': 500,
+  'scrapy_test.apps.web_scraper.scrapy.extensions.StatsReporter': 500,
 }
