@@ -61,6 +61,12 @@ class Apartment(models.Model, AggregateBase):
     self.price = self.price or listing.price
     self.broker_fee = self.broker_fee or listing.broker_fee
 
+    existing_amenities = self.amenities.values_list('amenity_type_id', flat=True)
+    self._amenity_list.extend(
+      Amenity(amenity_type_id=a.amenity_type_id, is_available=a.is_available) for a in listing.amenities.all() if
+      a.amenity_type_id not in existing_amenities
+    )
+
     self.is_available = True
 
   def __unicode__(self):
@@ -84,6 +90,7 @@ class Apartment(models.Model, AggregateBase):
       from scrapy_test.aggregates.apartment.services import apartment_service
 
       apartment_service.save_or_update(self)
+
 
 class Amenity(models.Model):
   is_available = models.BooleanField()
