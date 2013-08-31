@@ -1,7 +1,9 @@
 from django.core import management
 from django.conf import settings
+import pytest
 
 
+@pytest.fixture(scope='session')
 def enable_south_migrations():
   management.get_commands()
   if hasattr(settings, "SOUTH_TESTS_MIGRATE") and not settings.SOUTH_TESTS_MIGRATE:
@@ -19,3 +21,8 @@ def enable_south_migrations():
         hacks.patch_flush_during_test_db_creation()
     except ImportError:
       management._commands['syncdb'] = 'django.core'
+
+
+@pytest.fixture(scope='function')
+def db_with_migrations(enable_south_migrations, db):
+  pass
