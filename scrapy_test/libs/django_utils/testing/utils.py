@@ -27,3 +27,21 @@ def enable_south_migrations():
 @pytest.fixture(scope='function')
 def db_with_migrations(enable_south_migrations, db):
   pass
+
+
+@pytest.fixture(autouse=True)
+def _django_db_with_migrations_marker(request):
+  marker = request.keywords.get('django_db_with_migrations', None)
+  if marker:
+    validate_django_db_with_migrations(marker)
+    if marker.transaction:
+      raise NotImplementedError('transactional_db_with_migrations needs to be created still')
+    else:
+      request.getfuncargvalue('db_with_migrations')
+
+
+def validate_django_db_with_migrations(marker):
+  def apifun(transaction=False):
+    marker.transaction = transaction
+
+  apifun(*marker.args, **marker.kwargs)
