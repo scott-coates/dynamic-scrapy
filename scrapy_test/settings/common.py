@@ -203,7 +203,10 @@ THIRD_PARTY_APPS = (
     'kombu.transport.django',
 
     # Database
-    'reversion'
+    'reversion',
+
+    # Mixpanel
+    'mixpanel',
 )
 
 LOCAL_APPS = (
