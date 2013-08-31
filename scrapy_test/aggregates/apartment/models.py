@@ -39,6 +39,10 @@ class Apartment(models.Model, AggregateBase):
   class Meta:
     unique_together = ("lat", "lng", "price")
 
+  def __init__(self, *args, **kwargs):
+    super(Apartment, self).__init__(*args, **kwargs)
+    self._amenity_list = []
+
   def adopt_listing(self, listing):
     self._raise_event(adopted_listing, sender=Apartment, instance=self, listing=listing)
 
@@ -68,6 +72,10 @@ class Apartment(models.Model, AggregateBase):
         with reversion.create_revision():
           super(Apartment, self).save(*args, **kwargs)
 
+          for a in self._amenity_list:
+            #add actually does a save internally, hitting the db
+            self.amenities.add(a)
+
           for event in self._uncommitted_events:
             reversion.add_meta(RevisionEvent, name=event.event_fq_name, version=event.version)
 
@@ -76,3 +84,11 @@ class Apartment(models.Model, AggregateBase):
       from scrapy_test.aggregates.apartment.services import apartment_service
 
       apartment_service.save_or_update(self)
+
+class Amenity(models.Model):
+  is_available = models.BooleanField()
+  apartment = models.ForeignKey(Apartment, related_name='amenities')
+  amenity_type = models.ForeignKey('amenity.Amenity', related_name='apartment_instance')
+
+  class Meta:
+    unique_together = ("apartment", "amenity_type")
