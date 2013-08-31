@@ -194,7 +194,7 @@ class ListingBuilder(object):
       title = self.listing_attrs_output.get(TITLE)
       if title:
         bedroom_count = self._home_parser.get_bedroom_count(title)
-        if bedroom_count:
+        if bedroom_count is not None:
           self._assign_output_attr(BEDROOM_COUNT, bedroom_count)
 
   def _build_bathroom_count(self):
@@ -207,7 +207,7 @@ class ListingBuilder(object):
       title = self.listing_attrs_output.get(TITLE)
       if title:
         bathroom_count = self._home_parser.get_bathroom_count(title)
-        if bathroom_count:
+        if bathroom_count is not None:
           self._assign_output_attr(BATHROOM_COUNT, bathroom_count)
 
   def _build_sqfeet(self):
