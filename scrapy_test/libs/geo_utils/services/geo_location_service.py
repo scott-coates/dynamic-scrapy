@@ -1,6 +1,7 @@
+import sys
 from pygeocoder import Geocoder
-
 from scrapy_test.libs.geo_utils.geocoded_address import GeocodedAddress
+from scrapy_test.libs.geo_utils.signals import location_geocoded
 
 
 _geocoder = Geocoder()
@@ -19,6 +20,10 @@ def get_geocoded_address(address, city, state):
   address_format = "{0} {1} {2}".format(address, city, state)
 
   results = _geocoder.geocode(address_format)
+
+  current_module = sys.modules[__name__]
+
+  location_geocoded.send(current_module)
 
   address_components = results.data[0]['address_components']
 

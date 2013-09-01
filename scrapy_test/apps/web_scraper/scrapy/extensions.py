@@ -1,10 +1,12 @@
 from datetime import timedelta
+from django.dispatch import receiver
 from django.utils import timezone
 from scrapy import signals
 from scrapy_test.aggregates.listing.models import Listing
 from scrapy_test.apps.web_scraper.spiders.listing_spider import ListingSpider
 from scrapy_test.libs.analytics_utils.services import analytics_service
 from scrapy_test.libs.datetime_utils.parsers import datetime_parser
+from scrapy_test.libs.geo_utils.signals import location_geocoded
 
 
 class StopOnDuplicateItem(object):
@@ -47,9 +49,15 @@ class StopOnDuplicateItem(object):
 
 
 class StatsReporter(object):
+  interested_stats = ['item_dropped', 'location_geocoded']
+
   def __init__(self, crawler, analytics_service=analytics_service):
     self.crawler = crawler
     self._analytics_service = analytics_service
+
+    @receiver(location_geocoded, weak=False)
+    def location_geocoded_callback(sender, **kwargs):
+      self.crawler.stats.inc_value('location_geocoded')
 
     crawler.signals.connect(self.spider_closed, signal=signals.spider_closed)
 
@@ -60,7 +68,8 @@ class StatsReporter(object):
   def spider_closed(self, spider):
     stats = self.crawler.stats.get_stats()
 
-    stats_to_log = {key: value for key, value in stats.items() if key.startswith('item_dropped')}
+    stats_to_log = {key: value for key, value in stats.items() if
+                    any(key.lower().startswith(item) for item in StatsReporter.interested_stats)}
 
     stats_to_log['spider_name'] = spider.name
 
