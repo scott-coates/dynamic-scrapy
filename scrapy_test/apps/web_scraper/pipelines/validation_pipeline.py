@@ -3,6 +3,11 @@ from scrapy.exceptions import DropItem
 
 
 class ValidationPipeline(object):
+  """
+    This pipeline is used because the original validation pipeline will automatically update the attributes of a
+    model and then raise a DropItem. We want the item to be passed along and not be updated automatically.
+    """
+
   def process_item(self, item, spider):
 
     url_elem = spider.scraper.get_detail_page_url_elem()
