@@ -21,8 +21,13 @@ def create_listing(**listing_attrs):
 def update_listing(**listing_attrs):
   url = listing_attrs['url']
   listing = get_listing_by_url(url)
-  listing.update_last_updated_date(datetime_parser.get_datetime(listing_attrs['last_updated_date'][0]))
-  save_or_update(listing)
+
+  last_updated_date = listing_attrs['last_updated_date']
+
+  if last_updated_date:
+    listing.update_last_updated_date(datetime_parser.get_datetime(last_updated_date[0]))
+    save_or_update(listing)
+
   return listing
 
 
