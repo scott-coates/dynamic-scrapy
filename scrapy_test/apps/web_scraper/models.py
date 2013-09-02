@@ -14,8 +14,8 @@ class ListingScrapyItem(DjangoItem):
 
 class ListingSourceScraperConfig(models.Model):
   listing_source = models.OneToOneField(ListingSource, primary_key=True, related_name='scraper_config')
-  scraper = models.OneToOneField(Scraper, blank=True, null=True, on_delete=models.SET_NULL)
-  scraper_runtime = models.OneToOneField(SchedulerRuntime, blank=True, null=True, on_delete=models.SET_NULL)
+  scraper = models.OneToOneField(Scraper)
+  scraper_runtime = models.OneToOneField(SchedulerRuntime)
 
   def __unicode__(self):
     return self.listing_source.name
@@ -23,7 +23,7 @@ class ListingSourceScraperConfig(models.Model):
 
 class ListingCheckerConfig(models.Model):
   listing = models.OneToOneField(Listing, primary_key=True, related_name='checker_config')
-  checker_runtime = models.OneToOneField(SchedulerRuntime, blank=True, null=True, on_delete=models.SET_NULL)
+  checker_runtime = models.OneToOneField(SchedulerRuntime)
   scraper = models.ForeignKey(Scraper, blank=True, null=True, on_delete=models.SET_NULL)
 
   def __unicode__(self):
