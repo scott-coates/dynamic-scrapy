@@ -20,6 +20,10 @@ class ListingSourceScraperConfig(models.Model):
   def __unicode__(self):
     return self.listing_source.name
 
+  def delete(self, using=None):
+    self.scraper_runtime.delete()
+    super(ListingSourceScraperConfig, self).delete(using)
+
 
 class ListingCheckerConfig(models.Model):
   listing = models.OneToOneField(Listing, primary_key=True, related_name='checker_config')
@@ -28,3 +32,8 @@ class ListingCheckerConfig(models.Model):
 
   def __unicode__(self):
     return str(self.listing)
+
+  def delete(self, using=None):
+    self.checker_runtime.delete()
+    super(ListingCheckerConfig, self).delete(using)
+
