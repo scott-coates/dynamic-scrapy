@@ -2,7 +2,6 @@ import traceback
 from scrapy import log
 from scrapy.exceptions import DropItem
 from scrapy_test.aggregates.listing.services import listing_tasks
-from scrapy_test.apps.web_scraper.services import web_scraper_tasks
 from scrapy_test.apps.web_scraper.spiders.listing_spider import ListingSpider
 
 

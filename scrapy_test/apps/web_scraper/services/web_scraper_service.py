@@ -28,3 +28,8 @@ def add_listing_checker(listing):
   checker_config.save()
 
   return checker_config
+
+
+def delete_listing_checker(listing):
+  listing_checker_cfg = ListingCheckerConfig.objects.get(pk=listing.id)
+  listing_checker_cfg.delete()

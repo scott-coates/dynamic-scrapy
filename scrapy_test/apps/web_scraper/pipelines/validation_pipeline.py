@@ -10,9 +10,6 @@ class ValidationPipeline(object):
 
   def process_item(self, item, spider):
 
-    url_elem = spider.scraper.get_detail_page_url_elem()
-    url_name = url_elem.scraped_obj_attr.name
-
     mandatory_elems = spider.scraper.get_mandatory_scrape_elems()
 
     for elem in mandatory_elems:
