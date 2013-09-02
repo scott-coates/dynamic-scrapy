@@ -34,6 +34,8 @@ def update_listing(**listing_attrs):
 def delete_listing(listing):
   listing.make_deleted()
 
+  save_or_update(listing)
+
   return listing
 
 def save_or_update(listing):
