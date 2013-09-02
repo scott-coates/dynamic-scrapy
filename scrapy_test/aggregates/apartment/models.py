@@ -70,7 +70,7 @@ class Apartment(models.Model, AggregateBase):
     self.is_available = True
 
   def update_availability(self):
-    if all(l.is_dead for l in self.listings):
+    if all(l.is_dead for l in self.listings.all()):
       self.make_unavailable()
 
   def make_unavailable(self):
