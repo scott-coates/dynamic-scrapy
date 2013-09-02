@@ -10,5 +10,6 @@ updated_last_updated_date = EventSignal('updated_last_updated_date', __name__, 1
 ])
 
 deleted = EventSignal('deleted', __name__, 1, providing_args=['instance'])
+died = EventSignal('diekd', __name__, 1, providing_args=['instance'])
 associated_with_apartment = EventSignal('associated_with_apartment', __name__, 1, providing_args=['instance',
                                                                                                   'apartment'])
