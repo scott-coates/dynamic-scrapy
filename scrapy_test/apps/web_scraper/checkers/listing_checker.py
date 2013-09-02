@@ -37,6 +37,6 @@ class ListingChecker(DjangoChecker):
     except ScraperElem.DoesNotExist:
       pass
 
-    listing_tasks.delete_listing_task.delay(self.ref_object.listing)
+    listing_tasks.delete_listing_task.delay(self.ref_object.listing.id)
     self.action_successful = True
     self.log("Item deleted.", log.INFO)
