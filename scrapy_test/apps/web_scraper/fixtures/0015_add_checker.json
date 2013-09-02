@@ -436,66 +436,6 @@
     }
   },
   {
-    "pk": 2,
-    "model": "dynamic_scraper.schedulerruntime",
-    "fields": {
-      "next_action_factor": null,
-      "next_action_time": "2013-09-01T22:47:09.553Z",
-      "num_zero_actions": 0,
-      "runtime_type": "C"
-    }
-  },
-  {
-    "pk": 3,
-    "model": "dynamic_scraper.schedulerruntime",
-    "fields": {
-      "next_action_factor": null,
-      "next_action_time": "2013-09-01T22:47:16.793Z",
-      "num_zero_actions": 0,
-      "runtime_type": "C"
-    }
-  },
-  {
-    "pk": 4,
-    "model": "dynamic_scraper.schedulerruntime",
-    "fields": {
-      "next_action_factor": null,
-      "next_action_time": "2013-09-01T22:47:19.384Z",
-      "num_zero_actions": 0,
-      "runtime_type": "C"
-    }
-  },
-  {
-    "pk": 5,
-    "model": "dynamic_scraper.schedulerruntime",
-    "fields": {
-      "next_action_factor": null,
-      "next_action_time": "2013-09-01T22:47:20.646Z",
-      "num_zero_actions": 0,
-      "runtime_type": "C"
-    }
-  },
-  {
-    "pk": 6,
-    "model": "dynamic_scraper.schedulerruntime",
-    "fields": {
-      "next_action_factor": null,
-      "next_action_time": "2013-09-01T22:47:21.594Z",
-      "num_zero_actions": 0,
-      "runtime_type": "C"
-    }
-  },
-  {
-    "pk": 7,
-    "model": "dynamic_scraper.schedulerruntime",
-    "fields": {
-      "next_action_factor": null,
-      "next_action_time": "2013-09-01T22:47:22.337Z",
-      "num_zero_actions": 0,
-      "runtime_type": "C"
-    }
-  },
-  {
     "pk": 1,
     "model": "dynamic_scraper.log",
     "fields": {
