@@ -26,3 +26,6 @@ EXTENSIONS = {
   'scrapy_test.apps.web_scraper.scrapy.extensions.StopOnDuplicateItem': 500,
   'scrapy_test.apps.web_scraper.scrapy.extensions.StatsReporter': 500,
 }
+
+# https://scrapy.readthedocs.org/en/latest/topics/settings.html#randomize-download-delay
+DOWNLOAD_DELAY = 0.73
