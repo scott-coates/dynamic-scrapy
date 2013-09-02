@@ -1,4 +1,5 @@
-import os, sys
+import os
+import sys
 
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
@@ -9,12 +10,16 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "scrapy_test.settings.dev") #Cha
 
 BOT_NAME = 'scrapy_test'
 
-SPIDER_MODULES = ['dynamic_scraper.spiders', 'scrapy_test.apps.web_scraper.spiders',]
+SPIDER_MODULES = [
+  'dynamic_scraper.spiders',
+  'scrapy_test.apps.web_scraper.spiders',
+  'scrapy_test.apps.web_scraper.checkers',
+]
 USER_AGENT = '%s/%s' % (BOT_NAME, '1.0')
 
 ITEM_PIPELINES = [
-    'scrapy_test.apps.web_scraper.pipelines.validation_pipeline.ValidationPipeline',
-    'scrapy_test.apps.web_scraper.pipelines.aggregate_writer_pipeline.AggregateCommandPipeline',
+  'scrapy_test.apps.web_scraper.pipelines.validation_pipeline.ValidationPipeline',
+  'scrapy_test.apps.web_scraper.pipelines.aggregate_writer_pipeline.AggregateCommandPipeline',
 ]
 
 EXTENSIONS = {
