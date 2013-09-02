@@ -31,8 +31,8 @@ def update_listing(**listing_attrs):
   return listing
 
 
-def delete_listing(listing):
-  listing.make_deleted()
+def kill_listing(listing):
+  listing.make_dead()
 
   save_or_update(listing)
 

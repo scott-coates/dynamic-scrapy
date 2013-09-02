@@ -10,7 +10,7 @@ import reversion
 from scrapy_test.aggregates.listing.managers import ListingManager
 
 from scrapy_test.aggregates.listing.signals import created, sanitized, deleted, unsanitized, \
-  updated_last_updated_date, associated_with_apartment
+  updated_last_updated_date, associated_with_apartment, died
 from scrapy_test.aggregates.listing_source.models import ListingSource
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.django_utils.models.utils import copy_django_model_attrs
@@ -56,7 +56,7 @@ class Listing(models.Model, AggregateBase):
   apartment = models.ForeignKey('apartment.Apartment', related_name='listings', blank=True, null=True)
 
   #is the listing actually viewable on an external website?
-  is_alive = models.BooleanField()
+  is_dead = models.BooleanField()
   #did we manually delete this?
   is_deleted = models.BooleanField()
 
@@ -156,6 +156,9 @@ class Listing(models.Model, AggregateBase):
   def make_deleted(self):
     self._raise_event(deleted, sender=Listing, instance=self)
 
+  def make_dead(self):
+    self._raise_event(died, sender=Listing, instance=self)
+
   def associate_with_apartment(self, apartment):
     self._raise_event(associated_with_apartment, sender=Listing, instance=self, apartment=apartment)
 
@@ -174,6 +177,10 @@ class Listing(models.Model, AggregateBase):
   def _handle_deleted_event(self, **kwargs):
     self.is_deleted = True
     logger.info("{0} has been marked as deleted".format(self))
+
+  def _handle_died_event(self, **kwargs):
+    self.is_dead = True
+    logger.info("{0} has been marked as dead".format(self))
 
   def _handle_sanitized_event(self, **kwargs):
     self.requires_sanity_checking = False

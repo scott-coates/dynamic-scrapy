@@ -53,7 +53,7 @@ class Migration(SchemaMigration):
             'created_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_alive': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'is_dead': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'is_deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'last_updated_date': ('django.db.models.fields.DateTimeField', [], {}),
             'lat': ('django.db.models.fields.FloatField', [], {}),

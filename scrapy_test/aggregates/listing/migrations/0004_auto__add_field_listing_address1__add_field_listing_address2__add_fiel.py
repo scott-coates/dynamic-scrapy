@@ -88,8 +88,8 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(1970, 1, 1, 0, 0)),
                       keep_default=False)
 
-        # Adding field 'Listing.is_alive'
-        db.add_column(u'listing_listing', 'is_alive',
+        # Adding field 'Listing.is_dead'
+        db.add_column(u'listing_listing', 'is_dead',
                       self.gf('django.db.models.fields.BooleanField')(default=False),
                       keep_default=False)
 
@@ -153,8 +153,8 @@ class Migration(SchemaMigration):
         # Deleting field 'Listing.last_updated_date'
         db.delete_column(u'listing_listing', 'last_updated_date')
 
-        # Deleting field 'Listing.is_alive'
-        db.delete_column(u'listing_listing', 'is_alive')
+        # Deleting field 'Listing.is_dead'
+        db.delete_column(u'listing_listing', 'is_dead')
 
         # Deleting field 'Listing.created_date'
         db.delete_column(u'listing_listing', 'created_date')
@@ -178,7 +178,7 @@ class Migration(SchemaMigration):
             'description': ('django.db.models.fields.TextField', [], {}),
             'contact_email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_alive': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'is_dead': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'last_updated_date': ('django.db.models.fields.DateTimeField', [], {}),
             'lat': ('django.db.models.fields.FloatField', [], {}),
             'listing_source': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['listing_source.ListingSource']"}),

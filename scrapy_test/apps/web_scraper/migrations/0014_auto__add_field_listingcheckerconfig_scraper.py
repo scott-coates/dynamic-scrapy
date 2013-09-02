@@ -90,7 +90,7 @@ class Migration(SchemaMigration):
             'description': ('django.db.models.fields.TextField', [], {}),
             'formatted_address': ('django.db.models.fields.CharField', [], {'max_length': '4096'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_alive': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'is_dead': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'is_deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'last_updated_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'lat': ('django.db.models.fields.FloatField', [], {}),
