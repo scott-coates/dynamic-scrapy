@@ -27,5 +27,10 @@ EXTENSIONS = {
   'scrapy_test.apps.web_scraper.scrapy.extensions.StatsReporter': 500,
 }
 
+DOWNLOADER_MIDDLEWARES = {
+  'scrapy_test.apps.web_scraper.scrapy.middlewares.ProxyMiddleware': 755,
+  'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': None,
+}
+
 # https://scrapy.readthedocs.org/en/latest/topics/settings.html#randomize-download-delay
 DOWNLOAD_DELAY = 0.73
