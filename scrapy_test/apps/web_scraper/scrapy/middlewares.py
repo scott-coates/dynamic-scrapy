@@ -22,18 +22,6 @@ class ProxyMiddleware(object):
     else:
       raise NotConfigured
 
-  def _get_proxy(self, url, orig_type):
-    proxy_type, user, password, hostport = _parse_proxy(url)
-    proxy_url = urlunparse((proxy_type or orig_type, hostport, '', '', '', ''))
-
-    if user and password:
-      user_pass = '%s:%s' % (unquote(user), unquote(password))
-      creds = base64.b64encode(user_pass).strip()
-    else:
-      creds = None
-
-    return creds, proxy_url
-
   def process_request(self, request, spider):
     # ignore if proxy is already seted
     if 'proxy' not in request.meta:
