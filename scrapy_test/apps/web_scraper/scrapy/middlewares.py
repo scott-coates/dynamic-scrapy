@@ -1,7 +1,4 @@
 import base64
-from urllib import unquote
-from urllib2 import _parse_proxy
-from urlparse import urlunparse
 from django.conf import settings
 
 from scrapy.exceptions import NotConfigured
