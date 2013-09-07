@@ -1,6 +1,8 @@
+from dynamic_scraper.models import Scraper
 from dynamic_scraper.spiders.django_spider import DjangoSpider
 from dynamic_scraper.utils.processors import string_strip
 from scrapy.contrib.loader.processor import TakeFirst, Identity
+from scrapy.http import Request
 from scrapy_test.aggregates.listing.models import Listing
 from scrapy_test.apps.web_scraper.models import ListingScrapyItem, ListingSourceScraperConfig
 
@@ -26,3 +28,34 @@ class ListingSpider(DjangoSpider):
     super(ListingSpider, self)._set_loader(response, xs, item)
     self.loader.default_output_processor = Identity()
     self.loader.url_out = TakeFirst()
+
+  def parse_item(self, response, xs=None):
+    temp_scraper = None
+
+    pre_defined_scraper = response.meta.pop('scraper', None)
+
+    if (pre_defined_scraper):
+      temp_scraper = self.scraper
+      self.scraper = pre_defined_scraper
+
+    parsed_item = super(ListingSpider, self).parse_item(response, xs)
+
+    if pre_defined_scraper:
+      self.scraper = temp_scraper
+      ret_val = parsed_item
+    else:
+      if self.from_detail_page and 'streeteasy' in response.url:
+
+        scraper = Scraper.objects.get(name='StreetEasy Contact Page Partial-Listing Parser')
+
+        ret_val = Request(
+          parsed_item['contact_name'][0], callback=self.parse_item, meta={
+            'item': parsed_item,
+            'scraper': scraper
+          }
+        )
+      else:
+        ret_val = parsed_item
+
+    return ret_val
+
