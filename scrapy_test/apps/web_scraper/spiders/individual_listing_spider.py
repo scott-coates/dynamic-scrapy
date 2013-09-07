@@ -18,8 +18,6 @@ class IndividualListingSpider(IndividualItemSpider, ListingSpider):
 
     config = ListingSource.objects.filter(url__icontains=domain)[:1].get().scraper_config
 
-    #hack djangospider expects our config to have an id property
-    config.id = config.pk
     self.scraper = config.scraper
     self.scrape_url = url
     self.ref_object = config
