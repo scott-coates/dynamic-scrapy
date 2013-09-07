@@ -30,8 +30,11 @@ class ListingSpider(DjangoSpider):
     self.loader.url_out = TakeFirst()
 
   def parse_item(self, response, xs=None):
-    temp_scraper = None
 
+    #multi-detail-hack
+    #if a previous request is the beginning of a multi-detail scrape, we need to store that scraper as temp variable
+    # because this page will use its own scraper to load the details from this page
+    temp_scraper = None
     pre_defined_scraper = response.meta.pop('scraper', None)
 
     if (pre_defined_scraper):
@@ -44,6 +47,9 @@ class ListingSpider(DjangoSpider):
       self.scraper = temp_scraper
       ret_val = parsed_item
     else:
+      # some sites like streeteasy have the lstings spread over manyy differnt pages and DDS will not natively work
+      # that way. To get around it, we'll not return the parsed item just yet. We'll hand off a request to parse the
+      # next page in this multi-detail scrape.
       if self.from_detail_page and 'streeteasy' in response.url:
 
         scraper = Scraper.objects.get(name='StreetEasy Contact Page Partial-Listing Parser')
