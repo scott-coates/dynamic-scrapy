@@ -12,6 +12,9 @@ class AggregateCommandPipeline(object):
       if double:
         item['url'] = item['url'][6:]
 
+      # if we get too many "if's" then we should do a "tell-don't-ask" pattern
+      # but I don't think a spider should care about business logic
+      # like if something should be updated vs created
       if isinstance(spider, ListingSpider):
         if double:
           listing_tasks.update_listing_task.delay(item)
