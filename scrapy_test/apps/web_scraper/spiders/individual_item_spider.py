@@ -17,3 +17,7 @@ class IndividualItemSpider(DjangoSpider):
       if cnt > 0:
         item[url_name] = 'DOUBLE' + item[url_name]
       yield item
+
+  def spider_closed(self):
+    #hack: we don't want to have our individual scraping change the scheduling of a normal spider
+    pass

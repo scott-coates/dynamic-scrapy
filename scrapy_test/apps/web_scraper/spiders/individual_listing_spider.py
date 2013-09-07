@@ -23,9 +23,3 @@ class IndividualListingSpider(IndividualItemSpider, ListingSpider):
     self.ref_object = config
 
     super(IndividualListingSpider, self).__init__(*args, **kwargs)
-
-  def spider_closed(self):
-    #hack: we don't want to have our individual scraping change the scheduling of a normal spider
-    pass
-
-
