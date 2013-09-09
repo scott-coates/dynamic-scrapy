@@ -5,7 +5,6 @@ from scrapy_test.aggregates.listing.domain import listing_builder
 from scrapy_test.aggregates.listing.domain.listing_builder import ListingBuilder
 from scrapy_test.aggregates.listing.services import listing_geo_service
 from scrapy_test.aggregates.listing.tests import listing_test_data
-from scrapy_test.aggregates.listing_source.services import listing_source_service
 from scrapy_test.libs.communication_utils.parsing import contact_parser
 from scrapy_test.libs.datetime_utils.parsers import datetime_parser
 from scrapy_test.libs.geo_utils.parsing import address_parser
@@ -276,6 +275,7 @@ def test_builder_delegates_address_sanitization():
 
   geo_service_mock.get_sanitized_address.assert_called_with(ANY, ANY, ANY)
 
+
 def test_builder_address_only_sanitized_if_untrustworthy():
   geo_service_mock = MagicMock(spec=listing_geo_service)
 
@@ -335,6 +335,21 @@ def test_builder_gets_correct_bedroom_even_if_0():
 
   builder.listing_attrs_output = MagicMock()
   builder.listing_attrs_output.get.return_value = True
+
+  builder._build_bedroom_count()
+
+  assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.BEDROOM_COUNT,
+                                                                            expected_bedroom_count)
+
+def test_builder_gets_correct_bedroom_from_text():
+  home_parser_mock = MagicMock(spec=home_parser)
+
+  expected_bedroom_count = 2
+  home_parser_mock.get_bedroom_count = MagicMock(return_value=expected_bedroom_count)
+
+  builder = ListingBuilder(home_parser=home_parser_mock, bedroom_count='something')
+
+  builder.listing_attrs_output = MagicMock()
 
   builder._build_bedroom_count()
 

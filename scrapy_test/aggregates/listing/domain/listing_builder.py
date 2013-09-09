@@ -213,7 +213,14 @@ class ListingBuilder(object):
 
     if bedroom_count:
       bedroom_count = self._get_single_stripped_value(bedroom_count)
-      self._assign_output_attr(BEDROOM_COUNT, int(bedroom_count))
+      try:
+        self._assign_output_attr(BEDROOM_COUNT, int(bedroom_count))
+      except ValueError:
+        if not isinstance(bedroom_count, basestring):
+          bedroom_count = ' '.join(bedroom_count)
+        bedroom_count = self._home_parser.get_bedroom_count(bedroom_count)
+        if bedroom_count is not None:
+          self._assign_output_attr(BEDROOM_COUNT, bedroom_count)
     else:
       title = self.listing_attrs_output.get(TITLE)
       if title:
