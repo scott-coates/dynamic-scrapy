@@ -4,11 +4,13 @@ from __future__ import absolute_import
 from django.db import models
 from dynamic_scraper.models import SchedulerRuntime, Scraper
 from scrapy.contrib.djangoitem import DjangoItem
+from scrapy.item import Field
 from scrapy_test.aggregates.listing.models import Listing
 from scrapy_test.aggregates.listing_source.models import ListingSource
 
 
 class ListingScrapyItem(DjangoItem):
+  amenities = Field()
   django_model = Listing
 
 
