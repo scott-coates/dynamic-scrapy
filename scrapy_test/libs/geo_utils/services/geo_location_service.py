@@ -1,6 +1,6 @@
 import sys
 from pygeocoder import Geocoder
-from scrapy_test.libs.geo_utils.geocoded_address import CompleteAddress
+from scrapy_test.libs.geo_utils.complete_address import CompleteAddress
 from scrapy_test.libs.geo_utils.signals import location_geocoded
 
 

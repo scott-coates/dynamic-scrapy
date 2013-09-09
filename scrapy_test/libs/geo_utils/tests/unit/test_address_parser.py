@@ -1,4 +1,5 @@
 import pytest
+from scrapy_test.libs.geo_utils.complete_address import CompleteAddress
 from scrapy_test.libs.geo_utils.parsing import address_parser
 
 
@@ -34,3 +35,10 @@ def test_address_parser_detects_address2(input_values, expected):
 
 def test_address_parser_joins_cross_street():
   assert 'Foo & Bar' == address_parser.join_cross_street(('Foo','Bar'))
+
+#
+# @pytest.mark.parametrize(("input_values", "expected"), [
+#   ('1886 Park Avenue in Central Harlem, New York, NY 10035', CompleteAddress()),
+# ])
+# def test_address_parser_parses_well_formatted_address(input_values, expected):
+#   assert expected == address_parser.parse_address(input_values)
