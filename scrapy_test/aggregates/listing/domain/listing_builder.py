@@ -253,7 +253,14 @@ class ListingBuilder(object):
 
     if sqfeet:
       sqfeet = self._get_single_stripped_value(sqfeet)
-      self._assign_output_attr(SQFEET, float(sqfeet))
+      try:
+        self._assign_output_attr(SQFEET, float(sqfeet))
+      except ValueError:
+        if not isinstance(sqfeet, basestring):
+          sqfeet = ' '.join(sqfeet)
+        sqfeet = self._home_parser.get_sqfeet(sqfeet)
+        if sqfeet is not None:
+          self._assign_output_attr(SQFEET, sqfeet)
     else:
       title = self.listing_attrs_output.get(TITLE)
       if title:

@@ -454,6 +454,21 @@ def test_builder_gets_correct_bathroom_from_title_if_not_in_list():
   assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.SQFEET,
                                                                             expected_sqfeet)
 
+def test_builder_gets_correct_sqfeet_from_text():
+  home_parser_mock = MagicMock(spec=home_parser)
+
+  expected_sqfeet = 2
+  home_parser_mock.get_sqfeet = MagicMock(return_value=expected_sqfeet)
+
+  builder = ListingBuilder(home_parser=home_parser_mock, sqfeet='something')
+
+  builder.listing_attrs_output = MagicMock()
+
+  builder._build_sqfeet()
+
+  assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.SQFEET,
+                                                                            expected_sqfeet)
+
 # endregion
 
 #region price tests
