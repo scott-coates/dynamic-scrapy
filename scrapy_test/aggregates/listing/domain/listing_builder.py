@@ -37,6 +37,7 @@ AMENITIES = 'amenities'
 
 _newline_strip = '\r\n\t -'
 
+
 class ListingBuilder(object):
   def __init__(
       self,
@@ -56,7 +57,7 @@ class ListingBuilder(object):
     self._contact_parser = contact_parser
     self._text_parser = text_parser
     self._amenity_service = amenity_service
-    self._listing_geo_service=listing_geo_service
+    self._listing_geo_service = listing_geo_service
     self.listing_attrs_output = {}
 
   def _get_single_stripped_value(self, attr, strip_chars=_newline_strip):
@@ -167,6 +168,19 @@ class ListingBuilder(object):
       lng = self._get_single_stripped_value(lng, None)
       self._assign_output_attr(LAT, float(lat))
       self._assign_output_attr(LNG, float(lng))
+
+  def _build_formatted_address(self):
+    formatted_address = self.listing_attrs_input.get(FORMATTED_ADDRESS, None)
+
+    if formatted_address:
+      formatted_address = self._get_single_stripped_value(formatted_address)
+      complete_address = self._address_parser.parse_address(formatted_address)
+
+      self._assign_output_attr(ADDRESS, complete_address.address1)
+      self._assign_output_attr(CITY, complete_address.city)
+      self._assign_output_attr(STATE, complete_address.state)
+      self._assign_output_attr(ZIP_CODE, complete_address.zip_code)
+      self._assign_output_attr(FORMATTED_ADDRESS, complete_address.formatted_address)
 
   def _sanitize_address(self):
     sanitized_address = self._listing_geo_service.get_sanitized_address(

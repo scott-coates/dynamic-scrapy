@@ -123,7 +123,7 @@ def test_builder_gets_correct_url_from_list():
 
 # endregion
 
-# region address1 tests
+# region address tests
 def test_builder_sets_makes_address_distinct():
   address1 = '123 test st'
   address_parser_mock = MagicMock(spec=address_parser)
@@ -212,6 +212,15 @@ def test_builder_gets_correct_lat_lng_from_list():
 
   assert lat_out == lat_attr
   assert lng_out == lng_attr
+
+# endregion
+
+# region formatted_address tests
+def test_builder_uses_address_parser_if_formatted_address_present():
+  address_parser_mock = MagicMock(spec=address_parser)
+  builder = ListingBuilder(address_parser_mock, formatted_address='x')
+  builder._build_formatted_address()
+  address_parser_mock.parse_address.assert_called_with('x')
 
 # endregion
 
