@@ -1,7 +1,7 @@
 import re
 import logging
 
-bedroom_pattern = re.compile(r"(\d+)br", re.IGNORECASE)
+bedroom_pattern = re.compile(r"(\d+)\s*(?:br|bed)", re.IGNORECASE)
 bathroom_pattern = re.compile(r"([\d\.]+)(.)?bath(.)*", re.IGNORECASE)
 sqfeet_pattern = re.compile(r"(\d+)ft", re.IGNORECASE)
 price_pattern = re.compile(r"\$(\S+)", re.IGNORECASE)
