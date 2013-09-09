@@ -1,13 +1,14 @@
 from scrapy_test.aggregates.amenity.services import amenity_service
 from scrapy_test.aggregates.listing import factories
 from scrapy_test.aggregates.listing.services import listing_geo_service
+from scrapy_test.aggregates.listing_source.services import listing_source_service
 from scrapy_test.libs.communication_utils.parsing import contact_parser
 from scrapy_test.libs.datetime_utils.parsers import datetime_parser
 from scrapy_test.libs.geo_utils.parsing import address_parser
 from scrapy_test.libs.housing_utils.parsing import home_parser
 from scrapy_test.libs.text_utils.parsers import text_parser
 
-LISTING_SOURCE = 'listing_source_id'
+LISTING_SOURCE = 'listing_source'
 
 TITLE = 'title'
 DESCRIPTION = 'description'
@@ -48,6 +49,7 @@ class ListingBuilder(object):
       text_parser=text_parser,
       amenity_service=amenity_service,
       listing_geo_service=listing_geo_service,
+      listing_source_service=listing_source_service,
       **listing_attrs
   ):
     self.listing_attrs_input = listing_attrs
@@ -58,6 +60,7 @@ class ListingBuilder(object):
     self._text_parser = text_parser
     self._amenity_service = amenity_service
     self._listing_geo_service = listing_geo_service
+    self._listing_source_service = listing_source_service
     self.listing_attrs_output = {}
 
   def _get_single_stripped_value(self, attr, strip_chars=_newline_strip):
@@ -71,7 +74,8 @@ class ListingBuilder(object):
 
   #region listing source
   def _build_listing_source(self):
-    listing_source = self.listing_attrs_input.get(LISTING_SOURCE)
+    listing_source_id = self.listing_attrs_input.get(LISTING_SOURCE)
+    listing_source = self._listing_source_service.get_listing_source(listing_source_id)
     self._assign_output_attr(LISTING_SOURCE, listing_source)
 
   #endregion
@@ -183,19 +187,22 @@ class ListingBuilder(object):
       self._assign_output_attr(FORMATTED_ADDRESS, complete_address.formatted_address)
 
   def _sanitize_address(self):
-    sanitized_address = self._listing_geo_service.get_sanitized_address(
-      self.listing_attrs_output.get(ADDRESS),
-      self.listing_attrs_output.get(CITY),
-      self.listing_attrs_output.get(STATE),
-    )
+    listing_source = self.listing_attrs_output.get(LISTING_SOURCE)
 
-    self.listing_attrs_output[LAT] = sanitized_address.lat
-    self.listing_attrs_output[LNG] = sanitized_address.lng
-    self.listing_attrs_output[ADDRESS] = sanitized_address.address
-    self.listing_attrs_output[CITY] = sanitized_address.city
-    self.listing_attrs_output[STATE] = sanitized_address.state
-    self.listing_attrs_output[ZIP_CODE] = sanitized_address.zip_code
-    self.listing_attrs_output[FORMATTED_ADDRESS] = sanitized_address.formatted_address
+    if not listing_source.trusted_geo_data:
+      sanitized_address = self._listing_geo_service.get_sanitized_address(
+        self.listing_attrs_output.get(ADDRESS),
+        self.listing_attrs_output.get(CITY),
+        self.listing_attrs_output.get(STATE),
+      )
+
+      self.listing_attrs_output[LAT] = sanitized_address.lat
+      self.listing_attrs_output[LNG] = sanitized_address.lng
+      self.listing_attrs_output[ADDRESS] = sanitized_address.address
+      self.listing_attrs_output[CITY] = sanitized_address.city
+      self.listing_attrs_output[STATE] = sanitized_address.state
+      self.listing_attrs_output[ZIP_CODE] = sanitized_address.zip_code
+      self.listing_attrs_output[FORMATTED_ADDRESS] = sanitized_address.formatted_address
 
   #endregion
 
