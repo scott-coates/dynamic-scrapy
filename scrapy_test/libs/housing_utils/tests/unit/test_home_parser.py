@@ -32,6 +32,7 @@ def test_home_parser_detects_correct_sqfeet(input_values, expected):
 
 @pytest.mark.parametrize(("input_values", "expected"), [
   ('$6400 / 4br - 1510ft - MASSIVE TRUE 4BDS/2BATHS~~48 ST~~W.D IN THE UNIT~~1ST AVE~~1500 S (Midtown East)', 6400.0),
+  ('$3,750', 3750.0),
 ])
 def test_home_parser_detects_correct_price(input_values, expected):
   assert expected == home_parser.get_price(input_values)

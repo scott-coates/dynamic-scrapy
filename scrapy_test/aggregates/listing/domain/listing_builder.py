@@ -273,7 +273,12 @@ class ListingBuilder(object):
 
     if price:
       price = self._get_single_stripped_value(price)
-      self._assign_output_attr(PRICE, float(price))
+      try:
+        self._assign_output_attr(PRICE, float(price))
+      except ValueError:
+        price = self._home_parser.get_price(price)
+        if price:
+          self._assign_output_attr(PRICE, price)
     else:
       title = self.listing_attrs_output.get(TITLE)
       if title:

@@ -48,6 +48,7 @@ def get_sqfeet(sqfeet_str):
 
 
 def get_price(price_str):
+  price_str = price_str.replace(',', '')
   ret_val = None
   match = price_pattern.search(price_str)
   if match:

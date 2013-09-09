@@ -502,6 +502,22 @@ def test_builder_gets_correct_price_title_if_not_in_list():
   assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.PRICE,
                                                                             expected_price)
 
+
+def test_builder_gets_correct_price_from_text():
+  home_parser_mock = MagicMock(spec=home_parser)
+
+  expected_price = 5.0
+  home_parser_mock.get_price = MagicMock(return_value=expected_price)
+
+  builder = ListingBuilder(home_parser=home_parser_mock, price='something')
+
+  builder.listing_attrs_output = MagicMock()
+
+  builder._build_price()
+
+  assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.PRICE,
+                                                                            expected_price)
+
 # endregion
 
 #region broker_fee tests
