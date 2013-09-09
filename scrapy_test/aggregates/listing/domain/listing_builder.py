@@ -216,6 +216,7 @@ class ListingBuilder(object):
       try:
         self._assign_output_attr(BEDROOM_COUNT, int(bedroom_count))
       except ValueError:
+        bedroom_count = self.listing_attrs_input.get(BEDROOM_COUNT)
         if not isinstance(bedroom_count, basestring):
           bedroom_count = ''.join(bedroom_count)
         bedroom_count = self._home_parser.get_bedroom_count(bedroom_count)
@@ -236,6 +237,7 @@ class ListingBuilder(object):
       try:
         self._assign_output_attr(BATHROOM_COUNT, float(bathroom_count))
       except ValueError:
+        bathroom_count = self.listing_attrs_input.get(BATHROOM_COUNT)
         if not isinstance(bathroom_count, basestring):
           bathroom_count = ''.join(bathroom_count)
         bathroom_count = self._home_parser.get_bathroom_count(bathroom_count)
@@ -256,6 +258,7 @@ class ListingBuilder(object):
       try:
         self._assign_output_attr(SQFEET, float(sqfeet))
       except ValueError:
+        sqfeet = self.listing_attrs_input.get(SQFEET)
         if not isinstance(sqfeet, basestring):
           sqfeet = ''.join(sqfeet)
         sqfeet = self._home_parser.get_sqfeet(sqfeet)
@@ -276,6 +279,10 @@ class ListingBuilder(object):
       try:
         self._assign_output_attr(PRICE, float(price))
       except ValueError:
+        price = self.listing_attrs_input.get(PRICE)
+        if not isinstance(price, basestring):
+          price = ''.join(price)
+
         price = self._home_parser.get_price(price)
         if price:
           self._assign_output_attr(PRICE, price)
