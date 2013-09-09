@@ -14,6 +14,7 @@ def test_home_parser_detects_correct_bedroom_count(input_values, expected):
 @pytest.mark.parametrize(("input_values", "expected"), [
   ('1 bath', 1),
   ('$6400 / 4br - 1510ft - MASSIVE TRUE 4BDS/2BATHS~~48 ST~~W.D IN THE UNIT~~1ST AVE~~1500 S (Midtown East)', 2),
+  ('Rental Upper West Side 2 rooms studio 1 bath', 1),
 ])
 def test_home_parser_detects_correct_bathroom_count(input_values, expected):
   assert expected == home_parser.get_bathroom_count(input_values)
