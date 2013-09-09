@@ -72,7 +72,7 @@ class Listing(models.Model, AggregateBase):
     #todo some validation should go here and in the command handler (zip code validation, etc)
     ret_val = cls()
 
-    if not kwargs.get('listing_source_id'): raise TypeError('listing source id is required')
+    if not kwargs.get('listing_source'): raise TypeError('listing source is required')
 
     price = kwargs.get('price')
     if not price:

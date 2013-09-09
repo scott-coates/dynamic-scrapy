@@ -8,6 +8,7 @@ from scrapy_test.libs.geo_utils.parsing import address_parser
 from scrapy_test.libs.housing_utils.parsing import home_parser
 from scrapy_test.libs.text_utils.parsers import text_parser
 
+LISTING_SOURCE_ID = 'listing_source_id'
 LISTING_SOURCE = 'listing_source'
 
 TITLE = 'title'
@@ -74,7 +75,7 @@ class ListingBuilder(object):
 
   #region listing source
   def _build_listing_source(self):
-    listing_source_id = self.listing_attrs_input.get(LISTING_SOURCE)
+    listing_source_id = self.listing_attrs_input.get(LISTING_SOURCE_ID)
     listing_source = self._listing_source_service.get_listing_source(listing_source_id)
     self._assign_output_attr(LISTING_SOURCE, listing_source)
 
@@ -355,6 +356,7 @@ class ListingBuilder(object):
     self._build_city()
     self._build_state()
     self._build_lat_lng()
+    self._build_formatted_address()
     self._sanitize_address()
 
     self._build_bedroom_count()
