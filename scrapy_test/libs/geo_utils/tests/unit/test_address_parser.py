@@ -1,5 +1,4 @@
 import pytest
-from scrapy_test.libs.geo_utils.complete_address import CompleteAddress
 from scrapy_test.libs.geo_utils.parsing import address_parser
 
 
@@ -13,6 +12,7 @@ from scrapy_test.libs.geo_utils.parsing import address_parser
 def test_address_parser_detects_correct_street_addresses(input_values, expected):
   assert expected == address_parser.is_street_address(input_values)
 
+
 @pytest.mark.parametrize(("input_values", "expected"), [
   ('62nd at york', True),
   ('21 and broadway', True),
@@ -24,6 +24,7 @@ def test_address_parser_detects_correct_street_addresses(input_values, expected)
 def test_address_parser_detects_correct_cross_street_addresses(input_values, expected):
   assert expected == address_parser.is_cross_street_address(input_values)
 
+
 @pytest.mark.parametrize(("input_values", "expected"), [
   ('123 fake st #99', '#99'),
   ('123 fake st', None),
@@ -33,12 +34,21 @@ def test_address_parser_detects_correct_cross_street_addresses(input_values, exp
 def test_address_parser_detects_address2(input_values, expected):
   assert expected == address_parser.get_address2(input_values)
 
-def test_address_parser_joins_cross_street():
-  assert 'Foo & Bar' == address_parser.join_cross_street(('Foo','Bar'))
 
-#
-# @pytest.mark.parametrize(("input_values", "expected"), [
-#   ('1886 Park Avenue in Central Harlem, New York, NY 10035', CompleteAddress()),
-# ])
-# def test_address_parser_parses_well_formatted_address(input_values, expected):
-#   assert expected == address_parser.parse_address(input_values)
+def test_address_parser_joins_cross_street():
+  assert 'Foo & Bar' == address_parser.join_cross_street(('Foo', 'Bar'))
+
+
+@pytest.mark.parametrize(("input_values", "expected"), [
+  ('1886 Park Avenue in Central Harlem, New York, NY 10035', {
+    'address1': '1886 Park Avenue',
+    'city': 'New York',
+    'state': 'NY',
+    'zip_code': '10035',
+    'formatted_address': '1886 Park Avenue, New York, NY 10035',
+  }),
+])
+def test_address_parser_parses_well_formatted_address(input_values, expected):
+  complete_address = address_parser.parse_address(input_values)._asdict()
+  for k, v in expected.items():
+    assert complete_address[k] == v
