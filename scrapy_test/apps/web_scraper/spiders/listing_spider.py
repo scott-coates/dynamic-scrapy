@@ -52,7 +52,7 @@ class ListingSpider(DjangoSpider):
       # next page in this multi-detail scrape.
       if self.from_detail_page and 'streeteasy' in response.url:
 
-        scraper = Scraper.objects.get(name='StreetEasy Contact Page Partial-Listing Parser')
+        scraper = Scraper.objects.get(name='StreetEasy Contact Page Partial-Listing Scraper')
 
         ret_val = Request(
           parsed_item['contact_name'][0], callback=self.parse_item, meta={

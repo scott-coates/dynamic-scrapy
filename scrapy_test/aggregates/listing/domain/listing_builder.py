@@ -217,7 +217,7 @@ class ListingBuilder(object):
         self._assign_output_attr(BEDROOM_COUNT, int(bedroom_count))
       except ValueError:
         if not isinstance(bedroom_count, basestring):
-          bedroom_count = ' '.join(bedroom_count)
+          bedroom_count = ''.join(bedroom_count)
         bedroom_count = self._home_parser.get_bedroom_count(bedroom_count)
         if bedroom_count is not None:
           self._assign_output_attr(BEDROOM_COUNT, bedroom_count)
@@ -237,7 +237,7 @@ class ListingBuilder(object):
         self._assign_output_attr(BATHROOM_COUNT, float(bathroom_count))
       except ValueError:
         if not isinstance(bathroom_count, basestring):
-          bathroom_count = ' '.join(bathroom_count)
+          bathroom_count = ''.join(bathroom_count)
         bathroom_count = self._home_parser.get_bathroom_count(bathroom_count)
         if bathroom_count is not None:
           self._assign_output_attr(BATHROOM_COUNT, bathroom_count)
@@ -257,7 +257,7 @@ class ListingBuilder(object):
         self._assign_output_attr(SQFEET, float(sqfeet))
       except ValueError:
         if not isinstance(sqfeet, basestring):
-          sqfeet = ' '.join(sqfeet)
+          sqfeet = ''.join(sqfeet)
         sqfeet = self._home_parser.get_sqfeet(sqfeet)
         if sqfeet is not None:
           self._assign_output_attr(SQFEET, sqfeet)
@@ -306,7 +306,8 @@ class ListingBuilder(object):
     contact_name = self.listing_attrs_input.get(CONTACT_NAME)
 
     if contact_name:
-      contact_name = self._get_single_stripped_value(contact_name)
+      if not isinstance(contact_name, basestring):
+        contact_name = ''.join(contact_name)
       contact_name = self._contact_parser.get_contact_name(contact_name)
       if contact_name:
         self._assign_output_attr(CONTACT_NAME, contact_name)
@@ -315,7 +316,8 @@ class ListingBuilder(object):
     contact_phone_number = self.listing_attrs_input.get(CONTACT_PHONE_NUMBER)
 
     if contact_phone_number:
-      contact_phone_number = self._get_single_stripped_value(contact_phone_number)
+      if not isinstance(contact_phone_number, basestring):
+        contact_phone_number = ''.join(contact_phone_number)
       contact_phone_number = self._contact_parser.get_contact_phone_number(contact_phone_number)
       if contact_phone_number:
         self._assign_output_attr(CONTACT_PHONE_NUMBER, contact_phone_number)
@@ -331,7 +333,8 @@ class ListingBuilder(object):
     contact_email_address = self.listing_attrs_input.get(CONTACT_EMAIL_ADDRESS)
 
     if contact_email_address:
-      contact_email_address = self._get_single_stripped_value(contact_email_address)
+      if not isinstance(contact_email_address, basestring):
+        contact_email_address = ''.join(contact_email_address)
       contact_email_address = self._contact_parser.get_contact_email_address(contact_email_address)
       if contact_email_address:
         self._assign_output_attr(CONTACT_EMAIL_ADDRESS, contact_email_address)
@@ -357,7 +360,7 @@ class ListingBuilder(object):
 
     if amenities:
       if not isinstance(amenities, basestring):
-        amenities = ' '.join(amenities)
+        amenities = ''.join(amenities)
 
       amenities = self._text_parser.get_canonical_name_from_keywords(
         amenities,
