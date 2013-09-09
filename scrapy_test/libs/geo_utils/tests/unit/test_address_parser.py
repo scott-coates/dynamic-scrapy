@@ -52,3 +52,15 @@ def test_address_parser_parses_well_formatted_address(input_values, expected):
   complete_address = address_parser.parse_address(input_values)._asdict()
   for k, v in expected.items():
     assert complete_address[k] == v
+
+
+@pytest.mark.parametrize(("input_values"), [
+  '1886 Park Avenue in Central Harlem, New York, NY',
+  '1886 Park Avenue in Central Harlem, New York, 10035',
+  '1886 Park Avenue in Central Harlem, NY 10035',
+  'New York, NY 10035',
+])
+def test_address_parser_throws_appropriate_error_for_missing_component(input_values):
+  with pytest.raises(ValueError):
+    address_parser.parse_address(input_values)
+

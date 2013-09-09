@@ -45,12 +45,19 @@ def get_address2(address):
 def parse_address(address_str):
   r = well_formatted_pattern.search(address_str)
 
+  if not r: raise ValueError('invalid address pattern')
+
   address_dict = r.groupdict()
 
   address1 = address_dict['address_number'] + ' ' + address_dict['street']
   city = address_dict['city']
   state = address_dict['state']
   zip_code = address_dict['zip_code']
+
+  if not address1: raise ValueError('address1 missing')
+  if not city: raise ValueError('city missing')
+  if not state: raise ValueError('state missing')
+  if not zip_code: raise ValueError('zip_code missing')
 
   formatted_address = '{0}, {1}, {2} {3}'.format(address1, city, state, zip_code)
 
