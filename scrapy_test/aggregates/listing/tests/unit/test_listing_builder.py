@@ -406,6 +406,21 @@ def test_builder_gets_correct_bathroom_even_if_0():
   assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.BATHROOM_COUNT,
                                                                             expected_bathroom_count)
 
+def test_builder_gets_correct_bathroom_from_text():
+  home_parser_mock = MagicMock(spec=home_parser)
+
+  expected_bathroom_count = 2
+  home_parser_mock.get_bathroom_count = MagicMock(return_value=expected_bathroom_count)
+
+  builder = ListingBuilder(home_parser=home_parser_mock, bathroom_count='something')
+
+  builder.listing_attrs_output = MagicMock()
+
+  builder._build_bathroom_count()
+
+  assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.BATHROOM_COUNT,
+                                                                            expected_bathroom_count)
+
 # endregion
 
 #region sqfeet tests
