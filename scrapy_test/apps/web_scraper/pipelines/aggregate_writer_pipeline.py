@@ -17,7 +17,7 @@ class AggregateCommandPipeline(object):
       # like if something should be updated vs created
       if isinstance(spider, ListingSpider):
         if double:
-          listing_tasks.update_listing_task.delay(item)
+          listing_tasks.update_listing_task.delay(**item)
         else:
           listing_tasks.create_listing_task.delay(**dict(item, listing_source_id=spider.ref_object.listing_source.id))
 

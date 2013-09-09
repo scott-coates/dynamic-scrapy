@@ -16,4 +16,7 @@ def get_datetime(datetime_str, _datetime_service=timezone):
   else:
     ret_val = parse(datetime_str, tzinfos=time_zone_abbreviations)
 
+    if not ret_val.tzinfo:
+      ret_val = ret_val.replace(tzinfo=timezone.utc)
+
   return ret_val
