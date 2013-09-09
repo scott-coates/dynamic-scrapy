@@ -102,7 +102,6 @@ def test_builder_sets_last_updated_date_to_correct_date():
 
   return date
 
-
   assert date == listing_test_data.cl_listing_3952467416_expected_last_updated_date
 
 # endregion
@@ -222,6 +221,42 @@ def test_builder_uses_address_parser_if_formatted_address_present():
   builder._build_formatted_address()
   address_parser_mock.parse_address.assert_called_with('x')
 
+
+def test_builder_assigns_address_components_if_formatted_address_present():
+  address_parser_mock = MagicMock(spec=address_parser)
+  parsed_address_mock = MagicMock()
+
+  address = 'fake_address'
+  city = 'fake_city'
+  state = 'fake_state'
+  zip_code = 'fake_zip_code'
+  formatted_address = 'fake_formatted_address '
+
+  parsed_address_mock.address1 = address
+  parsed_address_mock.city = city
+  parsed_address_mock.state = state
+  parsed_address_mock.zip_code = zip_code
+  parsed_address_mock.formatted_address = formatted_address
+
+  address_parser_mock.parse_address = MagicMock(return_value=parsed_address_mock)
+
+  builder = ListingBuilder(address_parser_mock, formatted_address='x')
+
+  builder.listing_attrs_output = MagicMock()
+
+  builder._build_formatted_address()
+
+  call_list = [
+    call(listing_builder.ADDRESS, address),
+    call(listing_builder.CITY, city),
+    call(listing_builder.STATE, state),
+    call(listing_builder.ZIP_CODE, zip_code),
+    call(listing_builder.FORMATTED_ADDRESS, formatted_address),
+  ]
+
+  assert builder.listing_attrs_output.__setitem__.call_args_list == call_list
+
+
 # endregion
 
 #region address sanitization tests
@@ -316,6 +351,7 @@ def test_builder_gets_correct_bathroom_from_title_if_not_in_list():
 
   assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.BATHROOM_COUNT,
                                                                             expected_bathroom_count)
+
 
 def test_builder_gets_correct_bathroom_even_if_0():
   home_parser_mock = MagicMock(spec=home_parser)
