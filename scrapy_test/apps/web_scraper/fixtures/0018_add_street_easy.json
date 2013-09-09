@@ -588,7 +588,7 @@
     "model": "dynamic_scraper.scraperelem",
     "fields": {
       "proc_ctxt": "",
-      "x_path": "//*/*[contains(@*,'labels_80')]/dt[last()]/text()[count(/*[text()])> 1]",
+      "x_path": "//*/*[contains(@*,'labels_80')]/dt[last()]/text()[count(/*[text()])= 0]",
       "processors": "",
       "scraped_obj_attr": 5,
       "scraper": 3,
