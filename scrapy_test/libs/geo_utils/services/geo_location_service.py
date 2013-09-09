@@ -1,6 +1,6 @@
 import sys
 from pygeocoder import Geocoder
-from scrapy_test.libs.geo_utils.geocoded_address import GeocodedAddress
+from scrapy_test.libs.geo_utils.geocoded_address import CompleteAddress
 from scrapy_test.libs.geo_utils.signals import location_geocoded
 
 
@@ -43,5 +43,5 @@ def get_geocoded_address(address, city, state):
   state = _get_address_component(address_components, 'administrative_area_level_1')
   zip_code = _get_address_component(address_components, 'postal_code')
 
-  return GeocodedAddress(results.latitude, results.longitude, address1, address2, city, state,
+  return CompleteAddress(results.latitude, results.longitude, address1, address2, city, state,
                          zip_code, results.formatted_address)
