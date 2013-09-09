@@ -10,7 +10,7 @@ number_with_keyword_pattern = re.compile(r'(?<!\$)(\d+)\s+(\w+)')
 def get_datetime(datetime_str, _datetime_service=timezone):
   number_with_keyword_result = number_with_keyword_pattern.search(datetime_str)
 
-  if number_with_keyword_pattern:
+  if number_with_keyword_result:
     timedelta_kwargs = {number_with_keyword_result.groups()[1]: float(number_with_keyword_result.groups()[0])}
     ret_val = _datetime_service.now() - timedelta(**timedelta_kwargs)
   else:
