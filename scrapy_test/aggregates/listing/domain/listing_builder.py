@@ -79,7 +79,9 @@ class ListingBuilder(object):
   def _build_title(self):
     title = self.listing_attrs_input.get(TITLE, None)
     if title:
-      title = self._get_single_stripped_value(title)
+      if not isinstance(title, basestring):
+        title = ''.join(title)
+      title = title.strip(_newline_strip)
       self._assign_output_attr(TITLE, title)
 
   def _build_description(self):
