@@ -588,7 +588,7 @@
     "model": "dynamic_scraper.scraperelem",
     "fields": {
       "proc_ctxt": "",
-      "x_path": "//*/*[contains(@*,'labels_80')]/dt[last()]/text()[count(/*[text()])= 0]",
+      "x_path": "//*/*[contains(@*,'labels_80')]/dt[last()]/text()[count(/*[text()])> 1]",
       "processors": "",
       "scraped_obj_attr": 5,
       "scraper": 3,
@@ -727,9 +727,9 @@
     "pk": 39,
     "model": "dynamic_scraper.scraperelem",
     "fields": {
-      "proc_ctxt": "",
-      "x_path": "//*[@*='contact_info']//text()",
-      "processors": "",
+      "proc_ctxt": "'func':'scrapy_test.apps.web_scraper.scrapy.processors.composite_func','funcs':('scrapy_test.apps.web_scraper.scrapy.processors.replace','scrapy_test.apps.web_scraper.scrapy.processors.split_reverse','scrapy_test.apps.web_scraper.scrapy.processors.pre_string','scrapy_test.apps.web_scraper.scrapy.processors.post_string'),'replace':{'linkToEmail(':'',\"'\":'',')':'','-':','},'pre_string':'fromCharCode(','post_string':')','split_reverse':','",
+      "x_path": "//*[@*='contact_info']/script/text()",
+      "processors": "dynamic",
       "scraped_obj_attr": 20,
       "scraper": 2,
       "from_detail_page": true,
