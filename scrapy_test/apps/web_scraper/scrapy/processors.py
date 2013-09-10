@@ -26,11 +26,10 @@ def reverse(text, loader_context):
 
 
 def composite_func(text, loader_context):
-  ret_val = None
-
   funcs = loader_context.pop('funcs')
+
   for f in funcs:
     loader_context['func'] = f
-    ret_val = processors.dynamic(text, loader_context)
+    text = processors.dynamic(text, loader_context)
 
-  return ret_val
+  return text
