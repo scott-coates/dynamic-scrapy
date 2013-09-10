@@ -22,7 +22,44 @@ def replace(text, loader_context):
 
 
 def reverse(text, loader_context):
-  return text[::-1]
+  ret_val = []
+
+  for x in text:
+    ret_val.append(x[::-1])
+
+  return ret_val
+
+
+def split_reverse(text, loader_context):
+  ret_val = []
+
+  split_reverse_str = loader_context.get('split_reverse', '')
+
+  for x in text:
+    split_list = reversed(x.split(split_reverse_str))
+    ret_val.append(split_reverse_str.join(split_list))
+
+  return ret_val
+
+
+def pre_string(text, loader_context):
+  ret_val = []
+  pre_str = loader_context.get('pre_string', '')
+
+  for x in text:
+    ret_val.append(pre_str + x)
+
+  return ret_val
+
+
+def post_string(text, loader_context):
+  post_str = loader_context.get('post_string', '')
+  ret_val = []
+
+  for x in text:
+    ret_val.append(x + post_str)
+
+  return ret_val
 
 
 def composite_func(text, loader_context):
