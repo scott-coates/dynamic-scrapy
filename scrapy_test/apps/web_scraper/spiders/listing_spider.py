@@ -46,7 +46,7 @@ class ListingSpider(DjangoSpider):
     if pre_defined_scraper:
       self.scraper = temp_scraper
       ret_val = parsed_item
-      response.url = self.scrape_url
+      response.url = str(self.scrape_url) #scrapy requires this to be str, not unicode
     else:
       # some sites like streeteasy have the lstings spread over manyy differnt pages and DDS will not natively work
       # that way. To get around it, we'll not return the parsed item just yet. We'll hand off a request to parse the
