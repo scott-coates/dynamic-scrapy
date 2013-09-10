@@ -1,3 +1,4 @@
+import os
 from scrapy_test.aggregates.amenity.services import amenity_service
 from scrapy_test.aggregates.listing import factories
 from scrapy_test.aggregates.listing.services import listing_geo_service
@@ -94,7 +95,7 @@ class ListingBuilder(object):
     description = self.listing_attrs_input.get(DESCRIPTION, None)
     if description:
       if not isinstance(description, basestring):
-        description = ''.join(description)
+        description = (os.linesep + os.linesep).join(d.strip(_newline_strip) for d in description)
       description = description.strip(_newline_strip)
       self._assign_output_attr(DESCRIPTION, description)
 
