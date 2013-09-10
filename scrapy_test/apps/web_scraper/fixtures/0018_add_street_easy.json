@@ -210,7 +210,7 @@
       "max_items_save": null,
       "checker_x_path": "//*[@id=\"userbody\"]/div/@class",
       "pagination_append_str": "",
-      "max_items_read": 150,
+      "max_items_read": 20,
       "pagination_on_start": false,
       "pagination_type": "O",
       "checker_type": "X",
