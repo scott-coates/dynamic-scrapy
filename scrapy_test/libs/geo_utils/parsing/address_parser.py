@@ -5,14 +5,13 @@ address2_pattern = re.compile(r"((\#|apt|suite|ste)\.?\s?\d+)", re.IGNORECASE)
 zip_code_pattern = re.compile(r'^\d{5}(?:-\d{4})?$')
 well_formatted_pattern = re.compile(
   r'(?:(?P<building_name>[\w\s\-]+)\s+at\s+)?'
-  r'(?P<address_number>[\d\-]+)\s+'
+  r'((?P<address_number>[\d\-]+)\s+)?'
   r'(?P<street>[\w\s\-]+(?=\s+in))'
   r'(?: in (?P<neighborhood>[\w\s\-]+))?,\s*'
   r'(?P<city>[\w\s\-]+),\s*'
   r'(?P<state>\w{2})\s+'
   r'(?P<zip_code>\d{5})'
 )
-
 
 def is_street_address(address):
   address_split = [address_part for address_part in address.split() if address_part not in ("and", "at")]
@@ -49,7 +48,10 @@ def parse_address(address_str):
 
   address_dict = r.groupdict()
 
-  address1 = address_dict['address_number'] + ' ' + address_dict['street']
+  address_number = address_dict['address_number']
+  street = address_dict['street']
+  address1 = address_number + ' ' + street if address_number else street
+
   city = address_dict['city']
   state = address_dict['state']
   zip_code = address_dict['zip_code']

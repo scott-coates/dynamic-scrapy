@@ -47,6 +47,13 @@ def test_address_parser_joins_cross_street():
     'zip_code': '10035',
     'formatted_address': '1886 Park Avenue, New York, NY 10035',
   }),
+  ('Bergen Street in Crown Heights, Brooklyn, NY 11238', {
+    'address1': 'Bergen Street',
+    'city': 'Brooklyn',
+    'state': 'NY',
+    'zip_code': '11238',
+    'formatted_address': 'Bergen Street, Brooklyn, NY 11238',
+  }),
 ])
 def test_address_parser_parses_well_formatted_address(input_values, expected):
   complete_address = address_parser.parse_address(input_values)._asdict()
