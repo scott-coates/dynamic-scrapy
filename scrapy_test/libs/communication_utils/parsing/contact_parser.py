@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 def get_contact_name(contact_name_str):
-  ret_val = contact_name_str
+  ret_val = contact_name_str.strip()
   return ret_val
 
 
