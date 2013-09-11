@@ -560,13 +560,13 @@
     "model": "dynamic_scraper.scraperelem",
     "fields": {
       "proc_ctxt": "",
-      "x_path": "//*/*[contains(@*,'labels_80')]/dt[1]/text()",
+      "x_path": "//*[@*='price_stats']/text()",
       "processors": "",
       "scraped_obj_attr": 21,
       "scraper": 3,
       "from_detail_page": true,
       "mandatory": true,
-      "reg_exp": ""
+      "reg_exp": "(\\d+\\s+\\w+)"
     }
   },
   {

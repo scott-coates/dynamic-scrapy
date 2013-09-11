@@ -103,6 +103,12 @@ class Listing(models.Model, AggregateBase):
       raise TypeError("posted_date is required")
     ret_val._validate_listing_date(posted_date)
 
+    last_updated_date = kwargs.get('last_updated_date')
+    if last_updated_date:
+      ret_val._validate_listing_date(last_updated_date)
+      if not last_updated_date > posted_date:
+        raise ValidationError("posted_date must be before last_updated_date")
+
     ret_val._raise_event(created, sender=Listing, instance=ret_val, attrs=kwargs)
 
     ret_val.reset_sanitization_status()
