@@ -39,7 +39,7 @@
     "pk": 3,
     "model": "djcelery.periodictask",
     "fields": {
-      "task": "apps.web_scraper.services.web_scraper_tasks.delete_listing_checker_task",
+      "task": "apps.web_scraper.services.web_scraper_tasks.run_checkers_task",
       "name": "Run Checkers",
       "exchange": null,
       "last_run_at": null,
