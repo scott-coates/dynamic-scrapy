@@ -87,7 +87,7 @@ def get_contact_email_address(contact_email_address_str):
       # That would parse to apartment@www.dwellee.com.
       email_address = None
   except:
-    logger.warn("Error parsing email: {0}".format(email_address), exc_info=1)
+    logger.warn("Error parsing email: {0}".format(contact_email_address_str), exc_info=1)
 
   return email_address
 
