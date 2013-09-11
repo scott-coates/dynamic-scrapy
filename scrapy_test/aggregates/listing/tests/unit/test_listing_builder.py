@@ -75,7 +75,7 @@ def test_builder_sets_posted_date_to_correct_date():
   datetime_parser_mock = MagicMock(spec=datetime_parser)
 
   datetime_parser_mock.get_datetime = MagicMock(
-    return_value=listing_test_data.cl_listing_3952467416_posted_date
+    return_value=listing_test_data.cl_listing_3952467416_expected_posted_date
   )
 
   builder = ListingBuilder(datetime_parser=datetime_parser_mock, posted_date='IGNOREME')
@@ -84,25 +84,45 @@ def test_builder_sets_posted_date_to_correct_date():
 
   date = builder.listing_attrs_output[listing_builder.POSTED_DATE]
 
-  return date
+  assert date == listing_test_data.cl_listing_3952467416_expected_posted_date
 
 
 def test_builder_sets_last_updated_date_to_correct_date():
   datetime_parser_mock = MagicMock(spec=datetime_parser)
 
   datetime_parser_mock.get_datetime = MagicMock(
-    return_value=listing_test_data.cl_listing_3952467416_last_updated_date
+    return_value=listing_test_data.cl_listing_3952467416_expected_last_updated_date
   )
 
   builder = ListingBuilder(datetime_parser=datetime_parser_mock, last_updated_date='IGNOREME')
 
+  builder.listing_attrs_output = MagicMock()
+
+  builder.listing_attrs_output.get.return_value = listing_test_data.cl_listing_3952467416_expected_posted_date
+
   builder._build_last_updated_date()
 
-  date = builder.listing_attrs_output[listing_builder.LAST_UPDATED_DATE]
+  assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(
+    listing_builder.LAST_UPDATED_DATE, listing_test_data.cl_listing_3952467416_expected_last_updated_date
+  )
 
-  return date
 
-  assert date == listing_test_data.cl_listing_3952467416_expected_last_updated_date
+def test_builder_only_sets_last_updated_date_if_greater_than_posted():
+  datetime_parser_mock = MagicMock(spec=datetime_parser)
+
+  datetime_parser_mock.get_datetime = MagicMock(
+    return_value=listing_test_data.cl_listing_3952467416_expected_posted_date
+  )
+
+  builder = ListingBuilder(datetime_parser=datetime_parser_mock, last_updated_date='IGNOREME')
+
+  builder.listing_attrs_output = MagicMock()
+
+  builder.listing_attrs_output.get.return_value = listing_test_data.cl_listing_3952467416_expected_last_updated_date
+
+  builder._build_last_updated_date()
+
+  assert len(builder.listing_attrs_output.__setitem__.call_args_list) == 0
 
 # endregion
 
@@ -341,6 +361,7 @@ def test_builder_gets_correct_bedroom_even_if_0():
   assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.BEDROOM_COUNT,
                                                                             expected_bedroom_count)
 
+
 def test_builder_gets_correct_bedroom_from_text():
   home_parser_mock = MagicMock(spec=home_parser)
 
@@ -406,6 +427,7 @@ def test_builder_gets_correct_bathroom_even_if_0():
   assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.BATHROOM_COUNT,
                                                                             expected_bathroom_count)
 
+
 def test_builder_gets_correct_bathroom_from_text():
   home_parser_mock = MagicMock(spec=home_parser)
 
@@ -453,6 +475,7 @@ def test_builder_gets_correct_bathroom_from_title_if_not_in_list():
 
   assert builder.listing_attrs_output.__setitem__.call_args_list[0] == call(listing_builder.SQFEET,
                                                                             expected_sqfeet)
+
 
 def test_builder_gets_correct_sqfeet_from_text():
   home_parser_mock = MagicMock(spec=home_parser)
