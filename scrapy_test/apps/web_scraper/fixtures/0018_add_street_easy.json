@@ -630,7 +630,7 @@
     "model": "dynamic_scraper.scraperelem",
     "fields": {
       "proc_ctxt": "",
-      "x_path": "string(count(//*[contains(@*,'nofee')])> 0)",
+      "x_path": "string(count(//*[contains(@*,'nofee')])= 0)",
       "processors": "",
       "scraped_obj_attr": 17,
       "scraper": 3,
