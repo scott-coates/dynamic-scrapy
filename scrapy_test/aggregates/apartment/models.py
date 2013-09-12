@@ -46,12 +46,15 @@ class Apartment(models.Model, AggregateBase):
   @classmethod
   def _from_listing(cls, listing):
     ret_val = cls()
+
     ret_val._raise_event(created_from_listing, sender=Apartment, instance=ret_val, listing=listing)
+
+    return ret_val
 
   def adopt_listing(self, listing):
     self._raise_event(adopted_listing, sender=Apartment, instance=self, listing=listing)
 
-  def _handle_create_from_listing_event(self, listing, **kwargs):
+  def _handle_created_from_listing_event(self, listing, **kwargs):
     self._handle_adopted_listing_event(listing, **kwargs)
 
   def _handle_adopted_listing_event(self, listing, **kwargs):
