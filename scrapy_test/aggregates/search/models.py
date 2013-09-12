@@ -1,8 +1,10 @@
 import collections
+from django.core.exceptions import ValidationError
 
 from django.db import models
 from jsonfield import JSONField
 from localflavor.us.models import USStateField
+from scrapy_test.aggregates.search.signals import created
 
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 
@@ -35,8 +37,46 @@ class Search(models.Model, AggregateBase):
   sqfeet_min = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
   sqfeet_max = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
 
+  @classmethod
+  def _from_attrs(cls, **kwargs):
+    ret_val = cls()
+
+    if not kwargs.get('description'): raise TypeError('description is required')
+    if not kwargs.get('specified_location'): raise TypeError('specified_location is required')
+
+    geo_boundary_points = kwargs.get('geo_boundary_points', None)
+    if not geo_boundary_points:
+      raise TypeError('geo_boundary_points are required')
+    elif len(geo_boundary_points) < 3:
+      raise ValidationError('at least 3 geo_boundary_points are required')
+
+    bedroom_max = kwargs.get('bedroom_max')
+    if bedroom_max:
+      if not bedroom_max < kwargs.get('bedroom_min', None):
+        raise ValidationError("bedroom_max must be greater than bedroom_min")
+
+    bathroom_max = kwargs.get('bathroom_max')
+    if bathroom_max:
+      if not bathroom_max < kwargs.get('bathroom_min', None):
+        raise ValidationError("bathroom_max must be greater than bathroom_min")
+
+    price_max = kwargs.get('price_max')
+    if price_max:
+      if not price_max < kwargs.get('price_min', None):
+        raise ValidationError("price_max must be greater than price_min")
+
+    sqfeet_max = kwargs.get('sqfeet_max')
+    if sqfeet_max:
+      if not sqfeet_max < kwargs.get('sqfeet_min', None):
+        raise ValidationError("sqfeet_max must be greater than sqfeet_min")
+
+    ret_val._raise_event(created, sender=Search, instance=ret_val, attrs=kwargs)
+
+    return ret_val
+
   def __unicode__(self):
     return 'Search #' + str(self.pk) + ': ' + self.formatted_address
+
 
 class Amenity(models.Model):
   is_available = models.BooleanField()
