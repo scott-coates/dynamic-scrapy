@@ -5,7 +5,7 @@ from localflavor.us.models import USStateField
 import reversion
 
 from scrapy_test.aggregates.apartment.managers import ApartmentManager
-from scrapy_test.aggregates.apartment.signals import adopted_listing, became_unavailable
+from scrapy_test.aggregates.apartment.signals import adopted_listing, became_unavailable, created_from_listing
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.common_domain.models import RevisionEvent
 
@@ -43,8 +43,16 @@ class Apartment(models.Model, AggregateBase):
     super(Apartment, self).__init__(*args, **kwargs)
     self._amenity_list = []
 
+  @classmethod
+  def _from_listing(cls, listing):
+    ret_val = cls()
+    ret_val._raise_event(created_from_listing, sender=Apartment, instance=ret_val, listing=listing)
+
   def adopt_listing(self, listing):
     self._raise_event(adopted_listing, sender=Apartment, instance=self, listing=listing)
+
+  def _handle_create_from_listing_event(self, listing, **kwargs):
+    self._handle_adopted_listing_event(listing, **kwargs)
 
   def _handle_adopted_listing_event(self, listing, **kwargs):
     self.address = self.address or listing.address
