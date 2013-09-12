@@ -28,6 +28,8 @@ class Search(models.Model, AggregateBase):
   sqfeet_min = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
   sqfeet_max = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
 
+  def __unicode__(self):
+    return 'Search #' + str(self.pk) + ': ' + self.formatted_address
 
 class Amenity(models.Model):
   is_available = models.BooleanField()
