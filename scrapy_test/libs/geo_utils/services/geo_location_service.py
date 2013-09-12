@@ -16,10 +16,8 @@ def _get_address_component(address_components, component):
   return ret_val
 
 
-def get_geocoded_address(address, city, state):
-  address_format = "{0} {1} {2}".format(address, city, state)
-
-  results = _geocoder.geocode(address_format)
+def get_geocoded_address(address_str):
+  results = _geocoder.geocode(address_str)
 
   current_module = sys.modules[__name__]
 
