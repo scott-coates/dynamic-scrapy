@@ -1,7 +1,6 @@
-from scrapy_test.aggregates.apartment.models import Apartment
+from scrapy_test.aggregates.search.models import Search
 
 
-def construct_apartment_from_listing(listing):
-  apartment = Apartment()
-  apartment.adopt_listing(listing)
-  return apartment
+def construct_search(**kwargs):
+  search = Search._from_attrs(**kwargs)
+  return search
