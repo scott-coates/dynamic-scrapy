@@ -4,13 +4,12 @@ from django.core.exceptions import ValidationError
 
 from django.db import models, transaction
 from django.utils import timezone
-import jsonfield
 from localflavor.us.models import USStateField, PhoneNumberField
 import reversion
 from scrapy_test.aggregates.listing.managers import ListingManager
 
-from scrapy_test.aggregates.listing.signals import created, sanitized, deleted, unsanitized, \
-  updated_last_updated_date, associated_with_apartment, died
+from scrapy_test.aggregates.listing.signals import created, deleted, updated_last_updated_date, \
+  associated_with_apartment, died
 from scrapy_test.aggregates.listing_source.models import ListingSource
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.django_utils.models.utils import copy_django_model_attrs
@@ -49,9 +48,6 @@ class Listing(models.Model, AggregateBase):
   contact_name = models.CharField(max_length=255, blank=True, null=True)
   contact_phone_number = PhoneNumberField(blank=True, null=True)
   contact_email_address = models.EmailField(blank=True, null=True)
-
-  requires_sanity_checking = models.BooleanField()
-  validation_parsing_errors = jsonfield.JSONField(blank=True, null=True)
 
   apartment = models.ForeignKey('apartment.Apartment', related_name='listings', blank=True, null=True)
 
@@ -109,9 +105,11 @@ class Listing(models.Model, AggregateBase):
       if not last_updated_date > posted_date:
         raise ValidationError("posted_date must be before last_updated_date")
 
-    ret_val._raise_event(created, sender=Listing, instance=ret_val, attrs=kwargs)
+    communication = kwargs.get('contact_phone_number', kwargs.get('contact_email_address', None))
+    if not communication:
+      raise ValidationError("contact_phone_number or contact_email_address is required")
 
-    ret_val.reset_sanitization_status()
+    ret_val._raise_event(created, sender=Listing, instance=ret_val, attrs=kwargs)
 
     return ret_val
 
@@ -126,38 +124,6 @@ class Listing(models.Model, AggregateBase):
     self._validate_listing_date(last_updated_date)
 
     self._raise_event(updated_last_updated_date, sender=Listing, last_updated_date=last_updated_date, instance=self)
-
-  def reset_sanitization_status(self):
-    errors = {}
-    if not self.address:
-      errors["address"] = ["Missing address"]
-
-    if not self.price:
-      errors["price"] = ["Missing price"]
-
-    if not self.contact_phone_number and not self.contact_email_address:
-      errors["communication"] = ["Missing phone and email"]
-
-    if not self.description:
-      errors["description"] = ["Missing description"]
-    elif len(self.description) < 20:
-      errors["description"] = ["Description too short"]
-
-    if not self.posted_date:
-      errors["posted date"] = ["Missing posted date"]
-
-    if errors:
-      self.make_unsanitized(errors)
-      if len(errors) >= 5:
-        self.make_deleted()
-    else:
-      self.make_sanitized()
-
-  def make_sanitized(self):
-    self._raise_event(sanitized, sender=Listing, instance=self)
-
-  def make_unsanitized(self, errors):
-    self._raise_event(unsanitized, sender=Listing, errors=errors, instance=self)
 
   def make_deleted(self):
     self._raise_event(deleted, sender=Listing, instance=self)
@@ -187,16 +153,6 @@ class Listing(models.Model, AggregateBase):
   def _handle_died_event(self, **kwargs):
     self.is_dead = True
     logger.info("{0} has been marked as dead".format(self))
-
-  def _handle_sanitized_event(self, **kwargs):
-    self.requires_sanity_checking = False
-    logger.info("{0} has been marked as sanitized".format(self))
-
-  def _handle_unsanitized_event(self, errors, **kwargs):
-    self.validation_parsing_errors = errors
-    self.requires_sanity_checking = True
-
-    logger.info("{0} has been marked as unsanitized".format(self))
 
   def _handle_updated_last_updated_date_event(self, last_updated_date, **kwargs):
     self.last_updated_date = last_updated_date
