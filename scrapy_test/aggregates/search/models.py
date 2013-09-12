@@ -1,4 +1,5 @@
 import collections
+import logging
 from django.core.exceptions import ValidationError
 
 from django.db import models, transaction
@@ -9,7 +10,9 @@ from scrapy_test.aggregates.search.signals import created
 
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.common_domain.models import RevisionEvent
+from scrapy_test.libs.django_utils.models.utils import copy_django_model_attrs
 
+logger = logging.getLogger(__name__)
 
 class Search(models.Model, AggregateBase):
   description = models.TextField()
@@ -79,6 +82,16 @@ class Search(models.Model, AggregateBase):
     ret_val._raise_event(created, sender=Search, instance=ret_val, attrs=kwargs)
 
     return ret_val
+
+  def _handle_created_event(self, **kwargs):
+    amenities = kwargs['attrs'].pop('amenities', None)
+    if amenities:
+      self._amenity_list.extend(Amenity(amenity_type_id=a.keyword_id, is_available=a.is_available) for a in amenities)
+
+    # django model constructor has pretty smart logic for mass assignment
+    copy_django_model_attrs(self, **kwargs['attrs'])
+
+    logger.info("{0} has been created".format(self))
 
   def save(self, internal=False, *args, **kwargs):
     if internal:
