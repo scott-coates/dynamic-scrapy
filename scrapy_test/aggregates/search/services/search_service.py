@@ -19,6 +19,8 @@ def create_search(_geo_location_service=geo_location_service, **search_attrs):
 
   search = factories.construct_search(**search_attrs)
 
+  save_or_update(search)
+
   return search
 
 
