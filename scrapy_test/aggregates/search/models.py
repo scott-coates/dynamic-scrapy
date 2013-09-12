@@ -1,4 +1,7 @@
+import collections
+
 from django.db import models
+from jsonfield import JSONField
 from localflavor.us.models import USStateField
 
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
@@ -8,6 +11,10 @@ class Search(models.Model, AggregateBase):
   description = models.TextField()
 
   specified_location = models.CharField(max_length=2048)
+
+  # advanced usage and how to keep dicts ordered
+  # upon deserializing https://github.com/bradjasper/django-jsonfield#advanced-usage
+  geo_boundary_points = JSONField(load_kwargs={'object_pairs_hook': collections.OrderedDict})
 
   address = models.CharField(max_length=255, blank=True, null=True)
   city = models.CharField(max_length=255)
