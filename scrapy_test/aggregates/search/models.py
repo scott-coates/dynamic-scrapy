@@ -118,7 +118,7 @@ class Search(models.Model, AggregateBase):
 
 class Amenity(models.Model):
   is_available = models.BooleanField()
-  apartment = models.ForeignKey(Search, related_name='amenities')
+  search = models.ForeignKey(Search, related_name='amenities')
   amenity_type = models.ForeignKey('amenity.Amenity', related_name='search_instance')
 
   class Meta:
