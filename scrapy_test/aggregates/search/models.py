@@ -14,6 +14,7 @@ from scrapy_test.libs.django_utils.models.utils import copy_django_model_attrs
 
 logger = logging.getLogger(__name__)
 
+
 class Search(models.Model, AggregateBase):
   description = models.TextField()
 
@@ -37,8 +38,8 @@ class Search(models.Model, AggregateBase):
   bedroom_max = models.PositiveSmallIntegerField(max_length=2, blank=True, null=True)
   bathroom_min = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
   bathroom_max = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
-  price_min = models.DecimalField(max_digits=10, decimal_places=2)
-  price_max = models.DecimalField(max_digits=10, decimal_places=2)
+  price_min = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+  price_max = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
   sqfeet_min = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
   sqfeet_max = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
 
