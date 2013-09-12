@@ -215,6 +215,7 @@ LOCAL_APPS = (
   'scrapy_test.aggregates.apartment',
   'scrapy_test.aggregates.listing',
   'scrapy_test.aggregates.listing_source',
+  'scrapy_test.aggregates.search',
   # APPS
   'scrapy_test.apps.web_scraper',
   # LIBS
