@@ -1,12 +1,14 @@
 import collections
 from django.core.exceptions import ValidationError
 
-from django.db import models
+from django.db import models, transaction
 from jsonfield import JSONField
 from localflavor.us.models import USStateField
+import reversion
 from scrapy_test.aggregates.search.signals import created
 
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
+from scrapy_test.libs.common_domain.models import RevisionEvent
 
 
 class Search(models.Model, AggregateBase):
@@ -36,6 +38,10 @@ class Search(models.Model, AggregateBase):
   price_max = models.DecimalField(max_digits=10, decimal_places=2)
   sqfeet_min = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
   sqfeet_max = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
+
+  def __init__(self, *args, **kwargs):
+    super(Search, self).__init__(*args, **kwargs)
+    self._amenity_list = []
 
   @classmethod
   def _from_attrs(cls, **kwargs):
@@ -73,6 +79,25 @@ class Search(models.Model, AggregateBase):
     ret_val._raise_event(created, sender=Search, instance=ret_val, attrs=kwargs)
 
     return ret_val
+
+  def save(self, internal=False, *args, **kwargs):
+    if internal:
+      with transaction.commit_on_success():
+        with reversion.create_revision():
+          super(Search, self).save(*args, **kwargs)
+
+          for a in self._amenity_list:
+            #add actually does a save internally, hitting the db
+            self.amenities.add(a)
+
+          for event in self._uncommitted_events:
+            reversion.add_meta(RevisionEvent, name=event.event_fq_name, version=event.version)
+
+      self.send_events()
+    else:
+      from scrapy_test.aggregates.search.services import search_service
+
+      search_service.save_or_update(self)
 
   def __unicode__(self):
     return 'Search #' + str(self.pk) + ': ' + self.formatted_address
