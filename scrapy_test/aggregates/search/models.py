@@ -61,22 +61,22 @@ class Search(models.Model, AggregateBase):
 
     bedroom_max = kwargs.get('bedroom_max')
     if bedroom_max:
-      if not bedroom_max < kwargs.get('bedroom_min', None):
+      if bedroom_max < kwargs.get('bedroom_min', None):
         raise ValidationError("bedroom_max must be greater than bedroom_min")
 
     bathroom_max = kwargs.get('bathroom_max')
     if bathroom_max:
-      if not bathroom_max < kwargs.get('bathroom_min', None):
+      if bathroom_max < kwargs.get('bathroom_min', None):
         raise ValidationError("bathroom_max must be greater than bathroom_min")
 
     price_max = kwargs.get('price_max')
     if price_max:
-      if not price_max < kwargs.get('price_min', None):
+      if price_max < kwargs.get('price_min', None):
         raise ValidationError("price_max must be greater than price_min")
 
     sqfeet_max = kwargs.get('sqfeet_max')
     if sqfeet_max:
-      if not sqfeet_max < kwargs.get('sqfeet_min', None):
+      if sqfeet_max < kwargs.get('sqfeet_min', None):
         raise ValidationError("sqfeet_max must be greater than sqfeet_min")
 
     ret_val._raise_event(created, sender=Search, instance=ret_val, attrs=kwargs)
@@ -86,7 +86,7 @@ class Search(models.Model, AggregateBase):
   def _handle_created_event(self, **kwargs):
     amenities = kwargs['attrs'].pop('amenities', None)
     if amenities:
-      self._amenity_list.extend(Amenity(amenity_type_id=a.keyword_id, is_available=a.is_available) for a in amenities)
+      self._amenity_list.extend(Amenity(amenity_type_id=a) for a in amenities)
 
     # django model constructor has pretty smart logic for mass assignment
     copy_django_model_attrs(self, **kwargs['attrs'])
@@ -117,7 +117,6 @@ class Search(models.Model, AggregateBase):
 
 
 class Amenity(models.Model):
-  is_available = models.BooleanField()
   search = models.ForeignKey(Search, related_name='amenities')
   amenity_type = models.ForeignKey('amenity.Amenity', related_name='search_instance')
 
