@@ -1,6 +1,6 @@
-from scrapy_test.aggregates.search.models import Search
+from scrapy_test.aggregates.listing.models import Listing
 
 
-def construct_search(**kwargs):
-  search = Search._from_attrs(**kwargs)
-  return search
+def construct_listing(**kwargs):
+  listing = Listing._from_attrs(**kwargs)
+  return listing
