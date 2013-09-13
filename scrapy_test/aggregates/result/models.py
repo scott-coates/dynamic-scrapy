@@ -80,7 +80,7 @@ class Result(models.Model, AggregateBase):
               if attr_val[0] == val and attr_val[1]:
                 numerator += 1
 
-    self.compliance_score = float(numerator / denominator)
+    self.compliance_score = int(round(numerator / denominator, 2) * 100)
 
     logger.info(
       "Calculated compliance for result: {0}.{sep}"
