@@ -1,4 +1,3 @@
-from __future__ import division
 import logging
 import os
 
@@ -47,18 +46,21 @@ class Result(models.Model, AggregateBase):
     return ret_val
 
   def _handle_created_from_apartment_and_search_event(self, apartment, search, **kwargs):
-    numerator = 0
-    denominator = 0
+    numerator = 0.0
+    denominator = 0.0
     for attr in Apartment._meta.get_all_field_names():
-      if attr in ('bedroom', 'bathroom', 'price'):
+
+      search_attr = attr.rstrip('_count')
+
+      if attr in ('bedroom_count', 'bathroom_count', 'price'):
         denominator += 1
         # if the number of beds or baths is greater than what is requested, this is fine
-        if getattr(apartment, attr) is not None and attr in ('bedroom', 'bathroom'):
-          if getattr(apartment, attr) >= getattr(search, attr + '_min'):
+        if getattr(apartment, attr) is not None and attr in ('bedroom_count', 'bathroom_count'):
+          if getattr(apartment, attr) >= getattr(search, search_attr + '_min'):
             numerator += 1
         # if the price is less than what is requested, this is fine
         elif getattr(apartment, attr) and attr == 'price':
-          if getattr(apartment, attr) <= getattr(search, attr + '_max'):
+          if getattr(apartment, attr) <= getattr(search, search_attr + '_max'):
             numerator += 1
 
       # If there is a square footage, and it is within the range, increment denominator and numerator. If no square
@@ -66,16 +68,16 @@ class Result(models.Model, AggregateBase):
       elif attr == 'sqfeet':
         if getattr(apartment, attr) is not None:
           denominator += 1
-          if getattr(apartment, attr) >= getattr(search, attr + '_min'):
+          if getattr(apartment, attr) >= getattr(search, search_attr + '_min'):
             numerator += 1
 
       # Necessary so that, if there are more perks than requested, this will not count against or help the compliance
       #  level
       elif attr == 'amenities':
-        amenities_count = getattr(search, attr).count()
+        amenities_count = getattr(search, search_attr).count()
         if amenities_count:
           denominator += amenities_count
-          for val in getattr(search, attr).all().values_list('amenity_type__id', flat=True):
+          for val in getattr(search, search_attr).all().values_list('amenity_type__id', flat=True):
             for attr_val in getattr(apartment, attr).values_list('amenity_type__id', 'is_available'):
               if attr_val[0] == val and attr_val[1]:
                 numerator += 1
