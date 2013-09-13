@@ -44,7 +44,9 @@ class Result(models.Model, AggregateBase):
       search=search
     )
 
-  def _handle_created_from_apartment_and_search_even(self, apartment, search, **kwargs):
+    return ret_val
+
+  def _handle_created_from_apartment_and_search_event(self, apartment, search, **kwargs):
     numerator = 0
     denominator = 0
     for attr in Apartment._meta.get_all_field_names():
