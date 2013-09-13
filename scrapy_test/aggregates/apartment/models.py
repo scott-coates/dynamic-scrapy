@@ -47,6 +47,9 @@ class Apartment(models.Model, AggregateBase):
   def _from_listing(cls, listing):
     ret_val = cls()
 
+    if not listing:
+      raise TypeError("listing is required")
+
     ret_val._raise_event(created_from_listing, sender=Apartment, instance=ret_val, listing=listing)
 
     return ret_val

@@ -2,6 +2,7 @@ import logging
 
 from django.db import models, transaction
 import reversion
+from scrapy_test.aggregates.result.signals import created_from_apartment_and_search
 
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.common_domain.models import RevisionEvent
@@ -21,6 +22,27 @@ class Result(models.Model, AggregateBase):
 
   class Meta:
     unique_together = ("apartment", "search")
+
+  @classmethod
+  def _from_apartment_and_search(cls, apartment, search):
+    ret_val = cls()
+
+    if not apartment:
+      raise TypeError("apartment is required")
+
+    if not search:
+      raise TypeError("search is required")
+
+    ret_val._raise_event(
+      created_from_apartment_and_search,
+      sender=Result,
+      instance=ret_val,
+      apartment=apartment,
+      search=search
+    )
+
+  def _handle_created_from_apartment_and_search_even(self, apartment, search, **kwargs):
+    pass
 
   def save(self, internal=False, *args, **kwargs):
     if internal:
