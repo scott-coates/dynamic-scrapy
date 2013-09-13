@@ -1,7 +1,10 @@
+from __future__ import division
 import logging
+import os
 
 from django.db import models, transaction
 import reversion
+from scrapy_test.aggregates.apartment.models import Apartment
 from scrapy_test.aggregates.result.signals import created_from_apartment_and_search
 
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
@@ -15,7 +18,7 @@ class Result(models.Model, AggregateBase):
 
   search = models.ForeignKey('search.Search', related_name="results")
 
-  compliance = models.PositiveSmallIntegerField(max_length=2)
+  compliance_score = models.PositiveSmallIntegerField(max_length=2)
 
   created = models.DateTimeField(auto_now_add=True)
   changed = models.DateTimeField(auto_now=True)
@@ -42,7 +45,47 @@ class Result(models.Model, AggregateBase):
     )
 
   def _handle_created_from_apartment_and_search_even(self, apartment, search, **kwargs):
-    pass
+    numerator = 0
+    denominator = 0
+    for attr in Apartment._meta.get_all_field_names():
+      if attr in ('bedroom', 'bathroom', 'price'):
+        denominator += 1
+        # if the number of beds or baths is greater than what is requested, this is fine
+        if getattr(apartment, attr) is not None and attr in ('bedroom', 'bathroom'):
+          if getattr(apartment, attr) >= getattr(search, attr + '_min'):
+            numerator += 1
+        # if the price is less than what is requested, this is fine
+        elif getattr(apartment, attr) and attr == 'price':
+          if getattr(apartment, attr) <= getattr(search, attr + '_max'):
+            numerator += 1
+
+      # If there is a square footage, and it is within the range, increment denominator and numerator. If no square
+      # footage, do nothing.
+      elif attr == 'sqfeet':
+        if getattr(apartment, attr) is not None:
+          denominator += 1
+          if getattr(apartment, attr) >= getattr(search, attr + '_min'):
+            numerator += 1
+
+      # Necessary so that, if there are more perks than requested, this will not count against or help the compliance
+      #  level
+      elif attr == 'amenities':
+        amenities_count = getattr(search, attr).count()
+        if amenities_count:
+          denominator += amenities_count
+          for val in getattr(search, attr).all().values_list('amenity_type__id', flat=True):
+            for attr_val in getattr(apartment, attr).values_list('amenity_type__id', 'is_available'):
+              if attr_val[0] == val and attr_val[1]:
+                numerator += 1
+
+    self.compliance_score = float(numerator / denominator)
+
+    logger.info(
+      "Calculated compliance for result: {0}.{sep}"
+      "Apartment: {1}.{sep}"
+      "Search: {2}.{sep}"
+      "Score: {3}".format(self, apartment, search, self.compliance_score, sep=os.linesep))
+
 
   def save(self, internal=False, *args, **kwargs):
     if internal:
