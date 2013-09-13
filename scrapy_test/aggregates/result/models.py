@@ -50,7 +50,7 @@ class Result(models.Model, AggregateBase):
     denominator = 0.0
     for attr in Apartment._meta.get_all_field_names():
 
-      search_attr = attr.rstrip('_count')
+      search_attr = attr.replace('_count', '')
 
       if attr in ('bedroom_count', 'bathroom_count', 'price'):
         denominator += 1
