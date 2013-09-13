@@ -16,6 +16,8 @@ logger = logging.getLogger(__name__)
 
 
 class Search(models.Model, AggregateBase):
+  email_address = models.EmailField()
+
   description = models.TextField()
 
   specified_location = models.CharField(max_length=2048)
