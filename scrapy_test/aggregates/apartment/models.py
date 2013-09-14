@@ -3,6 +3,7 @@ import logging
 from django.db import models, transaction
 from localflavor.us.models import USStateField
 import reversion
+from scrapy_test.aggregates.apartment.enums import ApartmentUnavailableReasonEnum
 
 from scrapy_test.aggregates.apartment.managers import ApartmentManager
 from scrapy_test.aggregates.apartment.signals import adopted_listing, became_unavailable, created_from_listing
@@ -85,10 +86,10 @@ class Apartment(models.Model, AggregateBase):
 
   def update_availability(self):
     if all(l.is_dead or l.is_deleted for l in self.listings.all()):
-      self.make_unavailable()
+      self.make_unavailable(ApartmentUnavailableReasonEnum.AllListingsUnavailable)
 
-  def make_unavailable(self):
-    self._raise_event(became_unavailable, sender=Apartment, instance=self)
+  def make_unavailable(self, reason):
+    self._raise_event(became_unavailable, sender=Apartment, instance=self, reason=reason)
 
   def _handle_became_unavailable_event(self, **kwargs):
     self.is_available = False
