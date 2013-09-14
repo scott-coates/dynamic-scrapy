@@ -55,6 +55,8 @@ class Listing(models.Model, AggregateBase):
   is_dead = models.BooleanField()
   #did we manually delete this?
   is_deleted = models.BooleanField()
+  #were we notified that the apar?
+  is_deleted = models.BooleanField()
 
   created_date = models.DateTimeField(auto_now_add=True)
   changed_date = models.DateTimeField(auto_now=True)

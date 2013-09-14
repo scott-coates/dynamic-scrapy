@@ -21,3 +21,8 @@ def associate_listing_with_apartment_task(listing_id, apartment_id):
   listing = listing_service.get_listing(listing_id)
   apartment = apartment_service.get_apartment(apartment_id)
   return listing_service.associate_listing_with_apartment(listing, apartment).id
+
+@task
+def delete_listings_task(apartment_id):
+  apartment = apartment_service.get_apartment(apartment_id)
+  return listing_service.delete_listings(apartment)

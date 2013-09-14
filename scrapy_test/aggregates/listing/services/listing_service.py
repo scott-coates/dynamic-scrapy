@@ -46,3 +46,10 @@ def associate_listing_with_apartment(listing, apartment):
   listing.associate_with_apartment(apartment)
   save_or_update(listing)
   return listing
+
+
+def delete_listings(apartment):
+  for listing in apartment.listings.all():
+    listing.make_deleted()
+
+    save_or_update(listing)
