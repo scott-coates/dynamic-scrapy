@@ -18,5 +18,5 @@ def became_unavailable_callback(sender, **kwargs):
   #if we were somehow notified externally that the apartment is no longer available, the listings should be updated.
   #but if we're simply marking the apartment as not available because all of the listings are dead,
   #we don't need to notify the listings again
-  if reason == ApartmentUnavailableReasonEnum.NotifiedUnavailable:
+  if reason != ApartmentUnavailableReasonEnum.AllListingsUnavailable:
     listing_tasks.notify_listings_unavailable_task.delay(kwargs['instance'].id)
