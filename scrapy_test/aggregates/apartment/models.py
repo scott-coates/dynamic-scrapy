@@ -88,6 +88,9 @@ class Apartment(models.Model, AggregateBase):
     if all(l.is_dead or l.is_deleted for l in self.listings.all()):
       self.make_unavailable(ApartmentUnavailableReasonEnum.AllListingsUnavailable)
 
+  def notify_unavailable(self):
+    self.make_unavailable(ApartmentUnavailableReasonEnum.NotifiedUnavailable)
+
   def make_unavailable(self, reason):
     self._raise_event(became_unavailable, sender=Apartment, instance=self, reason=reason)
 

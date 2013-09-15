@@ -24,3 +24,7 @@ def adopt_listing(listing):
 def update_availability(apartment):
   apartment.update_availability()
   save_or_update(apartment)
+
+def notify_unavailable(apartment):
+  apartment.notify_unavailable()
+  save_or_update(apartment)
