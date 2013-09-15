@@ -48,8 +48,8 @@ def associate_listing_with_apartment(listing, apartment):
   return listing
 
 
-def delete_listings(apartment):
+def notify_listings_unavailable(apartment):
   for listing in apartment.listings.all():
-    listing.make_deleted()
+    listing.notify_unavailable()
 
     save_or_update(listing)

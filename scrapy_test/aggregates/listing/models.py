@@ -126,8 +126,8 @@ class Listing(models.Model, AggregateBase):
 
     self._raise_event(updated_last_updated_date, sender=Listing, last_updated_date=last_updated_date, instance=self)
 
-  def make_deleted(self):
-    self._raise_event(deleted, sender=Listing, instance=self)
+  def notify_unavailable(self):
+    self._raise_event(deleted, sender=Listing, instance=self, reason=DeletedListingReasonEnum.NotifiedUnavailable)
 
   def make_dead(self):
     self._raise_event(deleted, sender=Listing, instance=self, reason=DeletedListingReasonEnum.DeadListing)
