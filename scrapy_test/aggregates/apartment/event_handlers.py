@@ -16,6 +16,6 @@ def listing_deleted_callback(sender, **kwargs):
 
   #if an apartment is notified as unavailable, we'll let the listings know they should be marked as such. In that
   # case, we don't need to re-notify the apartments that we've updated the listings,
-  # because it was the apartment in the first place that let the listings know they needed to be updated.
+  # because it was the apartment in the first place that let the listings know they needed to be updated.c
   if reason != DeletedListingReasonEnum.NotifiedUnavailable:
     apartment_tasks.update_availability_task.delay(kwargs['instance'].id)

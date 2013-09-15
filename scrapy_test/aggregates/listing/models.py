@@ -10,7 +10,7 @@ from scrapy_test.aggregates.listing.enums import DeletedListingReasonChoices, De
 from scrapy_test.aggregates.listing.managers import ListingManager
 
 from scrapy_test.aggregates.listing.signals import created, deleted, updated_last_updated_date, \
-  associated_with_apartment, died
+  associated_with_apartment
 from scrapy_test.aggregates.listing_source.models import ListingSource
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.django_utils.models.utils import copy_django_model_attrs
