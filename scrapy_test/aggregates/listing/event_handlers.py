@@ -15,5 +15,8 @@ def event_occurred_callback(sender, **kwargs):
 def became_unavailable_callback(sender, **kwargs):
   reason = kwargs.pop('reason')
 
+  #if we were somehow notified externally that the apartment is no longer available, the listings should be updated.
+  #but if we're simply marking the apartment as not available because all of the listings are dead,
+  #we don't need to notify the listings again
   if reason == ApartmentUnavailableReasonEnum.NotifiedUnavailable:
-    listing_tasks.associate_listing_with_apartment_task.delay(kwargs['listing'].id, kwargs['instance'].id)
+    listing_tasks.notify_listings_unavailable_task.delay(kwargs['instance'].id)
