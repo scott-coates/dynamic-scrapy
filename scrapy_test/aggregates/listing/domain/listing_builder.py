@@ -123,7 +123,7 @@ class ListingBuilder(object):
       except:
         raise Exception("invalid date: %s" % last_updated_date)
 
-      posted_date = self.listing_attrs_output.get(LAST_UPDATED_DATE, None)
+      posted_date = self.listing_attrs_output.get(POSTED_DATE, None)
 
       if posted_date and last_updated_date > posted_date:
         self._assign_output_attr(LAST_UPDATED_DATE, last_updated_date)
