@@ -15,6 +15,7 @@ from scrapy_test.aggregates.listing_source.models import ListingSource
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.django_utils.models.utils import copy_django_model_attrs
 from scrapy_test.libs.common_domain.models import RevisionEvent
+from scrapy_test.libs.django_utils.serialization.flexible_json_serializer import JSONSerializer
 from scrapy_test.libs.geo_utils.parsing import address_parser
 
 
@@ -176,8 +177,16 @@ class Listing(models.Model, AggregateBase):
             #add actually does a save internally, hitting the db
             self.amenities.add(a)
 
+          serializer = JSONSerializer()
+
           for event in self._uncommitted_events:
-            reversion.add_meta(RevisionEvent, name=event.event_fq_name, version=event.version)
+            #we don't need to store the instance because it's not really part of the parameters
+            #and django-reversion will keep a snapshop
+            kwargs_to_save = {k: v for k, v in event.kwargs.items() if k != 'instance'}
+
+            data = serializer.serialize(kwargs_to_save)
+
+            reversion.add_meta(RevisionEvent, name=event.event_fq_name, version=event.version, data=data)
 
       self.send_events()
     else:

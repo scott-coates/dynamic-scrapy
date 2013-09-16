@@ -8,6 +8,7 @@ from scrapy_test.aggregates.result.signals import created_from_apartment_and_sea
 
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.common_domain.models import RevisionEvent
+from scrapy_test.libs.django_utils.serialization.flexible_json_serializer import JSONSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -100,8 +101,15 @@ class Result(models.Model, AggregateBase):
         with reversion.create_revision():
           super(Result, self).save(*args, **kwargs)
 
+          serializer = JSONSerializer()
+
           for event in self._uncommitted_events:
-            reversion.add_meta(RevisionEvent, name=event.event_fq_name, version=event.version)
+            #we don't need to store the instance because it's not really part of the parameters
+            #and django-reversion will keep a snapshop
+            kwargs_to_save = {k: v for k, v in event.kwargs.items() if k != 'instance'}
+            data = serializer.serialize(kwargs_to_save)
+
+            reversion.add_meta(RevisionEvent, name=event.event_fq_name, version=event.version, data=data)
 
       self.send_events()
     else:
