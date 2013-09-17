@@ -218,10 +218,10 @@ LOCAL_APPS = (
   'scrapy_test.aggregates.result',
   'scrapy_test.aggregates.search',
   # APPS
-  'scrapy_test.apps.communication',
   'scrapy_test.apps.web_scraper',
   # LIBS
   'scrapy_test.libs.common_domain',
+  'scrapy_test.libs.communications_utils',
   'scrapy_test.libs.django_utils',
 )
 
