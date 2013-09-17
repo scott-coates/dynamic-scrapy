@@ -1,0 +1,31 @@
+import logging
+from django.conf import settings
+from django.http import HttpResponseForbidden, HttpResponse, HttpResponseServerError
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from scrapy_test.libs.communication_utils.services import email_service
+
+logger = logging.getLogger(__name__)
+
+
+@require_POST
+@csrf_exempt
+def email_web_hook(request):
+  if request.GET.get('token') != settings.EXTERNAL_API_TOKEN and not settings.DEBUG:
+    return HttpResponseForbidden()
+
+  else:
+    if not email_service.is_spam(**request.POST):
+
+      try:
+        email = email_service.construct_email(**request.POST)
+        email_service.save_or_update(email)
+
+      except Exception as e:
+        logger.exception(e)
+
+        return HttpResponseServerError()
+    else:
+      logger.info('spam detected')
+
+    return HttpResponse(status=200)

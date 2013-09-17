@@ -2,6 +2,7 @@
 
 
 from datetime import timedelta
+from os import environ
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
 
@@ -302,3 +303,7 @@ COMPRESS_JS_FILTERS = [
     'compressor.filters.template.TemplateFilter',
 ]
 ########## END COMPRESSION CONFIGURATION
+
+# ########## API CONFIGURATION
+EXTERNAL_API_TOKEN = environ.get('EXTERNAL_API_TOKEN')
+########## END ALLOWED HOST CONFIGURATION
