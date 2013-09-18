@@ -10,7 +10,7 @@ def is_spam(**kwargs):
 
     spam_value = float(spam_score)
 
-    if spam_value >= 5.0:
+    if spam_value >= 2.3:
       ret_val = True
 
   except (ValueError, TypeError):
@@ -24,7 +24,7 @@ def construct_email(**kwargs):
 
 
 def save_or_update(email):
+  email.save()
   email_received.send(email)
-  email.save(internal=True)
 
   return None
