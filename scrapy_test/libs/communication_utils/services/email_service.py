@@ -1,3 +1,4 @@
+import email
 from scrapy_test.libs.communication_utils.signals import email_received
 
 
@@ -20,6 +21,7 @@ def is_spam(**kwargs):
 
 
 def construct_email(**kwargs):
+  ret_val = Email()
   spam_score = kwargs.get('spam_score')
 
 
