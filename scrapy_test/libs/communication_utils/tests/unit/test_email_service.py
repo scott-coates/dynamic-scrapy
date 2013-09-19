@@ -24,3 +24,7 @@ def test_email_service_corrects_from_keyword():
   from_address = 'something@test.com'
   email = email_service.construct_email(**dict(email_1, **{'from': from_address}))
   assert email.from_address == from_address
+
+def test_email_service_corrects_attachment():
+  email_dict = dict(email_1, **{'attachments': 1})
+  email_service.construct_email(**email_dict)
