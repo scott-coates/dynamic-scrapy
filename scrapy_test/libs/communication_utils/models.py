@@ -4,6 +4,7 @@ from django.core.validators import MaxValueValidator
 
 from jsonfield import JSONField
 from django.db import models
+from scrapy_test.libs.datetime_utils.parsers import datetime_parser
 
 
 class Email(models.Model):
@@ -37,11 +38,11 @@ class Email(models.Model):
   class Meta:
     unique_together = ('message_id', 'sent_date')
 
-  def __init__(self, *args, **kwargs):
+  def __init__(self, _datetime_parser=datetime_parser, *args, **kwargs):
     super(Email, self).__init__(*args, **kwargs)
 
     message = message_from_string(self.headers)
     message_dict = {t[0].lower(): t[1] for t in message.items()}
 
     self.message_id = message_dict['message-id']
-    self.sent_date = message_dict['date']
+    self.sent_date = _datetime_parser.get_datetime(message_dict['date'])
