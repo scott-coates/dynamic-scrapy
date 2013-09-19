@@ -1,3 +1,4 @@
+from email import message_from_string
 from django.conf import settings
 from django.core.validators import MaxValueValidator
 
@@ -10,13 +11,14 @@ class Email(models.Model):
   text = models.TextField(blank=True, null=True)
   html = models.TextField(blank=True, null=True)
   to = models.TextField()
+  from_address = models.TextField()
   cc = models.TextField(blank=True, null=True)
   subject = models.TextField(blank=True, null=True)
   dkim = JSONField()
   SPF = JSONField()
   envelope = JSONField()
   charsets = models.CharField(max_length=255)
-  spam_score = models.FloatField(validators=MaxValueValidator(settings.SPAM_SCORE_THRESHOLD))
+  spam_score = models.FloatField(validators=[MaxValueValidator(settings.SPAM_SCORE_THRESHOLD)])
   spam_report = models.TextField()
 
   message_id = models.CharField(max_length=1024)
@@ -34,3 +36,12 @@ class Email(models.Model):
 
   class Meta:
     unique_together = ('message_id', 'sent_date')
+
+  def __init__(self, *args, **kwargs):
+    super(Email, self).__init__(*args, **kwargs)
+
+    message = message_from_string(self.headers)
+    message_dict = {t[0].lower(): t[1] for t in message.items()}
+
+    self.message_id = message_dict['message-id']
+    self.sent_date = message_dict['date']
