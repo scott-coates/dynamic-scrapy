@@ -45,4 +45,5 @@ class Email(models.Model):
     message_dict = {t[0].lower(): t[1] for t in message.items()}
 
     self.message_id = message_dict['message-id']
+    self.in_reply_to_message_id = message_dict.get('in-reply-to')
     self.sent_date = _datetime_parser.get_datetime(message_dict['date'])

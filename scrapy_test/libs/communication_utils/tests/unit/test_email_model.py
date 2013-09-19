@@ -20,6 +20,14 @@ def test_email_model_sets_message_id(email_dict):
   assert email.message_id == '<11471247.33986.1361999987364.JavaMail.root@vms170015>'
 
 
+def test_email_model_sets_reply_message_id(email_dict):
+  reply_message = '<20130916040724.5.38922.c45993@d4dab1f6-91ca-43a6-8ced-4d8a340e7403.prvt.dyno.rt.heroku.com>'
+  in_reply_to = 'In-Reply-To: %s\r\n' % reply_message
+
+  email = Email(**dict(email_dict, **{'headers': email_dict['headers'] + in_reply_to}))
+  assert email.in_reply_to_message_id == reply_message
+
+
 def test_email_model_sets_date(email_dict):
   some_date = timezone.now()
 
