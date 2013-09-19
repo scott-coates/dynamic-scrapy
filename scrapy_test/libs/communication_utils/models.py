@@ -1,5 +1,7 @@
 from email import message_from_string
 from django.conf import settings
+from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.models import ContentType
 from django.core.validators import MaxValueValidator
 
 from jsonfield import JSONField
@@ -32,6 +34,10 @@ class Email(models.Model):
   email_direction = models.PositiveSmallIntegerField(max_length=2, choices=email_direction_choices)
 
   sent_date = models.DateTimeField()
+
+  content_type = models.ForeignKey(ContentType)
+  object_id = models.PositiveIntegerField()
+  content_object = generic.GenericForeignKey()
 
   created_date = models.DateTimeField(auto_now_add=True)
   changed_date = models.DateTimeField(auto_now=True)
