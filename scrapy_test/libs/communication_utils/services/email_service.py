@@ -1,4 +1,4 @@
-import email
+from django.conf import settings
 from scrapy_test.libs.communication_utils.signals import email_received
 
 
@@ -11,7 +11,7 @@ def is_spam(**kwargs):
 
     spam_value = float(spam_score)
 
-    if spam_value >= 2.3:
+    if spam_value >= settings.SPAM_SCORE_THRESHOLD:
       ret_val = True
 
   except (ValueError, TypeError):
