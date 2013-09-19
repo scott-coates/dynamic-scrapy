@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 import pytest
 from scrapy_test.libs.communication_utils.models import Email
 from scrapy_test.libs.communication_utils.services import email_service
@@ -14,11 +15,10 @@ def test_email_is_created_from_attrs():
 
   assert 1 == Email.objects.count()
 
-#   reply_message = '<20130916040724.5.38922.c45993@d4dab1f6-91ca-43a6-8ced-4d8a340e7403.prvt.dyno.rt.heroku.com>'
-#   in_reply_to = 'In-Reply-To: %s\r\n' % reply_message
-#
-#   email = Email(**dict(email_dict, **{'headers': email_dict['headers'] + in_reply_to}))
-#   assert email.in_reply_to_message_id == reply_message
-#
-#
-# assert 1 == Listing.objects.count()
+
+@pytest.mark.django_db_with_migrations
+def test_email_fails_with_high_spam():
+  with pytest.raises(ValidationError):
+    email = Email.construct_incoming_email(**dict(email_1, **{'spam_score': 10}))
+
+    email_id = email_service.save_or_update(email).id
