@@ -38,12 +38,30 @@ class Email(models.Model):
   class Meta:
     unique_together = ('message_id', 'sent_date')
 
-  def __init__(self, _datetime_parser=datetime_parser, *args, **kwargs):
-    super(Email, self).__init__(*args, **kwargs)
+  @classmethod
+  def construct_incoming_email(cls,_datetime_parser=datetime_parser, **kwargs):
+    kwargs['email_direction'] = Email.email_direction_incoming
 
-    message = message_from_string(self.headers)
+    from_address = kwargs['from']
+    kwargs['from_address'] = from_address
+
+    del kwargs['from']
+    del kwargs['attachments']
+
+    ret_val = cls(**kwargs)
+
+    message = message_from_string(ret_val.headers)
     message_dict = {t[0].lower(): t[1] for t in message.items()}
 
-    self.message_id = message_dict['message-id']
-    self.in_reply_to_message_id = message_dict.get('in-reply-to')
-    self.sent_date = _datetime_parser.get_datetime(message_dict['date'])
+    ret_val.message_id = message_dict['message-id']
+    ret_val.in_reply_to_message_id = message_dict.get('in-reply-to')
+    ret_val.sent_date = _datetime_parser.get_datetime(message_dict['date'])
+
+    return ret_val
+
+  def save(self, internal=False, *args, **kwargs):
+    if internal:
+      super(Email, self).save(*args, **kwargs)
+    else:
+      from scrapy_test.libs.communication_utils.services import email_service
+      email_service.save_or_update(self)
