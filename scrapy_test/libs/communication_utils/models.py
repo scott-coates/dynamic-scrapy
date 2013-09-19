@@ -4,6 +4,7 @@ from django.core.validators import MaxValueValidator
 
 from jsonfield import JSONField
 from django.db import models
+from scrapy_test.libs.communication_utils.exceptions import EmailParseError
 from scrapy_test.libs.datetime_utils.parsers import datetime_parser
 
 
@@ -39,7 +40,7 @@ class Email(models.Model):
     unique_together = ('message_id', 'sent_date')
 
   @classmethod
-  def construct_incoming_email(cls,_datetime_parser=datetime_parser, **kwargs):
+  def construct_incoming_email(cls, _datetime_parser=datetime_parser, **kwargs):
     kwargs['email_direction'] = Email.email_direction_incoming
 
     from_address = kwargs['from']
@@ -53,9 +54,14 @@ class Email(models.Model):
     message = message_from_string(ret_val.headers)
     message_dict = {t[0].lower(): t[1] for t in message.items()}
 
-    ret_val.message_id = message_dict['message-id']
+    #this field is not always required
     ret_val.in_reply_to_message_id = message_dict.get('in-reply-to')
-    ret_val.sent_date = _datetime_parser.get_datetime(message_dict['date'])
+
+    try:
+      ret_val.message_id = message_dict['message-id']
+      ret_val.sent_date = _datetime_parser.get_datetime(message_dict['date'])
+    except KeyError:
+      raise EmailParseError()
 
     return ret_val
 
@@ -64,4 +70,5 @@ class Email(models.Model):
       super(Email, self).save(*args, **kwargs)
     else:
       from scrapy_test.libs.communication_utils.services import email_service
+
       email_service.save_or_update(self)
