@@ -1,11 +1,12 @@
 import logging
 import os
+from django.core.exceptions import ValidationError
 
 from django.db import models, transaction
 import reversion
 from scrapy_test.aggregates.apartment.models import Apartment
-from scrapy_test.aggregates.result.enums import AvailabilityStatusChoices
-from scrapy_test.aggregates.result.signals import created_from_apartment_and_search
+from scrapy_test.aggregates.result.constants import PREVIOUS_RESPONSE_SEP
+from scrapy_test.aggregates.result.signals import created_from_apartment_and_search, availability_contact_responded
 
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.common_domain.models import RevisionEvent
@@ -21,17 +22,24 @@ class Result(models.Model, AggregateBase):
 
   compliance_score = models.PositiveSmallIntegerField(max_length=2)
 
+  # if we want to store a collection of availability details, we should consider replicating the amenities for our
+  # listings and apartments. Listing.amenity -> amenity_type -> Amenity.amenity.
   availability_contact_response = models.TextField(blank=True, null=True)
   availability_last_response_date = models.DateTimeField(blank=True, null=True)
-  availability_status = models.PositiveSmallIntegerField(
-    max_length=2, blank=True, null=True, choices=AvailabilityStatusChoices
+  availability_type = models.ForeignKey(
+    'availability.Availability', related_name='result_instance', blank=True, null=True
   )
 
-  created = models.DateTimeField(auto_now_add=True)
-  changed = models.DateTimeField(auto_now=True)
+  # availability_status = models.PositiveSmallIntegerField(
+  #   max_length=2, blank=True, null=True, choices=AvailabilityStatusChoices
+  # )
+
+  created_date = models.DateTimeField(auto_now_add=True)
+  changed_date = models.DateTimeField(auto_now=True)
 
   class Meta:
     unique_together = ("apartment", "search")
+
 
   @classmethod
   def _from_apartment_and_search(cls, apartment, search):
@@ -52,6 +60,30 @@ class Result(models.Model, AggregateBase):
     )
 
     return ret_val
+
+  def add_availability_response(self, response, response_date, availability_type):
+    if not response:
+      raise ValidationError('response is required')
+
+    if not response_date:
+      raise ValidationError('response_date is required')
+
+    if not availability_type:
+      raise ValidationError('availability_type is required')
+
+    self._raise_event(
+      availability_contact_responded, sender=Result,
+      response=response, response_date=response_date, availability_type=availability_type
+    )
+
+  def _handle_availability_contact_responded_event(self, response, response_date, availability_type, **kwargs):
+    if self.availability_contact_response:
+      self.availability_contact_response += (PREVIOUS_RESPONSE_SEP + response)
+    else:
+      self.availability_contact_response = response
+
+    self.availability_last_response_date = response_date
+    self.availability_type = availability_type
 
   def _handle_created_from_apartment_and_search_event(self, apartment, search, **kwargs):
     self.apartment = apartment

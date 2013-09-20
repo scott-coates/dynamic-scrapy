@@ -214,6 +214,7 @@ LOCAL_APPS = (
   # AGGREGATES
   'scrapy_test.aggregates.amenity',
   'scrapy_test.aggregates.apartment',
+  'scrapy_test.aggregates.availability',
   'scrapy_test.aggregates.listing',
   'scrapy_test.aggregates.listing_source',
   'scrapy_test.aggregates.result',
