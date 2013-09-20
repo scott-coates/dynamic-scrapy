@@ -1,4 +1,5 @@
 from scrapy_test.aggregates.availability.models import Availability
+from scrapy_test.libs.text_utils.parsers import text_parser
 
 
 def save_or_update(availability):
@@ -16,5 +17,6 @@ def get_keyword_hash():
   return availability_hash
 
 
-def get_availability_from_str(availability_str):
+def get_availability_from_str(availability_str, _text_parser=text_parser):
+  keyword_results = _text_parser.get_canonical_name_from_keywords(get_keyword_hash())
   return None
