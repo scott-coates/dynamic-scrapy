@@ -4,6 +4,7 @@ import os
 from django.db import models, transaction
 import reversion
 from scrapy_test.aggregates.apartment.models import Apartment
+from scrapy_test.aggregates.result.enums import AvailabilityStatusChoices
 from scrapy_test.aggregates.result.signals import created_from_apartment_and_search
 
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
@@ -19,6 +20,12 @@ class Result(models.Model, AggregateBase):
   search = models.ForeignKey('search.Search', related_name="results")
 
   compliance_score = models.PositiveSmallIntegerField(max_length=2)
+
+  availability_contact_response = models.TextField(blank=True, null=True)
+  availability_last_response_date = models.DateTimeField(blank=True, null=True)
+  availability_status = models.PositiveSmallIntegerField(
+    max_length=2, blank=True, null=True, choices=AvailabilityStatusChoices
+  )
 
   created = models.DateTimeField(auto_now_add=True)
   changed = models.DateTimeField(auto_now=True)

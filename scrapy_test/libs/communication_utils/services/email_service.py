@@ -1,4 +1,5 @@
 from django.conf import settings
+from scrapy_test.libs.communication_utils.models import Email
 from scrapy_test.libs.communication_utils.signals import email_received
 
 
@@ -19,9 +20,10 @@ def is_spam(**kwargs):
 
   return ret_val
 
+
 def save_or_update(email):
   email.full_clean()
   email.save(internal=True)
-  email_received.send(email)
+  email_received.send(Email, instance=email)
 
   return email
