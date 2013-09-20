@@ -1,18 +1,9 @@
 import datetime
 import json
 
-from django.db import models
 from dateutil.tz import tzoffset
 from scrapy_test.libs.django_utils.serialization.flexible_json_serializer import JSONSerializer
-
-
-class FakeTestClass(models.Model):
-  name = models.CharField(max_length=200)
-  url = models.URLField()
-  trusted_geo_data = models.BooleanField()
-
-  def __unicode__(self):
-    return self.name
+from scrapy_test.libs.django_utils.tests import FakeTestClass
 
 
 def test_serializer_serializes_dict_with_model():

@@ -127,14 +127,17 @@ class JSONSerializer():
 
   def handle_model(self, mod):
     """Called to handle a django Model"""
-    data = self.django_json_serializer.serialize([mod], ensure_ascii=False)
+    data = unicode(self.django_json_serializer.serialize([mod]))
     data = data.lstrip('[').rstrip(']')
 
     self.stream.write(data)
 
   def handle_queryset(self, queryset):
     """Called to handle a django queryset"""
-    self.django_json_serializer.serialize(queryset, ensure_ascii=False, stream=self.stream)
+
+    data = unicode(self.django_json_serializer.serialize(queryset))
+
+    self.stream.write(data)
 
   def handle_field(self, mod, field):
     """Called to handle each individual (non-relational) field on an object."""
