@@ -30,10 +30,6 @@ class Result(models.Model, AggregateBase):
     'availability.Availability', related_name='result_instance', blank=True, null=True
   )
 
-  # availability_status = models.PositiveSmallIntegerField(
-  #   max_length=2, blank=True, null=True, choices=AvailabilityStatusChoices
-  # )
-
   created_date = models.DateTimeField(auto_now_add=True)
   changed_date = models.DateTimeField(auto_now=True)
 

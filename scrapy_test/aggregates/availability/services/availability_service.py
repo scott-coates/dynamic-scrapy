@@ -3,6 +3,7 @@ from scrapy_test.aggregates.availability.models import Availability
 
 def save_or_update(availability):
   availability.aliases = availability.aliases.lower()
+  availability.system_name = availability.system_name.lower()
   availability.save(internal=True)
 
 
