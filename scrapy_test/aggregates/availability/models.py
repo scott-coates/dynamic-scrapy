@@ -1,7 +1,10 @@
 from django.db import models
+from scrapy_test.aggregates.availability.managers import AvailabilityManager
 
 
 class Availability(models.Model):
+  objects = AvailabilityManager()
+
   name = models.CharField(max_length=128) #Is Available, Another user was notified unavailable
   system_name = models.CharField(max_length=128) #availabile, different_user_notified_unavailable
   aliases = models.TextField(blank=True, null=True)
