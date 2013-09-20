@@ -37,3 +37,12 @@ def test_serializer_serializes_dict_with_model():
   serialized_data = serializer.serialize(dict_data)
   deserialized_data = json.loads(serialized_data)
   x = deserialized_data
+
+def test_serializer_serializes_model_correctly():
+  serializer = JSONSerializer()
+  test_class = FakeTestClass(name='Some Name', id=1, url='http://www.test.com', trusted_geo_data=False)
+  dict_data = {'test_model': test_class}
+
+  serialized_data = serializer.serialize(dict_data)
+  deserialized_data = json.loads(serialized_data)
+  assert deserialized_data["test_model"]["model"] == u'unit.faketestclass'

@@ -3,6 +3,7 @@
 #http://stackoverflow.com/questions/2249792/json-serializing-django-models-with-simplejson
 from datetime import datetime
 from io import StringIO
+from django.core import serializers
 from django.db.models import Model
 from django.db.models.query import QuerySet
 from django.utils.encoding import smart_unicode
@@ -33,6 +34,9 @@ class JSONSerializer():
     self.ignoredFields = options.pop("ignored", None)
     self.use_natural_keys = options.pop("use_natural_keys", False)
     self.currentLoc = ''
+
+
+    self.django_json_serializer = serializers.get_serializer("json")()
 
     self.level = 0
 
@@ -123,34 +127,14 @@ class JSONSerializer():
 
   def handle_model(self, mod):
     """Called to handle a django Model"""
-    self.start_object()
+    data = self.django_json_serializer.serialize([mod], ensure_ascii=False)
+    data = data.lstrip('[').rstrip(']')
 
-    for field in mod._meta.local_fields:
-      if field.rel is None:
-        if self.selectedFields is None or field.attname in self.selectedFields or field.attname:
-          if self.ignoredFields is None or self.currentLoc + field.attname not in self.ignoredFields:
-            self.handle_field(mod, field)
-      else:
-        if self.selectedFields is None or field.attname[:-3] in self.selectedFields:
-          if self.ignoredFields is None or self.currentLoc + field.attname[:-3] not in self.ignoredFields:
-            self.handle_fk_field(mod, field)
-    for field in mod._meta.many_to_many:
-      if self.selectedFields is None or field.attname in self.selectedFields:
-        if self.ignoredFields is None or self.currentLoc + field.attname not in self.ignoredFields:
-          self.handle_m2m_field(mod, field)
-    self.stream.seek(self.stream.tell() - 2)
-    self.end_object()
+    self.stream.write(data)
 
   def handle_queryset(self, queryset):
     """Called to handle a django queryset"""
-    self.start_array()
-    it = 0
-    for mod in queryset:
-      it += 1
-      self.handle_model(mod)
-      if queryset.count() != it:
-        self.stream.write(u', ')
-    self.end_array()
+    self.django_json_serializer.serialize(queryset, ensure_ascii=False, stream=self.stream)
 
   def handle_field(self, mod, field):
     """Called to handle each individual (non-relational) field on an object."""
