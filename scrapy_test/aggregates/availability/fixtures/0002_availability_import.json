@@ -32,5 +32,13 @@
       "name": "Unknown Availability",
       "system_name": "unknown_availability"
     }
+  },
+  {
+    "pk": 5,
+    "model": "availability.availability",
+    "fields": {
+      "name": "All Listings Deleted",
+      "system_name": "all_listings_deleted"
+    }
   }
 ]

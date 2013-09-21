@@ -6,4 +6,5 @@ AvailabilityStatusEnum = enum(
   #another tenant found this apartment to be unavailable
   DifferentUserNotifiedUnavailable='different_user_notified_unavailable',
   UnknownAvailability='unknown_availability',
+  AllListingsDeleted='all_listings_deleted',
 )

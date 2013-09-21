@@ -14,3 +14,6 @@ class AvailabilityManager(models.Manager):
 
   def get_unknown_availability_type(self):
     return self.get(system_name=AvailabilityStatusEnum.UnknownAvailability)
+
+  def get_all_listings_deleted_type(self):
+    return self.get(system_name=AvailabilityStatusEnum.AllListingsDeleted)

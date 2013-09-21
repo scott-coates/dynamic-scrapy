@@ -42,10 +42,21 @@ def notify_results_unavailable(apartment, reason):
   #find all results that are NOT `notified unavailable` because they've already been notified as unavailable. We
   # should set these to `other user found it to be unavailable`
   if reason == ApartmentUnavailableReasonEnum.NotifiedUnavailable:
-    unavailable_type = Availability.objects.get_unavailable_type()
-    different_user_notified_unavailable_type = Availability.objects.get_different_user_notified_unavailable_type()
-    results = Result.objects.find_results_to_be_notified_of_availability(apartment, unavailable_type)
 
+    #we are going to exclude the `unavailable` type
+    unavailable_type = Availability.objects.get_unavailable_type()
+
+    different_user_notified_unavailable_type = Availability.objects.get_different_user_notified_unavailable_type()
+
+    results = Result.objects.find_results_to_be_notified_of_availability(apartment, unavailable_type)
     for r in results:
       r.change_availability(different_user_notified_unavailable_type)
+      save_or_update(r)
+
+  elif reason == ApartmentUnavailableReasonEnum.AllListingsDeleted:
+    all_listings_deleted_type = Availability.objects.get_all_listings_deleted_type()
+    results = Result.objects.find_results_to_be_notified_of_availability(apartment)
+
+    for r in results:
+      r.change_availability(all_listings_deleted_type)
       save_or_update(r)
