@@ -1,0 +1,36 @@
+[
+  {
+    "pk": 1,
+    "model": "availability.availability",
+    "fields": {
+      "name": "Is Available",
+      "system_name": "available",
+      "aliases": "yes\r\nis available\r\nstill available\r\nit's available\r\nshowing\r\ncan show\r\nplace available\r\nto show\r\nis a great apartment\r\nit's ready for\r\nit is ready\r\nopen house\r\nto view\r\nset up a viewing\r\ncan view\r\nset up a visit\r\nbeing renovated\r\nunder renovation\r\nis open\r\nto see it\r\nto c it\r\nto arrange a viewing\r\nappointment\r\nsure\r\nhave that apartment available"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "availability.availability",
+    "fields": {
+      "name": "Unavailable",
+      "system_name": "unavailable",
+      "aliases": "application pending\r\nhave an application\r\nthere's an application\r\nthere is an application\r\nput in an application\r\ntwo applications\r\nthree applications\r\nsorry\r\nhave an app\r\nhave app\r\nunfortunately\r\nbeen rented\r\nhas rented\r\nwas rented\r\njust rented\r\nthat rented\r\nsigned leases\r\nsigned a lease\r\noff the market\r\nold listing\r\ngoing to take it down\r\ngoing to be taken down\r\nbeen taken\r\nno longer available\r\nnot available\r\nis taken\r\nthis apartment rented\r\nit's rented\r\nwe've now rented it\r\ni've now rented it\r\ngot rented"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "availability.availability",
+    "fields": {
+      "name": "Different User Notified Unavailable",
+      "system_name": "different_user_notified_unavailable"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "availability.availability",
+    "fields": {
+      "name": "Unknown Availability",
+      "system_name": "unknown_availability"
+    }
+  }
+]
