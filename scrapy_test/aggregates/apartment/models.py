@@ -86,7 +86,7 @@ class Apartment(models.Model, AggregateBase):
     self.is_available = True
 
   def update_availability(self):
-    if all(l.is_dead or l.is_deleted for l in self.listings.all()):
+    if all(l.is_deleted for l in self.listings.all()):
       self._make_unavailable(ApartmentUnavailableReasonEnum.AllListingsUnavailable)
 
   def notify_unavailable(self):
