@@ -35,8 +35,8 @@ class Email(models.Model):
 
   sent_date = models.DateTimeField()
 
-  content_type = models.ForeignKey(ContentType)
-  object_id = models.PositiveIntegerField()
+  content_type = models.ForeignKey(ContentType, blank=True, null=True)
+  object_id = models.PositiveIntegerField(blank=True, null=True)
   content_object = generic.GenericForeignKey()
 
   created_date = models.DateTimeField(auto_now_add=True)
