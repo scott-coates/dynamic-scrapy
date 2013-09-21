@@ -9,5 +9,8 @@ class AvailabilityManager(models.Manager):
   def get_unavailable_type(self):
     return self.get(system_name=AvailabilityStatusEnum.Unavailable)
 
+  def get_different_user_notified_unavailable_type(self):
+    return self.get(system_name=AvailabilityStatusEnum.DifferentUserNotifiedUnavailable)
+
   def get_unknown_availability_type(self):
     return self.get(system_name=AvailabilityStatusEnum.UnknownAvailability)

@@ -33,6 +33,8 @@ def notify_unavailable(apartment):
   save_or_update(apartment)
 
 
-def check_notified_unavailable(apartment, availability_type_system_name):
+def handle_result_notification(apartment, availability_type_system_name):
   if availability_type_system_name == Availability.objects.get_unavailable_type().system_name:
     notify_unavailable(apartment)
+  # we could do things in the future, like if the apartment is available, we could let everyone else know the most
+  # recent time it was told to us that the apt. is still available.

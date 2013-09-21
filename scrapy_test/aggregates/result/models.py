@@ -6,7 +6,9 @@ from django.db import models, transaction
 import reversion
 from scrapy_test.aggregates.apartment.models import Apartment
 from scrapy_test.aggregates.result.constants import NEXT_RESPONSE_SEP
-from scrapy_test.aggregates.result.signals import created_from_apartment_and_search, availability_contact_responded
+from scrapy_test.aggregates.result.managers import ResultManager
+from scrapy_test.aggregates.result.signals import created_from_apartment_and_search, availability_contact_responded, \
+  availability_changed
 
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.common_domain.models import RevisionEvent
@@ -16,6 +18,8 @@ logger = logging.getLogger(__name__)
 
 
 class Result(models.Model, AggregateBase):
+  objects = ResultManager()
+
   apartment = models.ForeignKey('apartment.Apartment', related_name="results")
 
   search = models.ForeignKey('search.Search', related_name="results")
@@ -71,6 +75,15 @@ class Result(models.Model, AggregateBase):
       availability_contact_responded, sender=Result,
       response=response, response_date=response_date, availability_type=availability_type
     )
+
+  def change_availability(self, availability_type):
+    if not availability_type:
+      raise ValidationError('availability_type is required')
+
+    self._raise_event(availability_changed, sender=Result, availability_type=availability_type)
+
+  def _handle_availability_changed_event(self, availability_type, **kwargs):
+    self.availability_type = availability_type
 
   def _handle_availability_contact_responded_event(self, response, response_date, availability_type, **kwargs):
     if self.availability_contact_response:

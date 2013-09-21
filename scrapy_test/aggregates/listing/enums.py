@@ -11,6 +11,6 @@ DeletedListingReasonEnum = enum(
 
 DeletedListingReasonChoices = (
   (DeletedListingReasonEnum.AdminDeleted, 'Admin Deleted'),
-  ( DeletedListingReasonEnum.DeadListing, 'Dead Listing'),
+  (DeletedListingReasonEnum.DeadListing, 'Dead Listing'),
   (DeletedListingReasonEnum.NotifiedUnavailable, 'Notified Unavailable'),
 )

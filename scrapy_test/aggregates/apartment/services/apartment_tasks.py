@@ -15,7 +15,7 @@ def update_availability_task(listing_id):
   apartment_service.update_availability(apartment)
 
 @task
-def check_notified_unavailable_task(apartment_id, availability_type_system_name):
+def handle_result_notification_task(apartment_id, availability_type_system_name):
   apartment = apartment_service.get_apartment(apartment_id)
-  apartment_service.check_notified_unavailable(apartment, availability_type_system_name)
+  apartment_service.handle_result_notification(apartment, availability_type_system_name)
 

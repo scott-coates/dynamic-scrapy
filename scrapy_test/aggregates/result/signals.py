@@ -8,3 +8,6 @@ availability_contact_responded = EventSignal(
   'availability_contact_responded', __name__, 1,
   providing_args=['instance', 'response', 'response_date', 'availability_type']
 )
+
+availability_changed = EventSignal('availability_changed', __name__, 1,
+                                   providing_args=['instance', 'availability_type'])

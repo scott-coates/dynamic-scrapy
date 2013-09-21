@@ -1,3 +1,5 @@
+from scrapy_test.aggregates.apartment.enums import ApartmentUnavailableReasonEnum
+from scrapy_test.aggregates.availability.models import Availability
 from scrapy_test.aggregates.availability.services import availability_service
 from scrapy_test.aggregates.result import factories
 from scrapy_test.aggregates.result.models import Result
@@ -25,14 +27,25 @@ def save_or_update(result):
 def associate_incoming_email_with_result(email,
                                          _email_service=email_service,
                                          _availability_service=availability_service):
-  #find the result tied to this email
   result = get_result(1)
 
   contents = _email_service.get_reply_contents(email)
 
   availability_type = _availability_service.get_availability_from_str(contents)
-  #tie a result to this email
 
   result.add_availability_response(contents, email.sent_date, availability_type)
 
   email_consumed_by_model.send(Email, instance=_email_service, associated_model=result)
+
+
+def notify_results_unavailable(apartment, reason):
+  #find all results that are NOT `notified unavailable` because they've already been notified as unavailable. We
+  # should set these to `other user found it to be unavailable`
+  if reason == ApartmentUnavailableReasonEnum.NotifiedUnavailable:
+    unavailable_type = Availability.objects.get_unavailable_type()
+    different_user_notified_unavailable_type = Availability.objects.get_different_user_notified_unavailable_type()
+    results = Result.objects.find_results_to_be_notified_of_availability(apartment, unavailable_type)
+
+    for r in results:
+      r.change_availability(different_user_notified_unavailable_type)
+      save_or_update(r)

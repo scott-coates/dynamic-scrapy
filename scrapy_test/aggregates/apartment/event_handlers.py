@@ -26,4 +26,4 @@ def listing_deleted_callback(sender, **kwargs):
 @receiver(availability_contact_responded, sender=Result)
 def result_contact_responded_callback(sender, **kwargs):
   result = kwargs['instance']
-  apartment_tasks.check_notified_unavailable_task(result.apartment_id, result.availability_type.system_name)
+  apartment_tasks.handle_result_notification_task.delay(result.apartment_id, result.availability_type.system_name)
