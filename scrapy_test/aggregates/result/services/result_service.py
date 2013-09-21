@@ -35,6 +35,8 @@ def associate_incoming_email_with_result(email,
 
   result.add_availability_response(contents, email.sent_date, availability_type)
 
+  save_or_update(result)
+
   email_consumed_by_model.send(Email, instance=_email_service, associated_model=result)
 
 

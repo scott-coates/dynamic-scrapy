@@ -72,7 +72,7 @@ class Result(models.Model, AggregateBase):
       raise ValidationError('availability_type is required')
 
     self._raise_event(
-      availability_contact_responded, sender=Result,
+      availability_contact_responded, sender=Result, instance=self,
       response=response, response_date=response_date, availability_type=availability_type
     )
 
@@ -80,7 +80,7 @@ class Result(models.Model, AggregateBase):
     if not availability_type:
       raise ValidationError('availability_type is required')
 
-    self._raise_event(availability_changed, sender=Result, availability_type=availability_type)
+    self._raise_event(availability_changed, sender=Result, instance=self, availability_type=availability_type)
 
   def _handle_availability_changed_event(self, availability_type, **kwargs):
     self.availability_type = availability_type
