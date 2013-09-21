@@ -12,5 +12,10 @@ def adopt_listing_task(listing_id):
 def update_availability_task(listing_id):
   listing = listing_service.get_listing(listing_id)
   apartment = listing.apartment
-  if apartment:
-    apartment_service.update_availability(apartment)
+  apartment_service.update_availability(apartment)
+
+@task
+def check_notified_unavailable_task(apartment_id, availability_type_system_name):
+  apartment = apartment_service.get_apartment(apartment_id)
+  apartment_service.check_notified_unavailable(apartment, availability_type_system_name)
+
