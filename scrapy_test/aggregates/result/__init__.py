@@ -1,1 +1,1 @@
-__author__ = 'scottc'
+from scrapy_test.aggregates.result import event_handlers
