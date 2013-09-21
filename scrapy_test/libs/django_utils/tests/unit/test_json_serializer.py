@@ -36,4 +36,4 @@ def test_serializer_serializes_model_correctly():
 
   serialized_data = serializer.serialize(dict_data)
   deserialized_data = json.loads(serialized_data)
-  assert deserialized_data["test_model"]["model"] == u'unit.faketestclass'
+  assert deserialized_data["test_model"]["model"] == u'django_utils.faketestclass'
