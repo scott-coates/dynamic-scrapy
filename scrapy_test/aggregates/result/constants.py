@@ -1,1 +1,1 @@
-PREVIOUS_RESPONSE_SEP = u'\n\n==== Previous Message ====\n\n'
+NEXT_RESPONSE_SEP = u'\n\n==== Next Message ====\n\n'

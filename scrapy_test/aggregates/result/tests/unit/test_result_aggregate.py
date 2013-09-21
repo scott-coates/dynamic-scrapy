@@ -24,12 +24,12 @@ def test_result_calcs_compliance_score_correctly(apartment, search, expected_com
 
 def test_result_appends_response_text():
   result = Result()
+  result.add_availability_response('This is the oldest message', timezone.now(), Availability())
   result.add_availability_response('This is the newest message', timezone.now(), Availability())
-  result.add_availability_response('This is the previous message', timezone.now(), Availability())
 
   assert result.availability_contact_response == textwrap.dedent("""\
-            This is the newest message
+            This is the oldest message
 
-            ==== Previous Message ====
+            ==== Next Message ====
 
-            This is the previous message""")
+            This is the newest message""")

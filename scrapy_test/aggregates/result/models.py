@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.db import models, transaction
 import reversion
 from scrapy_test.aggregates.apartment.models import Apartment
-from scrapy_test.aggregates.result.constants import PREVIOUS_RESPONSE_SEP
+from scrapy_test.aggregates.result.constants import NEXT_RESPONSE_SEP
 from scrapy_test.aggregates.result.signals import created_from_apartment_and_search, availability_contact_responded
 
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
@@ -74,7 +74,7 @@ class Result(models.Model, AggregateBase):
 
   def _handle_availability_contact_responded_event(self, response, response_date, availability_type, **kwargs):
     if self.availability_contact_response:
-      self.availability_contact_response += (PREVIOUS_RESPONSE_SEP + response)
+      self.availability_contact_response += (NEXT_RESPONSE_SEP + response)
     else:
       self.availability_contact_response = response
 
