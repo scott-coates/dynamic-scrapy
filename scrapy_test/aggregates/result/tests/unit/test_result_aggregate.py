@@ -1,5 +1,8 @@
+from django.utils import timezone
 import pytest
+import textwrap
 from scrapy_test.aggregates.apartment.models import Apartment
+from scrapy_test.aggregates.availability.models import Availability
 from scrapy_test.aggregates.result.models import Result
 from scrapy_test.aggregates.search.models import Search
 
@@ -17,3 +20,16 @@ from scrapy_test.aggregates.search.models import Search
 def test_result_calcs_compliance_score_correctly(apartment, search, expected_compliance_score):
   result = Result._from_apartment_and_search(apartment, search)
   assert result.compliance_score == expected_compliance_score
+
+
+def test_result_appends_response_text():
+  result = Result()
+  result.add_availability_response('Oh hi there', timezone.now(), Availability())
+  result.add_availability_response('Oh hi there', timezone.now(), Availability())
+
+  assert result.availability_contact_response == textwrap.dedent("""\
+            Oh hi there
+
+            ==== Previous Message ====
+
+            Oh hi there""")
