@@ -29,5 +29,11 @@ def save_or_update(email):
 
   return email
 
+
 def get_reply_contents(email):
   return EmailReplyParser.parse_reply(email.text)
+
+
+def associate_model_with_email(email, associated_model):
+  email.associate_model(associated_model)
+  save_or_update(email)

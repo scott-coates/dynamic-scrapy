@@ -78,3 +78,6 @@ class Email(models.Model):
       from scrapy_test.libs.communication_utils.services import email_service
 
       email_service.save_or_update(self)
+
+  def associate_model(self, associated_model):
+    self.content_object = associated_model

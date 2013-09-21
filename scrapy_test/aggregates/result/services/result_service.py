@@ -1,7 +1,9 @@
 from scrapy_test.aggregates.availability.services import availability_service
 from scrapy_test.aggregates.result import factories
 from scrapy_test.aggregates.result.models import Result
+from scrapy_test.libs.communication_utils.models import Email
 from scrapy_test.libs.communication_utils.services import email_service
+from scrapy_test.libs.communication_utils.signals import email_consumed_by_model
 
 
 def create_result(apartment, listing):
@@ -33,3 +35,4 @@ def associate_incoming_email_with_result(email,
 
   result.add_availability_response(contents, email.sent_date, availability_type)
 
+  email_consumed_by_model.send(Email, instance=_email_service, associated_model=result)
