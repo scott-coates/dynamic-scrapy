@@ -25,6 +25,12 @@ def is_spam(**kwargs):
 def save_or_update(email):
   email.full_clean()
   email.save(internal=True)
+
+  return email
+
+
+def create_incoming_mail(email):
+  save_or_update(email)
   email_received.send(Email, instance=email)
 
   return email

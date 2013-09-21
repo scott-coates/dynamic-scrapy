@@ -22,7 +22,7 @@ def email_web_hook(request):
 
       try:
         email = Email.construct_incoming_email(**dict(request.POST.items()))
-        email_service.save_or_update(email)
+        email_service.create_incoming_mail(email)
 
       except (EmailParseError, IntegrityError):
         logger.info('ignoring invalid email')
