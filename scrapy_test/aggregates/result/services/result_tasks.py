@@ -1,7 +1,6 @@
 from celery.task import task
 from scrapy_test.aggregates.apartment.services import apartment_service
 from scrapy_test.aggregates.result.services import result_service
-from scrapy_test.aggregates.search.services import search_service
 from scrapy_test.libs.communication_utils.models import Email
 
 

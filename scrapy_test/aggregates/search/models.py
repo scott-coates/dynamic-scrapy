@@ -7,8 +7,7 @@ from jsonfield import JSONField
 from localflavor.us.models import USStateField
 import reversion
 from scrapy_test.aggregates.search.signals import created, initiated_availability_request
-from scrapy_test.apps.communication_associater.availability.email.value_objects import SearchSpecificEmailMessage
-from scrapy_test.apps.communication_associater.availability.email.services import email_service
+from scrapy_test.apps.communication_associater.availability.email.services import email_validator
 
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.common_domain.models import RevisionEvent
@@ -105,7 +104,7 @@ class Search(models.Model, AggregateBase):
 
     logger.info("{0} has been created".format(self))
 
-  def request_availability_from_contacts(self, _availability_email_service=email_service):
+  def request_availability_from_contacts(self, _availability_email_service=email_validator):
     if not self.availability_email_body_template or not self.availability_email_subject_template:
       raise ValidationError("subject and body template required before contacting")
 

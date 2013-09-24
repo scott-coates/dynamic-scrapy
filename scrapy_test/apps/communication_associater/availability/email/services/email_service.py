@@ -1,17 +1,9 @@
 import logging
-from django.core.exceptions import ValidationError
 from scrapy_test.aggregates.result.models import Result
-from scrapy_test.apps.communication_associater.availability.email.constants import SEARCH_BODY_IDENTIFIER_RE
 from scrapy_test.apps.communication_associater.availability.email.search_specific_email_message import \
   SearchSpecificEmailMessage
 
 logger = logging.getLogger(__name__)
-
-
-def validate_availability_email(message_body_template):
-  if not SEARCH_BODY_IDENTIFIER_RE.search(message_body_template):
-    raise ValidationError("body must contain identifier")
-
 
 def request_availability_about_apartments(search):
   results_to_request_notification = Result.objects.find_results_from_search(search)
