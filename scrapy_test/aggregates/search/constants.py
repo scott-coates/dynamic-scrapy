@@ -1,0 +1,5 @@
+import re
+
+SEARCH_BODY_IDENTIFIER = u'res-id: {0}'
+SEARCH_BODY_IDENTIFIER_PATTERN = r'res-id:\s*(\d+)'
+SEARCH_BODY_IDENTIFIER_RE = re.compile(SEARCH_BODY_IDENTIFIER_PATTERN, flags=re.I | re.M)

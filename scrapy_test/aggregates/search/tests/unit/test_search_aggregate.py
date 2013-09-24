@@ -28,3 +28,10 @@ def test_search_throws_error_when_no_templates():
 
   with pytest.raises(ValidationError):
     search.request_availability_from_contacts()
+
+
+def test_search_throws_error_when_missing_identifier():
+  search = Search(availability_email_subject_template='test subj',availability_email_body_template='test body')
+
+  with pytest.raises(ValidationError):
+    search.request_availability_from_contacts()
