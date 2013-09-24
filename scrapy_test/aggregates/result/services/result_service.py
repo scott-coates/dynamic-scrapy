@@ -65,3 +65,7 @@ def notify_results_unavailable(apartment, reason):
 
 def request_availability(result):
   pass
+
+
+def request_availability_about_apartments(search):
+  return None

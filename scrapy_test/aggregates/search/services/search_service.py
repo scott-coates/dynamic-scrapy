@@ -1,4 +1,5 @@
 from scrapy_test.aggregates.search import factories
+from scrapy_test.aggregates.search.models import Search
 from scrapy_test.libs.geo_utils.services import geo_location_service
 
 
@@ -26,3 +27,7 @@ def create_search(_geo_location_service=geo_location_service, **search_attrs):
 
 def save_or_update(search):
   search.save(internal=True)
+
+
+def get_search(search_id):
+  return Search.objects.get(pk=search_id)

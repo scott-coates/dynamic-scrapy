@@ -1,6 +1,5 @@
 import collections
 import logging
-import re
 from django.core.exceptions import ValidationError
 
 from django.db import models, transaction
@@ -8,7 +7,7 @@ from jsonfield import JSONField
 from localflavor.us.models import USStateField
 import reversion
 from scrapy_test.aggregates.search.constants import SEARCH_BODY_IDENTIFIER_RE
-from scrapy_test.aggregates.search.signals import created
+from scrapy_test.aggregates.search.signals import created, initiated_availability_request
 
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
 from scrapy_test.libs.common_domain.models import RevisionEvent
@@ -111,6 +110,11 @@ class Search(models.Model, AggregateBase):
 
     if not SEARCH_BODY_IDENTIFIER_RE.search(self.availability_email_body_template):
       raise ValidationError("body must contain identifier")
+
+    self._raise_event(initiated_availability_request, sender=Search, instance=self)
+
+  def _handle_initiated_availability_request_event(self):
+    pass
 
   def save(self, internal=False, *args, **kwargs):
     if internal:
