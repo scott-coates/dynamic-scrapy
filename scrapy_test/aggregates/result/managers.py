@@ -13,3 +13,6 @@ class ResultManager(models.Manager):
       ret_val = ret_val.exclude(availability_type=ignore_availability_type)
 
     return ret_val
+
+  def find_results_from_search(self, search):
+    return self.filter(search=search)

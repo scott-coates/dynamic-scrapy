@@ -17,10 +17,3 @@ def notify_results_unavailable_task(apartment_id, reason):
   apartment = apartment_service.get_apartment(apartment_id)
 
   return result_service.notify_results_unavailable(apartment, reason)
-
-
-@task
-def request_availability_about_apartments_task(search_id):
-  search = search_service.get_search(search_id)
-
-  return result_service.request_availability_about_apartments(search)

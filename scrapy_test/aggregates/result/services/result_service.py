@@ -62,10 +62,3 @@ def notify_results_unavailable(apartment, reason):
     for r in results:
       r.change_availability(all_listings_deleted_type)
       save_or_update(r)
-
-def request_availability(result):
-  pass
-
-
-def request_availability_about_apartments(search):
-  return None

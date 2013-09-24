@@ -220,6 +220,7 @@ LOCAL_APPS = (
   'scrapy_test.aggregates.result',
   'scrapy_test.aggregates.search',
   # APPS
+  'scrapy_test.apps.communication_associater',
   'scrapy_test.apps.web_scraper',
   # LIBS
   'scrapy_test.libs.common_domain',
