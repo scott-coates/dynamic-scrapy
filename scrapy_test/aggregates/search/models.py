@@ -49,6 +49,9 @@ class Search(models.Model, AggregateBase):
   created_date = models.DateTimeField(auto_now_add=True)
   changed_date = models.DateTimeField(auto_now=True)
 
+  availability_email_subject_template = models.CharField(max_length=2048, blank=True, null=True)
+  availability_email_body_template = models.TextField(blank=True, null=True)
+
   def __init__(self, *args, **kwargs):
     super(Search, self).__init__(*args, **kwargs)
     self._amenity_list = []
@@ -99,6 +102,10 @@ class Search(models.Model, AggregateBase):
     copy_django_model_attrs(self, **kwargs['attrs'])
 
     logger.info("{0} has been created".format(self))
+
+  def request_availability_from_contacts(self):
+    if not self.availability_email_body_template or not self.availability_email_subject_template:
+      raise ValidationError("subject and body template required before contacting")
 
   def save(self, internal=False, *args, **kwargs):
     if internal:

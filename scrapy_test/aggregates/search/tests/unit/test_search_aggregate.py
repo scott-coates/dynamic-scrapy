@@ -21,3 +21,10 @@ def test_search_throws_appropriate_error_for_invalid_max_settings(min_value, max
 
   with pytest.raises(ValidationError):
     Search._from_attrs(**search_attrs)
+
+
+def test_search_throws_error_when_no_templates():
+  search = Search()
+
+  with pytest.raises(ValidationError):
+    search.request_availability_from_contacts()
