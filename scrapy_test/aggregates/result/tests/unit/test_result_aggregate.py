@@ -1,6 +1,9 @@
-from django.utils import timezone
-import pytest
 import textwrap
+
+from django.utils import timezone
+from mock import MagicMock
+import pytest
+
 from scrapy_test.aggregates.apartment.models import Apartment
 from scrapy_test.aggregates.availability.models import Availability
 from scrapy_test.aggregates.result.models import Result
@@ -18,7 +21,10 @@ from scrapy_test.aggregates.search.models import Search
   ),
 ])
 def test_result_calcs_compliance_score_correctly(apartment, search, expected_compliance_score):
-  result = Result._from_apartment_and_search(apartment, search)
+  availability_manager_mock = MagicMock(spec=Availability.objects)
+  availability_manager_mock.get_unknown_availability_type.return_value = Availability()
+
+  result = Result._from_apartment_and_search(apartment, search, _availability_manager=availability_manager_mock)
   assert result.compliance_score == expected_compliance_score
 
 
