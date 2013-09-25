@@ -1,18 +1,14 @@
-from django.conf import settings
 import logging
 
 from django.core.exceptions import ValidationError
 
 from scrapy_test.apps.communication_associater.availability.email.constants import SEARCH_BODY_IDENTIFIER_RE
 from scrapy_test.aggregates.result.models import Result
-from scrapy_test.apps.communication_associater.availability.email.search_specific_email_message import \
-  SearchSpecificEmailMessage
-
 
 logger = logging.getLogger(__name__)
 
 
-def request_availability_about_apartments(search):
+def request_availability_about_apartments(search, search_specific_email_message_request):
   results_to_request_notification = Result.objects.find_results_from_search(search)
   for r in results_to_request_notification:
     try:
@@ -47,7 +43,7 @@ def _get_availability_email_context(result):
   ret_val['contact'] = _get_contact_name(listing)
   ret_val['source'] = _get_source_name(listing)
 
-  SearchSpecificEmailMessage()
+  SearchSpecificEmailMessageRequest()
 
 
 def _get_contact_name(listing):
@@ -69,6 +65,7 @@ def _get_bedroom_count(result):
 
 def _get_price(result):
   return result.apartment.price
+
 
 def _get_signature(result):
   return result.apartment.price

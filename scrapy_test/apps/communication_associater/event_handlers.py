@@ -6,4 +6,6 @@ from scrapy_test.apps.communication_associater.availability.email.services impor
 
 @receiver(initiated_availability_request, sender=Search)
 def requested_availability_callback(sender, **kwargs):
-  email_tasks.request_availability_about_apartments_task.delay(kwargs['instance'].id)
+  email_tasks.request_availability_about_apartments_task.delay(
+    kwargs['instance'].id, kwargs['search_specific_email_message_request']
+  )
