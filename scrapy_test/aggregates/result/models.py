@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.db import models, transaction
 import reversion
 from scrapy_test.aggregates.apartment.models import Apartment
+from scrapy_test.aggregates.availability.models import Availability
 from scrapy_test.aggregates.result.constants import NEXT_RESPONSE_SEP
 from scrapy_test.aggregates.result.managers import ResultManager
 from scrapy_test.aggregates.result.signals import created_from_apartment_and_search, availability_contact_responded, \
@@ -30,9 +31,7 @@ class Result(models.Model, AggregateBase):
   # listings and apartments. Listing.amenity -> amenity_type -> Amenity.amenity.
   availability_contact_response = models.TextField(blank=True, null=True)
   availability_last_response_date = models.DateTimeField(blank=True, null=True)
-  availability_type = models.ForeignKey(
-    'availability.Availability', related_name='result_instance', blank=True, null=True
-  )
+  availability_type = models.ForeignKey('availability.Availability', related_name='result_instance')
 
   created_date = models.DateTimeField(auto_now_add=True)
   changed_date = models.DateTimeField(auto_now=True)
@@ -42,7 +41,7 @@ class Result(models.Model, AggregateBase):
 
 
   @classmethod
-  def _from_apartment_and_search(cls, apartment, search):
+  def _from_apartment_and_search(cls, apartment, search, _availability_manager=Availability.objects, ):
     ret_val = cls()
 
     if not apartment:
@@ -56,7 +55,8 @@ class Result(models.Model, AggregateBase):
       sender=Result,
       instance=ret_val,
       apartment=apartment,
-      search=search
+      search=search,
+      availability_type=_availability_manager.get_unknown_availability_type()
     )
 
     return ret_val
@@ -94,9 +94,10 @@ class Result(models.Model, AggregateBase):
     self.availability_last_response_date = response_date
     self.availability_type = availability_type
 
-  def _handle_created_from_apartment_and_search_event(self, apartment, search, **kwargs):
+  def _handle_created_from_apartment_and_search_event(self, apartment, search, availability_type, **kwargs):
     self.apartment = apartment
     self.search = search
+    self.availability_type = availability_type
 
     numerator = 0.0
     denominator = 0.0

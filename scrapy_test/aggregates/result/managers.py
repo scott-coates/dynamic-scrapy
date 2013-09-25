@@ -15,4 +15,4 @@ class ResultManager(models.Manager):
     return ret_val
 
   def find_results_from_search(self, search):
-    return self.filter(search=search)
+    return self.filter(search=search).exclude(apartment__is_available=False)
