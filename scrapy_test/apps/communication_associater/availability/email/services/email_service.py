@@ -16,14 +16,21 @@ availability_from_email_address_domain = settings.AVAILABILITY_FROM_EMAIL_ADDRES
 
 def request_availability_about_apartments(search, search_specific_email_message_request, _email_service=email_service):
   results_to_request_notification = Result.objects.find_results_from_search(search)
+
   email_builder = AvailabilityEmailBuilder()
+
   for r in results_to_request_notification:
     try:
       message = email_builder.get_availability_email_message(r, search_specific_email_message_request)
     except:
       logger.exception("Error creating email message")
     else:
-      _email_service.send_email()
+      try:
+        _email_service.send_email(
+          message.from_address, message.from_name, message.to_address, message.subject, message.body, r
+        )
+      except:
+        logger.exception("Error sending email message")
 
 
 def validate_availability_email(message_body_template):
