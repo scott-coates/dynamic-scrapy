@@ -27,7 +27,7 @@ class Email(models.Model):
   spam_report = models.TextField(blank=True, null=True)
 
   message_id = models.CharField(max_length=1024, blank=True, null=True)
-  in_reply_to_message_id = models.CharField(max_length=1024, blank=True, null=True, blank=True, null=True)
+  in_reply_to_message_id = models.CharField(max_length=1024, blank=True, null=True)
 
   email_direction_incoming = 1
   email_direction_outgoing = 2
