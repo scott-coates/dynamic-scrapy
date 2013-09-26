@@ -15,10 +15,3 @@ def test_email_service_creates_contact_name(input_contact_name, expected_contact
   builder = AvailabilityEmailBuilder()
   builder.listing = mock_listing
   assert expected_contact_name == builder._get_contact_name()
-
-def test_email_service_gets_availability_identifier(input_contact_name, expected_contact_name):
-  mock_listing = MagicMock(spec=Listing)
-  mock_listing.contact_name = input_contact_name
-  builder = AvailabilityEmailBuilder()
-  builder.listing = mock_listing
-  assert expected_contact_name == builder._get_contact_name()

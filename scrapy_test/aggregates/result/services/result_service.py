@@ -29,8 +29,7 @@ def associate_incoming_email_with_result(email,
                                          _email_service=email_service,
                                          _email_association_service=email_association_service,
                                          _availability_service=availability_service):
-
-  result_id = _email_association_service.get_result_from_email(email)
+  result_id = int(_email_association_service.get_result_from_email(email))
 
   result = get_result(result_id)
 

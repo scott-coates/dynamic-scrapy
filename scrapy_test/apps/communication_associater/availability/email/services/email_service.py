@@ -44,5 +44,5 @@ def get_availability_identifier_from_email(email):
   if not match:
     raise ValidationError("email text did not contain availability identifier")
 
-  return match.groups(0)
+  return match.groups(0)[0]
 
