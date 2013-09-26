@@ -3,7 +3,7 @@ from django.conf import settings
 
 from django.core.exceptions import ValidationError
 
-from scrapy_test.apps.communication_associater.availability.email.constants import SEARCH_BODY_IDENTIFIER_RE
+from scrapy_test.apps.communication_associater.availability.email.constants import EMAIL_AVAILABILITY_IDENTIFIER_RE
 from scrapy_test.aggregates.result.models import Result
 from scrapy_test.apps.communication_associater.availability.email.services.availability_email_builder import \
   AvailabilityEmailBuilder
@@ -34,12 +34,12 @@ def request_availability_about_apartments(search, search_specific_email_message_
 
 
 def validate_availability_email(message_body_template):
-  if not SEARCH_BODY_IDENTIFIER_RE.search(message_body_template):
+  if not EMAIL_AVAILABILITY_IDENTIFIER_RE.search(message_body_template):
     raise ValidationError("body must contain identifier")
 
 
 def get_availability_identifier_from_email(email):
-  match = SEARCH_BODY_IDENTIFIER_RE.search(email.text)
+  match = EMAIL_AVAILABILITY_IDENTIFIER_RE.search(email.text)
 
   if not match:
     raise ValidationError("email text did not contain availability identifier")
