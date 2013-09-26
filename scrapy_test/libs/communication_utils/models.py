@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.validators import MaxValueValidator
+from django.utils import timezone
 
 from jsonfield import JSONField
 from django.db import models
@@ -18,22 +19,22 @@ class Email(models.Model):
   from_address = models.TextField()
   cc = models.TextField(blank=True, null=True)
   subject = models.TextField(blank=True, null=True)
-  dkim = JSONField()
-  SPF = JSONField()
-  envelope = JSONField()
-  charsets = models.CharField(max_length=255)
-  spam_score = models.FloatField(validators=[MaxValueValidator(settings.SPAM_SCORE_THRESHOLD)])
-  spam_report = models.TextField()
+  dkim = JSONField(blank=True, null=True)
+  SPF = JSONField(blank=True, null=True)
+  envelope = JSONField(blank=True, null=True)
+  charsets = models.CharField(max_length=255, blank=True, null=True)
+  spam_score = models.FloatField(validators=[MaxValueValidator(settings.SPAM_SCORE_THRESHOLD)], blank=True, null=True)
+  spam_report = models.TextField(blank=True, null=True)
 
-  message_id = models.CharField(max_length=1024)
-  in_reply_to_message_id = models.CharField(max_length=1024, blank=True, null=True)
+  message_id = models.CharField(max_length=1024, blank=True, null=True)
+  in_reply_to_message_id = models.CharField(max_length=1024, blank=True, null=True, blank=True, null=True)
 
   email_direction_incoming = 1
   email_direction_outgoing = 2
   email_direction_choices = (email_direction_incoming, 'Incoming'), (email_direction_outgoing, 'Outgoing')
   email_direction = models.PositiveSmallIntegerField(max_length=2, choices=email_direction_choices)
 
-  sent_date = models.DateTimeField()
+  sent_date = models.DateTimeField(default=timezone.now)
 
   content_type = models.ForeignKey(ContentType, blank=True, null=True)
   object_id = models.PositiveIntegerField(blank=True, null=True)
