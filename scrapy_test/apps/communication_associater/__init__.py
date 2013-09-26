@@ -1,1 +1,0 @@
-from scrapy_test.apps.communication_associater import event_handlers

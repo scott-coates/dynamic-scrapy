@@ -7,6 +7,7 @@ from jsonfield import JSONField
 from localflavor.us.models import USStateField
 import reversion
 from scrapy_test.aggregates.search.signals import created, initiated_availability_request
+from scrapy_test.apps.communication_associater.availability.email.services import email_service
 from scrapy_test.apps.communication_associater.availability.email.email_objects import SearchSpecificEmailMessageRequest
 
 from scrapy_test.libs.common_domain.aggregate_base import AggregateBase
@@ -101,14 +102,7 @@ class Search(models.Model, AggregateBase):
 
     logger.info("{0} has been created".format(self))
 
-  def request_availability_from_contacts(self, from_name, subject, body, _availability_email_service=None):
-    if not _availability_email_service:
-      #this was the only way to avoid a circular import because
-      # communication_associater -> search -> communication_associater
-      from scrapy_test.apps.communication_associater.availability.email.services import email_service
-
-      _availability_email_service = email_service
-
+  def request_availability_from_contacts(self, from_name, subject, body, _availability_email_service=email_service):
     if not body or not subject or not from_name:
       raise ValidationError("subject, body, and from_name are required")
 

@@ -27,4 +27,4 @@ def test_search_throws_error_when_no_templates():
   search = Search()
 
   with pytest.raises(ValidationError):
-    search.request_availability_from_contacts()
+    search.request_availability_from_contacts(None, None, None)
