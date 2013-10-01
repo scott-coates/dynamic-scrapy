@@ -15,7 +15,14 @@ availability_from_email_address_domain = settings.AVAILABILITY_FROM_EMAIL_ADDRES
 
 
 def request_availability_about_apartments(search, search_specific_email_message_request, _email_service=email_service):
-  results_to_request_notification = Result.objects.find_results_from_search(search)
+  #only get results that have not gotten a response back yet. This is in case we re-email our contacts because we
+  # haven't gotten enough responses. We don't want to re-contact those who've already responded.
+  results_to_request_notification = (
+    Result
+    .objects
+    .find_results_from_search(search)
+    .filter(availability_last_response_date=None)
+  )
 
   email_builder = AvailabilityEmailBuilder()
 
