@@ -1,0 +1,29 @@
+[
+  {
+    "pk": 1,
+    "model": "listing_source.listingsource",
+    "fields": {
+      "url": "http://newyork.craigslist.org/aap/",
+      "name": "Craigslist New York",
+      "trusted_geo_data": false
+    }
+  },
+  {
+    "pk": 2,
+    "model": "listing_source.listingsource",
+    "fields": {
+      "url": "http://streeteasy.com/nyc/profile/",
+      "name": "StreetEasy Contact Page",
+      "trusted_geo_data": false
+    }
+  },
+  {
+    "pk": 3,
+    "model": "listing_source.listingsource",
+    "fields": {
+      "url": "http://streeteasy.com/nyc/rentals/nyc/rental_type:frbo,brokernofee,brokerfee",
+      "name": "StreetEasy",
+      "trusted_geo_data": true
+    }
+  }
+]

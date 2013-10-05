@@ -36,6 +36,8 @@ nosetests.xml
 .pydevproject
 
 default.db
+*.db-journal
 .idea/workspace.xml
-
+.idea/misc.xml
+*.iml
 .scrapy

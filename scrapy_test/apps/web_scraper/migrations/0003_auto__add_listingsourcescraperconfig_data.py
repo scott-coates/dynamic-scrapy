@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from south.db import db
 from south.v2 import SchemaMigration
-from scrapy_test.libs.database.extensions.migrations import load_data
+from scrapy_test.libs.django_utils.extensions.migrations import load_data
 
 
 class Migration(SchemaMigration):

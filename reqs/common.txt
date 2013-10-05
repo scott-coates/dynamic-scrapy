@@ -11,3 +11,9 @@ dingus==0.3.4
 django-localflavor
 jsonfield
 django-reversion==1.7.1
+python-dateutil==2.1
+pytz==2013b
+pygeocoder==1.2.1
+mixpanel-celery==0.6.2
+email-reply-parser==0.1.9
+sendgrid==0.1.4

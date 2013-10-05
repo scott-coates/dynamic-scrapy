@@ -1,5 +1,6 @@
 from scrapy_test.aggregates.apartment import factories
 from scrapy_test.aggregates.apartment.models import Apartment
+from scrapy_test.aggregates.availability.models import Availability
 
 
 def get_apartment(pk):
@@ -10,7 +11,7 @@ def save_or_update(apartment):
   apartment.save(internal=True)
 
 
-def associate_listing_with_apartment(listing):
+def adopt_listing(listing):
   try:
     apartment = Apartment.objects.find_from_listing(listing)
     apartment.adopt_listing(listing)
@@ -21,3 +22,19 @@ def associate_listing_with_apartment(listing):
 
   return apartment
 
+
+def update_availability(apartment):
+  apartment.update_availability()
+  save_or_update(apartment)
+
+
+def notify_unavailable(apartment):
+  apartment.notify_unavailable()
+  save_or_update(apartment)
+
+
+def handle_result_notification(apartment, availability_type_system_name):
+  if availability_type_system_name == Availability.objects.get_unavailable_type().system_name:
+    notify_unavailable(apartment)
+  # we could do things in the future, like if the apartment is available, we could let everyone else know the most
+  # recent time it was told to us that the apt. is still available.

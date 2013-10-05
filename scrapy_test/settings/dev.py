@@ -72,3 +72,9 @@ MIDDLEWARE_CLASSES += (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 ########## END TOOLBAR CONFIGURATION
+
+
+########## TESTING CONFIGURATION
+INSTALLED_APPS += (
+)
+########## END TESTING CONFIGURATION

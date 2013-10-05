@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-import datetime
-from south.db import db
 from south.v2 import DataMigration
-from django.db import models
-from scrapy_test.libs.database.extensions.migrations import load_data
+from scrapy_test.libs.django_utils.extensions.migrations import load_data
 
 
 class Migration(DataMigration):
@@ -126,7 +123,7 @@ class Migration(DataMigration):
             'created_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_alive': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'is_dead': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'is_deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'last_updated_date': ('django.db.models.fields.DateTimeField', [], {}),
             'lat': ('django.db.models.fields.FloatField', [], {}),
