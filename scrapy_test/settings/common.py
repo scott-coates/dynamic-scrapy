@@ -2,6 +2,7 @@
 
 
 from datetime import timedelta
+from os import environ
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
 
@@ -61,7 +62,7 @@ DATABASES = {
 
 ########## GENERAL CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#time-zone
-TIME_ZONE = 'America/Los_Angeles'
+TIME_ZONE = 'America/New_York'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = 'en-us'
@@ -203,19 +204,28 @@ THIRD_PARTY_APPS = (
     'kombu.transport.django',
 
     # Database
-    'reversion'
+    'reversion',
+
+    # Mixpanel
+    'mixpanel',
 )
 
 LOCAL_APPS = (
   # AGGREGATES
+  'scrapy_test.aggregates.amenity',
   'scrapy_test.aggregates.apartment',
+  'scrapy_test.aggregates.availability',
   'scrapy_test.aggregates.listing',
   'scrapy_test.aggregates.listing_source',
+  'scrapy_test.aggregates.result',
+  'scrapy_test.aggregates.search',
   # APPS
+  'scrapy_test.apps.communication_associater',
   'scrapy_test.apps.web_scraper',
   # LIBS
-  'scrapy_test.libs.database',
   'scrapy_test.libs.common_domain',
+  'scrapy_test.libs.communication_utils',
+  'scrapy_test.libs.django_utils',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -295,3 +305,14 @@ COMPRESS_JS_FILTERS = [
     'compressor.filters.template.TemplateFilter',
 ]
 ########## END COMPRESSION CONFIGURATION
+
+# ########## API CONFIGURATION
+EXTERNAL_API_TOKEN = environ.get('EXTERNAL_API_TOKEN')
+########## END API CONFIGURATION
+
+# ########## EMAIL CONFIGURATION
+SPAM_SCORE_THRESHOLD = environ.get('SPAM_SCORE_THRESHOLD', 2.3)
+AVAILABILITY_FROM_EMAIL_ADDRESS_DOMAIN = environ.get('AVAILABILITY_FROM_EMAIL_ADDRESS_DOMAIN')
+SENDGRID_USERNAME = environ.get('SENDGRID_USERNAME')
+SENDGRID_PASSWORD = environ.get('SENDGRID_PASSWORD')
+########## END EMAIL CONFIGURATION
