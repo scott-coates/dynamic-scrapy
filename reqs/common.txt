@@ -17,3 +17,4 @@ pygeocoder==1.2.1
 mixpanel-celery==0.6.2
 email-reply-parser==0.1.9
 sendgrid==0.1.4
+djangorestframework==2.3.8

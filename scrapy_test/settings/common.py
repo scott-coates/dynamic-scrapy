@@ -208,6 +208,9 @@ THIRD_PARTY_APPS = (
 
     # Mixpanel
     'mixpanel',
+
+    # Rest API
+    'rest_framework',
 )
 
 LOCAL_APPS = (
@@ -316,3 +319,10 @@ AVAILABILITY_FROM_EMAIL_ADDRESS_DOMAIN = environ.get('AVAILABILITY_FROM_EMAIL_AD
 SENDGRID_USERNAME = environ.get('SENDGRID_USERNAME')
 SENDGRID_PASSWORD = environ.get('SENDGRID_PASSWORD')
 ########## END EMAIL CONFIGURATION
+
+# ########## REST CONFIGURATION
+REST_FRAMEWORK = {
+  'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+  'PAGINATE_BY': 10
+}
+########## END REST CONFIGURATION
