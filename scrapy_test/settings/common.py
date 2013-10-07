@@ -163,6 +163,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 )
 ########## END MIDDLEWARE CONFIGURATION
 
@@ -211,6 +212,9 @@ THIRD_PARTY_APPS = (
 
     # Rest API
     'rest_framework',
+
+    #Headers
+    'corsheaders',
 )
 
 LOCAL_APPS = (
@@ -326,3 +330,8 @@ REST_FRAMEWORK = {
   'PAGINATE_BY': 10
 }
 ########## END REST CONFIGURATION
+
+########## CORS CONFIGURATION
+CORS_URLS_REGEX = r'^/api/.*$'
+########## END CORS CONFIGURATION
+

@@ -78,3 +78,11 @@ MIDDLEWARE_CLASSES += (
 INSTALLED_APPS += (
 )
 ########## END TESTING CONFIGURATION
+
+
+########## CORS CONFIGURATION
+CORS_ORIGIN_REGEX_WHITELIST = (
+  '^http://localhost:\d{1,4}/?',
+)
+########## END CORS CONFIGURATION
+
