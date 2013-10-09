@@ -2,7 +2,9 @@ from rest_framework import routers
 from django.conf.urls import patterns, include, url
 from scrapy_test.apps.rest_api.views.search import SearchViewSet
 
-router = routers.DefaultRouter()
+#our consumer, in this case, restangular, doesn't conventionally append a '/' suffix, so it's just easier to disable
+# the expectation on this side.
+router = routers.DefaultRouter(trailing_slash=False)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browseable API.
