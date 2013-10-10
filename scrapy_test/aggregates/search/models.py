@@ -152,3 +152,24 @@ class Amenity(models.Model):
 
   class Meta:
     unique_together = ("search", "amenity_type")
+
+
+class PotentialSearch(models.Model):
+  search_attrs = JSONField()
+
+  purchased = models.BooleanField()
+
+  created_date = models.DateTimeField(auto_now_add=True)
+  changed_date = models.DateTimeField(auto_now=True)
+
+  def save(self, internal=False, *args, **kwargs):
+    if internal:
+      with transaction.commit_on_success():
+        super(PotentialSearch, self).save(*args, **kwargs)
+    else:
+      from scrapy_test.aggregates.search.services import potential_search_service
+
+      potential_search_service.save_or_update(self)
+
+  def __unicode__(self):
+    return 'PotentialSearch #' + str(self.pk)
