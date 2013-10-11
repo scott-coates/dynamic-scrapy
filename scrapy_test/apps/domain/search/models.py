@@ -1,6 +1,5 @@
 from django.db import models, transaction
 from jsonfield import JSONField
-from scrapy_test.apps.domain.search.services import potential_search_service
 
 
 class PotentialSearch(models.Model):
@@ -20,6 +19,7 @@ class PotentialSearch(models.Model):
       with transaction.commit_on_success():
         super(PotentialSearch, self).save(*args, **kwargs)
     else:
+      from scrapy_test.apps.domain.search.services import potential_search_service
 
       potential_search_service.save_or_update(self)
 
