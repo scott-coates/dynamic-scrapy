@@ -1,0 +1,1 @@
+POTENTIAL_SEARCH_SESSION_ID = 'potential_search_session_id'
