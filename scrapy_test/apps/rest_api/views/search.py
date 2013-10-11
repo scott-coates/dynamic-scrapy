@@ -1,6 +1,7 @@
 from django.forms.models import model_to_dict
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
+from rest_framework.mixins import CreateModelMixin
 from rest_framework.response import Response
 from scrapy_test.aggregates.search.models import Search
 from scrapy_test.apps.domain.search.models import PotentialSearch
@@ -27,4 +28,6 @@ class SearchViewSet(viewsets.GenericViewSet):
 
     serializer = PotentialSearchSerializer(context={'request': request}, instance=potential_search)
 
-    return Response(serializer.data, status=status.HTTP_201_CREATED, headers={})
+    return Response(
+      serializer.data, status=status.HTTP_201_CREATED, headers=CreateModelMixin().get_success_headers(serializer.data)
+    )
