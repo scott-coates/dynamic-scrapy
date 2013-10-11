@@ -1,8 +1,9 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from scrapy_test.aggregates.search.models import Search, PotentialSearch
-from scrapy_test.aggregates.search.services import potential_search_service
+from scrapy_test.aggregates.search.models import Search
+from scrapy_test.apps.domain.search.models import PotentialSearch
+from scrapy_test.apps.domain.search.services import potential_search_service
 from scrapy_test.apps.rest_api.serializers.search import SearchSerializer
 
 
