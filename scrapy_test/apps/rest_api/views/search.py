@@ -12,11 +12,8 @@ class SearchViewSet(viewsets.GenericViewSet):
   """
   API endpoint that allows searches to be viewed or edited.
   """
-  serializer_class = SearchSerializer
-
   def create(self, request, *args, **kwargs):
     pass
-
 
   @action()
   def init(self, request, pk=None):
