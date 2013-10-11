@@ -10,3 +10,4 @@ class SearchSerializer(serializers.HyperlinkedModelSerializer):
 class PotentialSearchSerializer(serializers.HyperlinkedModelSerializer):
   class Meta:
     model = PotentialSearch
+    view_name = "search-init"

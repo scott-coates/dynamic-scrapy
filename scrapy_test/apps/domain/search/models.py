@@ -11,6 +11,10 @@ class PotentialSearch(models.Model):
   created_date = models.DateTimeField(auto_now_add=True)
   changed_date = models.DateTimeField(auto_now=True)
 
+  class Meta:
+    app_label = 'domain'
+
+
   def save(self, internal=False, *args, **kwargs):
     if internal:
       with transaction.commit_on_success():

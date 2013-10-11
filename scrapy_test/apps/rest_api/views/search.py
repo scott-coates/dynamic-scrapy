@@ -1,10 +1,11 @@
+from django.forms.models import model_to_dict
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from scrapy_test.aggregates.search.models import Search
 from scrapy_test.apps.domain.search.models import PotentialSearch
 from scrapy_test.apps.domain.search.services import potential_search_service
-from scrapy_test.apps.rest_api.serializers.search import SearchSerializer
+from scrapy_test.apps.rest_api.serializers.search import SearchSerializer, PotentialSearchSerializer
 
 
 class SearchViewSet(viewsets.GenericViewSet):
@@ -19,13 +20,11 @@ class SearchViewSet(viewsets.GenericViewSet):
 
   @action()
   def init(self, request, pk=None):
-    search = Search(**request.DATA)
-
-    search_serializer = SearchSerializer(partial=True, context={'request': request}, instance=search)
-    data = search_serializer.data
+    data = model_to_dict(Search(**request.DATA), fields=request.DATA.keys())
 
     potential_search = PotentialSearch(search_attrs=data)
     potential_search_service.save_or_update(potential_search)
 
-    return Response(search_serializer.data, status=status.HTTP_201_CREATED,
-                    headers={})
+    serializer = PotentialSearchSerializer(context={'request': request}, instance=potential_search)
+
+    return Response(serializer.data, status=status.HTTP_201_CREATED, headers={})
