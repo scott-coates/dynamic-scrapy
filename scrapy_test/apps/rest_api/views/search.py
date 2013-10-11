@@ -1,3 +1,4 @@
+from django.http import Http404
 from rest_framework import viewsets, status, mixins
 from rest_framework.decorators import action, link
 from rest_framework.mixins import CreateModelMixin
@@ -31,8 +32,28 @@ class SearchViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
     return ret_val
 
 
+  def update_init(self, request):
+    potential_search_id = request.session.get(POTENTIAL_SEARCH_SESSION_ID)
+
+    if not potential_search_id:raise Http404
+
+    try:
+      potential_search = potential_search_service.get_potential_search(potential_search_id)
+    except:
+      raise Http404
+
+    data = potential_search_service.get_search_attrs(request.DATA['search_attrs'])
+
+    potential_search.data = data
+    potential_search_service.save_or_update(potential_search)
+
+    serializer = PotentialSearchSerializer(context={'request': request}, instance=potential_search)
+
+    return Response(serializer.data)
+
+
   def create_init(self, request):
-    data = potential_search_service.get_search_attrs(request.DATA)
+    data = potential_search_service.get_search_attrs(request.DATA['search_attrs'])
 
     potential_search = PotentialSearch(search_attrs=data)
     potential_search_service.save_or_update(potential_search)

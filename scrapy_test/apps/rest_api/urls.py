@@ -18,7 +18,8 @@ urlpatterns = patterns(
   url(r'^search/init$', SearchViewSet.as_view(
     {
       'post': 'create_init',
-      'get': 'resume_init'
+      'get': 'resume_init',
+      'put': 'update_init',
     }), name="search-init"),
   url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 )
