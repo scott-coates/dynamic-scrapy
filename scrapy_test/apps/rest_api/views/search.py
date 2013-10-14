@@ -44,7 +44,7 @@ class SearchViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
 
     data = potential_search_service.get_search_attrs(request.DATA['search_attrs'])
 
-    potential_search.data = data
+    potential_search.search_attrs = data
     potential_search_service.save_or_update(potential_search)
 
     serializer = PotentialSearchSerializer(context={'request': request}, instance=potential_search)
