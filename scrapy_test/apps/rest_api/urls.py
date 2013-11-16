@@ -8,10 +8,17 @@ router = routers.DefaultRouter(trailing_slash=False)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browseable API.
-router.register('searchinit', PotentialSearchViewSet)
+router.register('potential_search', PotentialSearchViewSet)
+
+potential_search_init = PotentialSearchViewSet.as_view({
+  'get': 'resume_init',
+  'post': 'create_init',
+  'put': 'update_init',
+})
 
 urlpatterns = patterns(
   '',
   url(r'^', include(router.urls)),
+  url(r'^potential_search_init/$', potential_search_init, name="potential_search_init"),
   url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 )
