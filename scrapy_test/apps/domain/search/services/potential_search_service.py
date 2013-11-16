@@ -5,6 +5,11 @@ from scrapy_test.apps.domain.search.models import PotentialSearch
 
 
 def save_or_update(potential_search):
+  geo_points = potential_search.search_attrs.get('geo_boundary_points')
+
+  if geo_points is not None and len(geo_points) < 1:
+    del potential_search.search_attrs['geo_boundary_points']
+
   potential_search.save(internal=True)
 
 
@@ -19,6 +24,6 @@ def get_search_attrs(search_attrs_dict):
 
   # for some reason, model_to_dict converts the value to a string
   if 'geo_boundary_points' in search_dict:
-    search_dict['geo_boundary_points']  = json.loads(search_dict['geo_boundary_points'])
+    search_dict['geo_boundary_points'] = json.loads(search_dict['geo_boundary_points'])
 
   return search_dict
