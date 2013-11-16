@@ -32,7 +32,7 @@ class PotentialSearchViewSet(viewsets.ModelViewSet):
   def update_init(self, request, *args, **kwargs):
     potential_search_id = request.session.get(POTENTIAL_SEARCH_SESSION_ID)
 
-    if not potential_search_id:raise Http404
+    if not potential_search_id: raise Http404
 
     try:
       potential_search = potential_search_service.get_potential_search(potential_search_id)
@@ -44,7 +44,7 @@ class PotentialSearchViewSet(viewsets.ModelViewSet):
     potential_search.search_attrs = data
     potential_search_service.save_or_update(potential_search)
 
-    serializer = PotentialSearchSerializer(context={'request': request}, instance=potential_search)
+    serializer = PotentialSearchSerializer(instance=potential_search)
 
     return Response(serializer.data)
 
@@ -53,12 +53,11 @@ class PotentialSearchViewSet(viewsets.ModelViewSet):
     data = potential_search_service.get_search_attrs(request.DATA['search_attrs'])
 
     potential_search = PotentialSearch(search_attrs=data)
+
     potential_search_service.save_or_update(potential_search)
 
-    serializer = PotentialSearchSerializer(context={'request': request}, instance=potential_search)
+    serializer = PotentialSearchSerializer(instance=potential_search)
 
     request.session[POTENTIAL_SEARCH_SESSION_ID] = potential_search.id
 
-    return Response(
-      serializer.data, status=status.HTTP_201_CREATED, headers=CreateModelMixin().get_success_headers(serializer.data)
-    )
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
