@@ -21,7 +21,7 @@ class PotentialSearchViewSet(viewsets.ModelViewSet):
     if potential_search_id:
       potential_search = potential_search_service.get_potential_search(potential_search_id)
 
-      serializer = PotentialSearchSerializer(context={'request': request}, instance=potential_search)
+      serializer = PotentialSearchSerializer(instance=potential_search)
 
       ret_val = Response(serializer.data)
     else:
