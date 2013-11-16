@@ -1,6 +1,5 @@
 from django.http import Http404
 from rest_framework import viewsets, status
-from rest_framework.mixins import CreateModelMixin
 from rest_framework.response import Response
 from scrapy_test.apps.domain.constants import POTENTIAL_SEARCH_SESSION_ID
 from scrapy_test.apps.domain.search.models import PotentialSearch
@@ -8,7 +7,7 @@ from scrapy_test.apps.domain.search.services import potential_search_service
 from scrapy_test.apps.rest_api.serializers.potential_search import PotentialSearchSerializer
 
 
-class PotentialSearchViewSet(viewsets.ModelViewSet):
+class PotentialSearchViewSet(viewsets.ReadOnlyModelViewSet):
   """
   API endpoint that allows potential searches to be retrieved or updated.
   """
