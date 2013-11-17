@@ -18,9 +18,14 @@ potential_search_init = PotentialSearchViewSet.as_view({
   'put': 'update_init',
 })
 
+potential_search_complete = PotentialSearchViewSet.as_view({
+  'post': 'complete_init',
+})
+
 urlpatterns = patterns(
   '',
   url(r'^', include(router.urls)),
   url(r'^potential_search_init$', potential_search_init, name="potential_search_init"),
+  url(r'^potential_search_complete$', potential_search_complete, name="potential_search_complete"),
   url(r'^api-auth', include('rest_framework.urls', namespace='rest_framework'))
 )

@@ -29,3 +29,9 @@ def get_search_attrs(search_attrs_dict):
     search_dict['geo_boundary_points'] = json.loads(search_dict['geo_boundary_points'])
 
   return search_dict
+
+
+def complete_potential_search(potential_search, token):
+  #stripe stuff
+
+  potential_search.purchased = True

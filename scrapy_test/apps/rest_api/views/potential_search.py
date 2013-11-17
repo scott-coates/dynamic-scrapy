@@ -60,3 +60,23 @@ class PotentialSearchViewSet(viewsets.ReadOnlyModelViewSet):
     request.session[POTENTIAL_SEARCH_SESSION_ID] = potential_search.id
 
     return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+  def complete_init(self, request, *args, **kwargs):
+    potential_search_id = request.session.get(POTENTIAL_SEARCH_SESSION_ID)
+    token = request.DATA['token']
+
+    if not potential_search_id: raise Http404
+
+    try:
+      potential_search = potential_search_service.get_potential_search(potential_search_id)
+    except:
+      raise Http404
+
+    potential_search_service.complete_potential_search(potential_search, token)
+
+    potential_search_service.save_or_update(potential_search)
+
+    serializer = PotentialSearchSerializer(instance=potential_search)
+
+    return Response(serializer.data)
