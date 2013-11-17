@@ -33,5 +33,6 @@ def get_search_attrs(search_attrs_dict):
 
 def complete_potential_search(potential_search, token):
   #stripe stuff
-
+  import time
+  time.sleep(10)
   potential_search.purchased = True
