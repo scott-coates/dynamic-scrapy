@@ -9,3 +9,4 @@ class AmenityViewSet(viewsets.ReadOnlyModelViewSet):
   """
   model = Amenity
   serializer_class = AmenitySerializer
+  paginate_by = None

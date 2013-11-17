@@ -18,9 +18,11 @@ def get_potential_search(pk):
 
 
 def get_search_attrs(search_attrs_dict):
+  amenities = search_attrs_dict.pop('amenities', None)
   search = Search(**search_attrs_dict)
 
   search_dict = model_to_dict(search, fields=search_attrs_dict.keys())
+  if amenities: search_dict['amenities'] = amenities
 
   # for some reason, model_to_dict converts the value to a string
   if 'geo_boundary_points' in search_dict:
