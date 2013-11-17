@@ -1,7 +1,11 @@
 import json
+from django.conf import settings
+from django.db import transaction
 from django.forms import model_to_dict
 from scrapy_test.aggregates.search.models import Search
 from scrapy_test.apps.domain.search.models import PotentialSearch
+from scrapy_test.apps.domain.search.signals import potential_search_completed
+from scrapy_test.libs.payment_utils.services import payment_service
 
 
 def save_or_update(potential_search):
@@ -31,8 +35,11 @@ def get_search_attrs(search_attrs_dict):
   return search_dict
 
 
-def complete_potential_search(potential_search, token):
-  #stripe stuff
-  import time
-  time.sleep(10)
-  potential_search.purchased = True
+def complete_potential_search(potential_search, token, _payment_service=payment_service):
+  with transaction.commit_on_success():
+    customer_email = potential_search.search_attrs['email_address']
+    potential_search.purchased = True
+    save_or_update(potential_search)
+    _payment_service.charge_payment(settings.SEARCH_PRICE, token, "Nextlanding search for {0}.".format(customer_email))
+
+  potential_search_completed.send(PotentialSearch, instance=potential_search)

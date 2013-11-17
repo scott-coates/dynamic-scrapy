@@ -73,9 +73,8 @@ class PotentialSearchViewSet(viewsets.ReadOnlyModelViewSet):
     except:
       raise Http404
 
+    #this will call save internally
     potential_search_service.complete_potential_search(potential_search, token)
-
-    potential_search_service.save_or_update(potential_search)
 
     serializer = PotentialSearchSerializer(instance=potential_search)
 
