@@ -43,3 +43,9 @@ def complete_potential_search(potential_search, token, _payment_service=payment_
     _payment_service.charge_payment(settings.SEARCH_PRICE, token, "Nextlanding search for {0}.".format(customer_email))
 
   potential_search_completed.send(PotentialSearch, instance=potential_search)
+
+
+def associate_search(search_aggregate, potential_search):
+  potential_search.search_aggregate = search_aggregate
+  save_or_update(potential_search)
+  return potential_search

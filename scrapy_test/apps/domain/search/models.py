@@ -10,6 +10,8 @@ class PotentialSearch(models.Model):
   created_date = models.DateTimeField(auto_now_add=True)
   changed_date = models.DateTimeField(auto_now=True)
 
+  search_aggregate = models.ForeignKey('search.Search', related_name='potential_search', blank=True, null=True)
+
   class Meta:
     app_label = 'domain'
 
