@@ -65,7 +65,7 @@ class Search(models.Model, AggregateBase):
     geo_boundary_points = kwargs.get('geo_boundary_points', None)
     if not geo_boundary_points:
       raise TypeError('geo_boundary_points are required')
-    elif len(geo_boundary_points) < 3:
+    elif any(len(geo_points) < 3 for geo_points in geo_boundary_points):
       raise ValidationError('at least 3 geo_boundary_points are required')
 
     bedroom_max = kwargs.get('bedroom_max')
