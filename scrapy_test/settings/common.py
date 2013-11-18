@@ -290,9 +290,9 @@ CELERY_IMPORTS = (
   'aggregates.listing.services.listing_tasks',
   'aggregates.result.services.result_tasks',
   'aggregates.search.services.search_tasks',
-  'apps.communication_associater.availability.email.services.email_tasks'
-  'apps.domain.search.services.potential_search_tasks'
-  'apps.web_scraper.services.web_scraper_tasks'
+  'apps.communication_associater.availability.email.services.email_tasks',
+  'apps.domain.search.services.potential_search_tasks',
+  'apps.web_scraper.services.web_scraper_tasks',
 )
 
 # See: http://celery.github.com/celery/django/
