@@ -1,9 +1,14 @@
+import logging
+from django.conf import settings
 from scrapy_test.aggregates.search import factories
 from scrapy_test.aggregates.search.models import Search
+from scrapy_test.libs.communication_utils.services import email_service
 from scrapy_test.libs.geo_utils.services import geo_location_service
 
+logger = logging.getLogger(__name__)
 
-def create_search(_geo_location_service=geo_location_service, **search_attrs):
+
+def create_search(_geo_location_service=geo_location_service, _email_service=email_service, **search_attrs):
   specified_location = search_attrs.get('specified_location', None)
 
   if not specified_location: raise TypeError('specified location is required')
@@ -21,6 +26,18 @@ def create_search(_geo_location_service=geo_location_service, **search_attrs):
   search = factories.construct_search(**search_attrs)
 
   save_or_update(search)
+
+  try:
+    _email_service.send_email(
+      settings.SYSTEM_EMAIL[1],
+      settings.SYSTEM_EMAIL[1],
+      settings.ADMIN_EMAIL[1],
+      "New Search Created",
+      "Search: {0} was created".format(search.pk),
+      search
+    )
+  except:
+    logger.exception("Error sending email message")
 
   return search
 
