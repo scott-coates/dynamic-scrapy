@@ -12,7 +12,7 @@ from scrapy_test.libs.datetime_utils.parsers import datetime_parser
 
 
 class Email(models.Model):
-  headers = models.TextField()
+  headers = models.TextField(blank=True, null=True)
   text = models.TextField(blank=True, null=True)
   html = models.TextField(blank=True, null=True)
   to = models.TextField()

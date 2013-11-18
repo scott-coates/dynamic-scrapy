@@ -38,11 +38,14 @@ def get_search_attrs(search_attrs_dict):
 def complete_potential_search(potential_search, token, _payment_service=payment_service):
   with transaction.commit_on_success():
     customer_email = potential_search.search_attrs['email_address']
-    potential_search.purchased = True
-    save_or_update(potential_search)
-    _payment_service.charge_payment(settings.SEARCH_PRICE, token, "Nextlanding search for {0}.".format(customer_email))
 
-  potential_search_completed.send(PotentialSearch, instance=potential_search)
+    potential_search.purchased = True
+
+    save_or_update(potential_search)
+
+    potential_search_completed.send(PotentialSearch, instance=potential_search)
+
+    _payment_service.charge_payment(settings.SEARCH_PRICE, token, "Nextlanding search for {0}.".format(customer_email))
 
 
 def associate_search(search_aggregate, potential_search):

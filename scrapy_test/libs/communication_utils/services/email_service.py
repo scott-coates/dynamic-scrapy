@@ -50,7 +50,7 @@ def associate_model_with_email(email, associated_model):
 
 def send_email(from_address, from_name, to_address, subject, plain_text_body, associated_model):
   html_body = plain_text_body.replace(os.linesep, '<br/>')
-  formatted_from_address = utils.formataddr(from_name, from_address)
+  formatted_from_address = utils.formataddr((from_name, from_address))
 
   emailer.send_email(from_address, from_name, to_address, subject, plain_text_body, html_body)
 
@@ -59,6 +59,7 @@ def send_email(from_address, from_name, to_address, subject, plain_text_body, as
     text=plain_text_body,
     html=html_body,
     from_address=formatted_from_address,
+    to=to_address,
     subject=subject
   )
 

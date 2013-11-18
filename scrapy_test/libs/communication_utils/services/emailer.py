@@ -12,6 +12,6 @@ def send_email(from_address, from_name, to_address, subject, text, html):
   msg.add_to(to_address)
 
   if settings.DEBUG:
-    emailer.smtp.send(msg)
-  else:
     logger.info(msg)
+  else:
+    emailer.smtp.send(msg)

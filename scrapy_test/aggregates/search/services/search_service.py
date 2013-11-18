@@ -30,13 +30,13 @@ def create_search(_geo_location_service=geo_location_service, _email_service=ema
   try:
     _email_service.send_email(
       settings.SYSTEM_EMAIL[1],
-      settings.SYSTEM_EMAIL[1],
+      settings.SYSTEM_EMAIL[0],
       settings.ADMIN_EMAIL[1],
       "New Search Created",
       "Search: {0} was created".format(search.pk),
       search
     )
-  except:
+  except Exception as e:
     logger.exception("Error sending email message")
 
   return search
